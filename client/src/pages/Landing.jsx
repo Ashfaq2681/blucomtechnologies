@@ -84,7 +84,7 @@ const Landing = () => {
           alt="image.."
           className="w-full h-lvh object-cover"
         />
-        <div className="absolute inset-0 flex flex-col sm:flex-row justify-center items-start w-full text-white p-4 mt-40">
+        <div className="absolute inset-0 flex flex-col sm:flex-row justify-center items-start w-full text-white p-4 xl:mt-20">
           <div className="sm:w-[70%] lg:w-[50%] w-full lg:p-4 p-2 text-left flex flex-col">
             <p>Let's Build Your Brand</p>
             <p className="text-[60px] underline underline-offset-[15px] decoration-[#A2C5F3] decoration-2">
