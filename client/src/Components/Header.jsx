@@ -31,7 +31,7 @@ const Header = () => {
             <span className="sr-only">Open main menu</span>
             <img loading="lazy" src={mobileMenuOpen ? "./header/close.svg" : "./header/menuBar.png"} className="h-6 w-8" aria-hidden="true" />
           </button>
-          <div className={`${mobileMenuOpen ? "flex" : "hidden"} p-5 border border-gray-300 rounded-lg items-center flex-col absolute top-0 left-0 bg-white mt-[50px] gap-[10px] w-auto -ml-[100px]`}>
+          <div className={`${mobileMenuOpen ? "flex" : "hidden"} p-10 border border-gray-300 rounded-lg items-center flex-col absolute top-0 left-0 bg-white mt-[30px] gap-[10px] w-auto -ml-[100px]`}>
             {nav_links.map((item, index) => (
               <a key={index} href={item.link} className="font-[16px] text-[#727277] hover:text-black">
               {item.title}
