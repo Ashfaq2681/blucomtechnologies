@@ -10,7 +10,7 @@ const Header = () => {
         <a href="/">
           <img
             loading="lazy"
-            src="./header/Logo_main.png"
+            src="./logo_web.svg"
             alt="mainLogo"
             className="h-[31px] w-[170px] md:h-[31px] md:w-[146px]"
           />

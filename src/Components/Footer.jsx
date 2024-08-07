@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer>
         <div className="bg-[#1E2832] flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] p-20 text-[24px]">
-            <img src="./icons/logo_main.png" alt="logo_main" className="w-[120px] h-[130px]"/>
+            <img src="./logo_footer.svg" alt="logo_main" className="w-[120px] h-[130px]"/>
             <div className="flex flex-col">
                 <p className="font-bold mb-2">About us</p>
                 {footerLinks.map((items, index) => (
@@ -22,8 +22,8 @@ const Footer = () => {
             </div>
             <div className="max-w-[270px]">
                 <p className="font-bold mb-2">About us</p>
-                <address>First Floor, Al-Rehman Chamber, 79 East AKM Fazl-ul-Haq Rd Block G G 7/3 Blue Area, Islamabad.
-                </address>
+                <p>First Floor, Al-Rehman Chamber, 79 East AKM Fazl-ul-Haq Rd Block G G 7/3 Blue Area, Islamabad.
+                </p>
                 <p>connect@theblucom.com</p>
                 <p>+92-334-0011126</p>
             </div>
