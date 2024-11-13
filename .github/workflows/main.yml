@@ -11,7 +11,7 @@ jobs:
     - name:  Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: admin@blucomtechnologies.com
+        server: ftp.curatedgallery.org
         port:   21
-        username: ftp.curatedgallery.org
+        username: admin@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORD }}
