@@ -13,4 +13,4 @@ jobs:
       with:
         server: admin@blucomtechnologies.com
         username: ftp.curatedgallery.org
-        password: ${{ secrets.FTP_PASSWORDLIVE }}
+        password: ${{ secrets.FTP_PASSWORD }}
