@@ -1,11 +1,10 @@
-// MultiStepForm.js
 import React, { useState } from "react";
 import "../assets/css/MultiStepFormStyle.css";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
-import Step5 from "./Step5";  
+import Step5 from "./Step5";
 import Step6 from "./Step6";
 
 //  func.
@@ -90,7 +89,8 @@ const MultiStepForm = () => {
 
       <div className="navigation-buttons">
         <p className="nav-btn" onClick={handlePrevStep}>Prev</p>
-        <p className="nav-btn next-btn" onClick={handleNextStep}>Next</p>
+        <p className="nav-btn next-btn " onClick={handleNextStep}>Next</p>
+       
       </div>
     </div>
   );

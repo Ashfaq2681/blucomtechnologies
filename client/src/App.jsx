@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import MultiStepForm from "./pages/MultiStepForm";
 const Landing = lazy(() => import("./pages/Landing"));
 const About = lazy(() => import("./pages/About"))
 const News = lazy(() => import("./pages/News"));
@@ -27,6 +28,7 @@ const App = () => {
               </>
             }
           />
+          <Route path="/multistepform" element={<MultiStepForm />} />
           <Route path="/about" element={<About/>}/>
           <Route path="/careers" element={<Careers/>}/>
           <Route path="/investors" element={<InvestorsOverview/>}/>
