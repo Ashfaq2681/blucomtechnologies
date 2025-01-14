@@ -79,7 +79,7 @@ const Landing = () => {
           </div> */}
         </div>
       </div>
-      {<MultiStepForm/>}
+      {/* {<MultiStepForm/>} */}
 
       <div className="relative w-full mt-5">
         <img
@@ -101,7 +101,7 @@ const Landing = () => {
               connected spaces. Let us know what your next idea is?
             </p>
             <p className="text-[40px] font-bold mt-5">I want to...</p>
-            <div className="bg-white flex flex-row justify-between items-center border border-[#9A9A9A] mt-2 cursor-pointer" onClick={toggleDropDown}>
+            {/* <div className="bg-white flex flex-row justify-between items-center border border-[#9A9A9A] mt-2 cursor-pointer" onClick={toggleDropDown}>
               <p className="p-3 text-[#1E2832]">
                 Launch a new product or service
               </p>
@@ -110,15 +110,24 @@ const Landing = () => {
                 alt="dropdown"
                 className="w-5 h-5 mr-3 mb-2"
               />
-            </div>
-            <div className={`bg-[#F4F4F4] text-[#1E2832] flex-col justify-center items-start py-6 px-10 border border-[#9A9A9A] border-t-0 ${dropDownOpen ? "flex" : "hidden"} transition duration-300 ease-in-out`}>
-              <p>Identify Concept</p>
-              <p>UI UX Design</p>
-              <p>Brand Positioning</p>
-              <p>Business Plan</p>
-              <p>Market Research</p>
-              <p>Digital Marketing</p>
-            </div>
+            </div> */}
+            {/* <div className={`bg-[#F4F4F4] text-[#1E2832] flex-col justify-center items-start py-6 px-10 border border-[#9A9A9A] border-t-0 ${dropDownOpen ? "flex" : "hidden"} transition duration-300 ease-in-out`}> */}
+            <label htmlFor="dropdown" className="step6-form-label">
+          What industry are you in?
+        </label>
+            <select id="dropdown" className="step6-select" aria-label="Industry">
+            <option value="" selected disabled>
+            Launch a new product or service
+          </option>
+          <option value="1">Identify Concept</option>
+          <option value="2">UI UX Design</option>
+          <option value="3">Brand Positioning</option>
+          <option value="4">Business Plan</option>
+          <option value="5">Market Research</option>
+          <option value="6">Digital Marketing</option>
+             
+              </select>
+            {/* </div> */}
             <div className="bg-white text-[#5F5F5F] font-bold px-2 py-1 w-[150px] text-center mt-10">
               Want to Talk?
             </div>
