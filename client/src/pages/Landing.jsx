@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import MultiStepForm from "./MultiStepForm";
 
 const Discovery = [
   "Identity",
@@ -71,13 +72,15 @@ const Landing = () => {
               <img src="./icons/arrow_1.png" alt="" />
             </a>
           </div>
-          <div className="flex flex-row justify-start items-center gap-3 mt-40">
+          {/* <div className="flex flex-row justify-start items-center gap-3 mt-40">
             <div className="bg-[#727277]/30 w-[100px] h-[10px]" />
             <div className="bg-[#727277] w-[100px] h-[10px]" />
             <div className="bg-[#727277] w-[100px] h-[10px]" />
-          </div>
+          </div> */}
         </div>
       </div>
+      {<MultiStepForm/>}
+
       <div className="relative w-full mt-5">
         <img
           src="/hero/landing_bg_1.png"

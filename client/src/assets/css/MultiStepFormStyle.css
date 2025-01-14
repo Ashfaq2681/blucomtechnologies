@@ -1,0 +1,971 @@
+/* Base styles */
+.multi-step-form {
+    margin-top: 150px;
+    margin-left: 90px;
+    margin-right: 90px;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .main-heading {
+    color: #0056b3;
+    font-size: 60px;
+  }
+  
+  .sub-heading {
+    font-size: 18px;
+    padding-top: 20px;
+  }
+  
+  .steps-container {
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+  }
+  
+  .step {
+    font-size: 18px;
+    text-align: center;
+    padding-right: 10px;
+    color: gray;
+  }
+  
+  .step-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 5px;
+    line-height: 30px;
+    background-color: #ddd;
+    border-radius: 50%;
+  }
+  
+  .active-icon {
+    background-color: rgb(34 197 94);
+    color: white;
+  }
+  
+  .active-step {
+    color: black;
+  }
+  
+  .content-container {
+    margin-top: 30px;
+  }
+  
+  .step-heading {
+    font-size: 24px;
+    color: #0056b3;
+    padding-bottom: 10px;
+  }
+  
+  .step-description {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  
+  .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .checkbox-item {
+    font-size: 18px;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .nav-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: underline;
+    background-color: none;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .next-btn {
+    margin-left: auto;
+  }
+  
+  @media (max-width: 1200px) {
+    .multi-step-form {
+      margin-left: 40px;
+      margin-right: 40px;
+      padding: 15px;
+    }
+  
+    .main-heading {
+      font-size: 48px;
+    }
+  
+    .steps-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .step {
+      font-size: 16px;
+    }
+  
+    .step-icon {
+      width: 25px;
+      height: 25px;
+      font-size: 14px;
+    }
+  
+    .step-heading {
+      font-size: 22px;
+    }
+  
+    .step-description {
+      font-size: 16px;
+    }
+  
+    .checkbox-item {
+      font-size: 16px;
+    }
+  
+    .nav-btn {
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .multi-step-form {
+      margin-left: 20px;
+      margin-right: 20px;
+      padding: 10px;
+    }
+  
+    .main-heading {
+      font-size: 36px;
+    }
+  
+    .steps-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .step {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+  
+    .step-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+    }
+  
+    .step-heading {
+      font-size: 20px;
+    }
+  
+    .step-description {
+      font-size: 14px;
+    }
+  
+    .checkbox-item {
+      font-size: 14px;
+    }
+  
+    .nav-btn {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  
+    .next-btn {
+      margin-left: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .multi-step-form {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 8px;
+    }
+  
+    .main-heading {
+      font-size: 28px;
+    }
+  
+    .steps-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  
+    .step {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+  
+    .step-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+    }
+  
+    .step-heading {
+      font-size: 18px;
+    }
+  
+    .step-description {
+      font-size: 12px;
+    }
+  
+    .checkbox-item {
+      font-size: 12px;
+    }
+  
+    .nav-btn {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  
+    .next-btn {
+      margin-left: 5px;
+    }
+  }
+
+  /* step animated line  */
+  .step-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .step-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: black;
+    z-index: 1;
+    transition: background-color 0.4s ease, transform 0.4s ease;
+  }
+  
+  .active-icon {
+    background-color: rgb(34 197 94);
+    color: white;
+    transform: scale(1.2);
+  }
+  
+  .step-line {
+    width: 40px;
+    height: 4px;
+    background-color: #ddd;
+    margin: 0 5px;
+    overflow: hidden;
+  }
+  
+  .active-line {
+    background-color: rgb(34 197 94);
+  }
+  
+  .animating-line {
+    background: linear-gradient(to right, rgb(34 197 94) 0%, #ddd 100%);
+    animation: fillLine 0.6s forwards;
+  }
+  
+  @keyframes fillLine {
+    from {
+      width: 0;
+    }
+    to {
+      width: 50px;
+    }
+  }
+  
+  
+
+  /* step 2 */
+.container {
+    font-size: 18px;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    color: #0056b3;
+  }
+  
+  .description {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .flex-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .form-check {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .form-check input {
+    margin-right: 10px;
+  }
+  
+  .form-check-label {
+    font-size: 18px;
+  }
+  
+  .form-check-large {
+    flex: 0 0 50%;
+  }
+  select {
+    text-align: left;
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  @media (max-width: 1200px) {
+    .container {
+      font-size: 16px;
+    }
+  
+    .title {
+      font-size: 22px;
+    }
+  
+    .description {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+  
+    .flex-row {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .form-check {
+      flex-direction: column;
+      margin-right: 0;
+    }
+  
+    .form-check-label {
+      font-size: 16px;
+    }
+  
+    .form-check-large {
+      flex: 0 0 100%;
+    }
+  
+    select {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    .title {
+      font-size: 20px;
+    }
+  
+    .description {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+  
+    .flex-row {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .form-check {
+      flex-direction: column;
+      margin-right: 0;
+    }
+  
+    .form-check-label {
+      font-size: 14px;
+    }
+  
+    .form-check-large {
+      flex: 0 0 100%;
+    }
+  
+    select {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .title {
+      font-size: 18px;
+    }
+  
+    .description {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+  
+    .flex-row {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .form-check {
+      flex-direction: column;
+      margin-right: 0;
+    }
+  
+    .form-check-label {
+      font-size: 12px;
+    }
+  
+    .form-check-large {
+      flex: 0 0 100%;
+    }
+  
+    select {
+      font-size: 12px;
+    }
+  }
+  
+  
+/* step  1 */
+  .business-ideas-container {
+    font-size: 18px;
+  }
+  
+  .business-ideas-title {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #0056b3;
+  }
+  
+  .business-ideas-description {
+    margin-bottom: 18px;
+  }
+  
+  .business-ideas-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .business-ideas-checkbox {
+    margin-right: 10px;
+  }
+  
+  .business-ideas-label {
+    font-size: 18px;
+  }
+  /* step3 */
+.step3-container {
+    font-size: 18px;
+  }
+  
+  .step3-title {
+    font-size: 24px;
+    color: #0056b3;
+    margin-bottom: 10px;
+  }
+  
+  .step3-description {
+    margin-bottom: 30px;
+  }
+  
+  .step3-form-group {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .step3-checkbox-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .step3-checkbox {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  .step3-label {
+    font-size: 18px;
+  }
+  
+  @media (max-width: 768px) {
+    .step3-container {
+      font-size: 16px;
+    }
+  
+    .step3-title {
+      font-size: 22px;
+    }
+  
+    .step3-description {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    .step3-form-group {
+      flex: 0 0 100%;
+      margin-bottom: 15px;
+    }
+  
+    .step3-checkbox-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .step3-checkbox {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  
+    .step3-label {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .step3-container {
+      font-size: 14px;
+    }
+  
+    .step3-title {
+      font-size: 20px;
+    }
+  
+    .step3-description {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  
+    .step3-form-group {
+      flex: 0 0 100%;
+      margin-bottom: 10px;
+    }
+  
+    .step3-checkbox-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .step3-checkbox {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+  
+    .step3-label {
+      font-size: 14px;
+    }
+  }
+  
+  
+  /* step 4 */
+
+.step4-container {
+    font-size: 18px;
+  }
+  
+  .step4-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #0056b3;
+  }
+  
+  .step4-description {
+    margin-bottom: 30px;
+  }
+  
+  .step4-checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .step4-form-group {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .step4-checkbox {
+    margin-right: 10px;
+  }
+  
+  .step4-label {
+    font-size: 18px;
+  }
+  
+  @media (max-width: 768px) {
+    .step4-container {
+      font-size: 16px;
+    }
+  
+    .step4-title {
+      font-size: 22px;
+    }
+  
+    .step4-description {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    .step4-form-group {
+      flex: 0 0 100%; 
+      margin-bottom: 15px;
+    }
+  
+    .step4-checkbox-group {
+      flex-direction: column; 
+      align-items: flex-start;
+    }
+  
+    .step4-checkbox {
+      font-size: 16px;
+      margin-bottom: 10px; 
+    }
+  
+    .step4-label {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .step4-container {
+      font-size: 14px;
+    }
+  
+    .step4-title {
+      font-size: 20px;
+    }
+  
+    .step4-description {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  
+    .step4-form-group {
+      flex: 0 0 100%; 
+      margin-bottom: 10px;
+    }
+  
+    .step4-checkbox-group {
+      flex-direction: column; 
+      align-items: flex-start;
+    }
+  
+    .step4-checkbox {
+      font-size: 14px;
+      margin-bottom: 8px; 
+    }
+  
+    .step4-label {
+      font-size: 14px;
+    }
+  }
+  
+  /* step 5 */
+.step5-container {
+    font-size: 18px;
+  }
+  
+  .step5-title {
+    font-size: 24px;
+    color: #0056b3;
+    margin-bottom: 10px;
+  }
+  
+  .step5-description {
+    margin-bottom: 20px;
+  }
+  
+  .step5-checkbox-group {
+    margin-bottom: 20px;
+  }
+  
+  .step5-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .step5-checkbox {
+    margin-right: 10px;
+  }
+  
+  .step5-label {
+    font-size: 18px;
+  }
+  
+  @media (max-width: 768px) {
+    .step5-container {
+      font-size: 16px;
+    }
+  
+    .step5-title {
+      font-size: 22px;
+    }
+  
+    .step5-description {
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+  
+    .step5-form-group {
+      flex: 0 0 100%; 
+      margin-bottom: 15px;
+    }
+  
+    .step5-checkbox-group {
+      flex-direction: column; 
+      align-items: flex-start;
+    }
+  
+    .step5-checkbox {
+      font-size: 16px;
+      margin-bottom: 8px; 
+    }
+  
+    .step5-label {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .step5-container {
+      font-size: 14px;
+    }
+  
+    .step5-title {
+      font-size: 20px;
+    }
+  
+    .step5-description {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  
+    .step5-form-group {
+      flex: 0 0 100%; 
+      margin-bottom: 10px;
+    }
+  
+    .step5-checkbox-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .step5-checkbox {
+      font-size: 14px;
+      margin-bottom: 6px; 
+    }
+  
+    .step5-label {
+      font-size: 14px;
+    }
+  }
+  
+  /* step 6 */
+.step6-container {
+    font-size: 18px;
+    padding: 20px;
+  }
+  
+  .step6-title {
+    font-size: 24px;
+    color: #0056b3;
+    margin-bottom: 10px;
+  }
+  
+  .step6-description {
+    margin-bottom: 20px;
+  }
+  
+  .step6-form-group {
+    margin-bottom: 20px;
+  }
+  
+  .step6-form-label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .step6-select,
+  .step6-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .step6-button {
+    background-color: #0056b3;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .step6-button:hover {
+    background-color: #004494;
+  }
+  
+  @media (max-width: 1200px) {
+    .step6-container {
+      font-size: 16px;
+    }
+  
+    .step6-title {
+      font-size: 22px;
+    }
+  
+    .step6-description {
+      font-size: 16px;
+    }
+  
+    .step6-form-label {
+      font-size: 16px;
+    }
+  
+    .step6-select,
+    .step6-input {
+      font-size: 16px;
+    }
+  
+    .step6-button {
+      font-size: 16px;
+      padding: 10px 18px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .step6-container {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    .step6-title {
+      font-size: 20px;
+    }
+  
+    .step6-description {
+      font-size: 14px;
+    }
+  
+    .step6-form-label {
+      font-size: 14px;
+    }
+  
+    .step6-select,
+    .step6-input {
+      font-size: 14px;
+    }
+  
+    .step6-button {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .step6-container {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .step6-title {
+      font-size: 18px;
+    }
+  
+    .step6-description {
+      font-size: 12px;
+    }
+  
+    .step6-form-label {
+      font-size: 12px;
+    }
+  
+    .step6-select,
+    .step6-input {
+      font-size: 12px;
+    }
+  
+    .step6-button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
