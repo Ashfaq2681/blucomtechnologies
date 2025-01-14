@@ -8,6 +8,7 @@ import Step4 from "./Step4";
 import Step5 from "./Step5";  
 import Step6 from "./Step6";
 
+//  func.
 const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
