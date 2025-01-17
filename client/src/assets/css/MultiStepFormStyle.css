@@ -1,4 +1,8 @@
 /* Base styles */
+*{
+  
+	/* font-family: 'proxima-nova', sans-serif; */
+}
 .multi-step-form {
     margin-top: 150px;
     margin-left: 90px;

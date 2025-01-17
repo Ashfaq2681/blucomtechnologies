@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import MultiStepForm from "./pages/MultiStepForm";
+import PageError from "./pages/PageError";
 const Landing = lazy(() => import("./pages/Landing"));
 const About = lazy(() => import("./pages/About"))
 const News = lazy(() => import("./pages/News"));
@@ -15,10 +16,11 @@ const OverviewSingle = lazy(() => import("./pages/InvestorOverviewSingle"))
 
 const App = () => {
   return (
+    
     <div className="h-lvh">
       <BrowserRouter>
         <Header />
-        <Suspense>
+        <Suspense >
           <Routes>
             <Route
             path="/"
@@ -37,6 +39,7 @@ const App = () => {
           <Route path="/portfolio" element={<Portfolio/>}/>
           <Route path="/blogsingle" element={<BlogSingle/>}/>
           <Route path="/overviewsingle" element={<OverviewSingle/>}/>
+          <Route path="*" element={<PageError />} />
           </Routes>
           <Footer/>
         </Suspense>

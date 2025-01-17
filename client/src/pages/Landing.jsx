@@ -35,13 +35,14 @@ const Interaction = [
 ];
 
 const Landing = () => {
-    const navigate = useNavigate();
-    const wantTalk = () => {
-      navigate("/multistepform");  
-    };
+  const navigate = useNavigate();
+  const wantTalk = () => {
+    navigate("/multistepform");
+  };
   
 
   return (
+    
     <section className="">
       <div className="flex flex-col md:flex-row-reverse justify-between md:items-center md:gap-12 lg:gap-28 max-w-[1400px] mx-auto px-8 md:px-32 py-5 h-lvh">
         <img
@@ -69,10 +70,8 @@ const Landing = () => {
               <img src="./icons/arrow_1.png" alt="" />
             </a>
           </div>
-          
         </div>
       </div>
-      {/* {<MultiStepForm/>} */}
 
       <div className="relative w-full mt-5">
         <img
@@ -80,7 +79,7 @@ const Landing = () => {
           alt="image.."
           className="w-full h-[650px] object-cover"
         />
-        <div  className="absolute inset-0 flex flex-col sm:flex-row justify-start sm:justify-center items-start w-full text-white p-4 mt-10 xl:mt-20">
+        <div className="absolute inset-0 flex flex-col sm:flex-row justify-start sm:justify-center items-start w-full text-white p-4 mt-10 xl:mt-20">
           <div className="sm:w-[70%] lg:w-[50%] w-full lg:p-4 p-2 text-left flex flex-col">
             <p>Let's Build Your Brand</p>
             <p className="text-[60px] underline underline-offset-[15px] decoration-[#A2C5F3] decoration-2">
@@ -94,17 +93,7 @@ const Landing = () => {
               connected spaces. Let us know what your next idea is?
             </p>
             <p className="text-[40px] font-bold mt-5">I want to...</p>
-            {/* <div className="bg-white flex flex-row justify-between items-center border border-[#9A9A9A] mt-2 cursor-pointer" onClick={toggleDropDown}>
-              <p className="p-3 text-[#1E2832]">
-                Launch a new product or service
-              </p>
-              <img
-                src="./icons/dropDown.png"
-                alt="dropdown"
-                className="w-5 h-5 mr-3 mb-2"
-              />
-            </div> */}
-            {/* <div className={`bg-[#F4F4F4] text-[#1E2832] flex-col justify-center items-start py-6 px-10 border border-[#9A9A9A] border-t-0 ${dropDownOpen ? "flex" : "hidden"} transition duration-300 ease-in-out`}> */}
+
             <label htmlFor="dropdown" className="step6-form-label">
               What industry are you in?
             </label>
@@ -124,68 +113,19 @@ const Landing = () => {
               <option value="5">Market Research</option>
               <option value="6">Digital Marketing</option>
             </select>
-            {/* </div> */}
             <div className="bg-black text-[#ffff] font-bold px-2 py-1 w-[150px] text-center mt-10">
               <button onClick={wantTalk}> Want to Talk? </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row justify-start text-[#727277] leading-none w-full flex-wrap">
-        <img
-          src="./landing/tucson.png"
-          alt="tucson"
-          className="w-auto h-auto"
-        />
-        <div className="flex flex-col justify-center items-center md:items-start m-10 md:ml-20 md:w-[26%]">
-          <p className="text-[24px]">Hyundai Pakistan</p>
-          <p className="text-[60px] text-[#156DDF] underline decoration-[#1E2832] decoration-4">
-            TUSCON 2020
-          </p>
-          <div className="flex flex-row text-[18px] mt-5">
-            <p>#Activation</p>
-            <p>#Discovery</p>
-            <p>#Design</p>
-            <p>#Digital</p>
-          </div>
-          <p className="text-[18px] mt-10 leading-normal">
-            Hyundai Pakistan launched a newly launched Hyundai Tuscon is a new
-            revolution in the mini SUV Category, our part is to enable the user
-            to discover the new product, activate the product, digital strategy,
-            and design collaterals.
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col-reverse md:flex-row justify-end text-[#727277] leading-none w-full  text-end flex-wrap">
-        <div className="flex flex-col justify-center items-center md:items-end m-10 md:mr-20 md:w-[26%]">
-          <p className="text-[24px]">Codility hub technologies</p>
-          <p className="text-[60px] text-[#156DDF] underline decoration-[#1E2832] decoration-4">
-            Interaction Design
-          </p>
-          <div className="flex flex-row text-[18px] mt-5">
-            <p>#Identity</p>
-            <p>#Interaction</p>
-            <p>#Website</p>
-            <p>#Interface</p>
-          </div>
-          <p className="text-[18px] mt-10 leading-normal">
-            Codility hub came to us just with the name. but an amazing
-            proposition, well-defined brand, in Tech Sector, focused on core
-            Development, with an idea of Fast turnaround. we were asked to bring
-            this idea to life through identity. and interaction.
-          </p>
-        </div>
-        <img
-          src="./landing/toyota.png"
-          alt="toyota"
-          className="w-auto h-auto"
-        />
-      </div>
+      
+      
       <div className="flex flex-col md:flex-row text-[#727277] leading-none w-full flex-wrap">
         <img
           src="./landing/interactive_design.png"
           alt="interactive_design"
-          className="w-auto h-auto"
+          className="w-auto h-auto lg:w-[50%] sm:w-[100%]"
         />
         <div className="flex flex-col justify-center items-center md:items-start m-10 md:ml-20 md:w-[26%]">
           <p className="text-[24px]">Codility hub technologies</p>
@@ -452,7 +392,17 @@ const Landing = () => {
         </form>
       </div>
     </section>
+   
   );
 };
 
 export default Landing;
+
+
+
+// const Landing = () => {
+//   throw new Error("Simulated error");
+//   return <h1>Landing Page</h1>;
+// };
+
+// export default Landing;
