@@ -6,8 +6,6 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
-  },
-  "scripts": {
   "dev": "vite",
   "build": "vite build",
   "preview": "vite preview"
