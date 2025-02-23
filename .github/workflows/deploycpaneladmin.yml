@@ -7,6 +7,7 @@ name: Deploy website on push
 
 jobs:
   web-deploy:
+  
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -20,10 +21,14 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install # Change to `yarn= install` if using Yarn
+        run: npm install # Change to yarn= install if using Yarn
+         cd frontend
+    npm install
+    npm run build
 
       - name: Build the project
-        run: npm run build # Ensure your package.json has a "build" script
+        run: cd frontend
+          npm run build # Ensure your package.json in 'frontend' has a "build" script
 
       - name: Deploy build to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
