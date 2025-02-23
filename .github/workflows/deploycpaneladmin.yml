@@ -7,7 +7,6 @@ name: Deploy website on push
 
 jobs:
   web-deploy:
-  
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -21,13 +20,13 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install # Change to yarn= install if using Yarn
-         cd frontend
-    npm install
-    npm run build
+        run: |
+          cd frontend
+          npm install # Change to `yarn install` if using Yarn
 
       - name: Build the project
-        run: cd frontend
+        run: |
+          cd frontend
           npm run build # Ensure your package.json in 'frontend' has a "build" script
 
       - name: Deploy build to FTP
@@ -36,5 +35,5 @@ jobs:
           server: ftp.curatedgallery.org
           username: AdminB@blucomtechnologies.com
           password: ${{ secrets.FTP_PASSWORDADMIN }}
-          local-dir: ./build/  # Upload only the build folder
+          local-dir: ./frontend/build/  # Upload only the build folder from 'frontend'
           server-dir: /path/to/your/ftp/directory/ # Set the correct FTP directory
