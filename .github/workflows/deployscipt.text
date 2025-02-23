@@ -15,3 +15,16 @@ jobs:
         username: AdminB@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORDADMIN }}
         server-dir:
+
+
+
+          node-version: 18 # Change to your Node.js version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+       
+
+      - name: Build the project
+        run: npm run build
+        working-directory: fronten
