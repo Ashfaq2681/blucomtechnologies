@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 on: push
 name: 🚀 Deploy website on push
 jobs:
