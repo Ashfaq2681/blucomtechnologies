@@ -1,16 +1,75 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./logo_main.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>BlueSquare</title>
-    <script type="module" crossorigin src="/assets/index-CaX-lNV6.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-De0USrHY.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    
-  </body>
-</html>
+import React from "react";
+import "./App.css";
+
+const Navbar = () => {
+  return (
+    <nav
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "16px 32px",
+        borderBottom: "2px solid #E0E0E0",
+        backgroundColor: "#fff",
+        fontFamily: "SF Pro, sans-serif"
+      }}
+    >
+      {/* Logo */}
+      <div>
+        <img src="/logo.png" alt="Blucomm Logo" style={{ height: "40px" }} />
+      </div>
+
+      {/* Navigation Links */}
+      <ul
+        style={{
+          display: "flex",
+          listStyle: "none",
+          gap: "32px",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <li><a href="/about" style={navLinkStyle}>About us</a></li>
+        <li><a href="/work" style={navLinkStyle}>Work</a></li>
+        <li><a href="/expertise" style={navLinkStyle}>Expertise</a></li>
+        <li><a href="/ideas" style={navLinkStyle}>Ideas</a></li>
+        <li><a href="/news" style={navLinkStyle}>News</a></li>
+        <li><a href="/careers" style={navLinkStyle}>Careers</a></li>
+        <li><a href="/investors" style={navLinkStyle}>Investors</a></li>
+      </ul>
+    </nav>
+  );
+};
+
+const navLinkStyle = {
+  textDecoration: "none",
+  color: "#333",
+  fontSize: "16px",
+  fontWeight: "500",
+  padding: "8px 0",
+  fontFamily: "SF Pro, sans-serif"
+};
+
+const Footer = () => {
+  return (
+    <footer
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px 32px",
+        backgroundColor: "#f8f9fa",
+        borderTop: "2px solid #E0E0E0",
+        fontFamily: "SF Pro, sans-serif",
+        fontSize: "14px",
+        color: "#333",
+        textAlign: "center",
+      }}
+    >
+      <p style={{ margin: "5px 0" }}>&copy; {new Date().getFullYear()} Blucomm Technologies. All rights reserved.</p>
+    </footer>
+  );
+};
+
+export { Navbar, Footer };
