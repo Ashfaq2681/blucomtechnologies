@@ -13,10 +13,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '16'
-      
+      working-directory: frontend # build file only the build folder from 'frontend'
     - name: 🔨 Build Project
-    working-directory: frontend # build file only the build folder from 'frontend'
-
       run: |
         npm install
         npm run build
@@ -48,5 +46,5 @@ jobs:
           username: AdminB@blucomtechnologies.com
           password: ${{ secrets.FTP_PASSWORDADMIN }}
           local-dir: ./frontend/build/  # Upload only the build folder from 'frontend'
-          server-dir:
+          server-dir: /path/to/your/ftp/directory/ # Set the co
 
