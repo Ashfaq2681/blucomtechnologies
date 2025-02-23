@@ -8,12 +8,12 @@ jobs:
     - name:  Get latest code
       uses: actions/checkout@v4
       - name: Install dependencies
-  run: |
+  run:
     cd frontend
     npm install
 
 - name: Build the project
-  run: |
+  run:
     cd frontend
     npm run build
     
