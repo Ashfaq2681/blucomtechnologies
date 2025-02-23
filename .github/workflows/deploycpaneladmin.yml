@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 on: push
 name: 🚀 Deploy website on push
 jobs:
@@ -25,3 +26,25 @@ jobs:
         username: AdminB@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORDADMIN }}
         server-dir:
+=======
+on:
+  push:
+    branches:
+      - live  # Trigger only when pushing to the 'live' branch
+
+name: Deploy website on push
+
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy build to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.curatedgallery.org
+          username: AdminB@blucomtechnologies.com
+          password: ${{ secrets.FTP_PASSWORDADMIN }}
+          local-dir: ./frontend/build/  # Upload only the build folder from 'frontend'
+          server-dir: /path/to/your/ftp/directory/ # Set the correct FTP directory
+>>>>>>> Stashed changes

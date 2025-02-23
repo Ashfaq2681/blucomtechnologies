@@ -1,32 +1,33 @@
+require("dotenv").config();
 
-
-
-const express = require('express');
-const dotenv = require('dotenv').config();
-const dbConnect = require("./database/index");
-const {PORT} = require('./config/index');
-const router = require('./routes/index');
-const errorHandle = require('./middleware/errorHandler');
-const cors = require('cors');
-
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const userRoute = require('./routes/user');
+const path=require('path')
 const app = express();
 
-const corsOptions = {
-  origin: 'http://localhost:5173',
-  methods: 'GET, POST, PUT, DELETE, PATCH, HEAD',
-  Credentials: true,
-}
-app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+// app.use(express.static('uploads'))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(express.json()); 
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
-app.use(router);
+app.use("/api/user", userRoute);
 
-dbConnect();
-
-app.use(errorHandle);
-
-// code
-// router.post("/multiStepForm", authController.multiStepForm);
-
-app.listen(PORT, console.log(`express is running on port: ${PORT} ` ));
+mongoose
+  .connect(process.env.MONGO_URL_BlucomTech)
+  .then(() => {
+    //port
+    app.listen(process.env.PORT, () => {
+      console.log("Db connected and On port", process.env.PORT);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
