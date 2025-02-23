@@ -1,34 +1,7 @@
-on:
-  push:
-    branches:
-      - live  # Trigger only when pushing to the 'live' branch
-
-name: Deploy website on push
-
-jobs:
-  web-deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get latest code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: v22.14.0 # Change if you use a different Node.js version
-          cache: 'npm'
-
-      - name: Install dependencies
+ - name: Install dependencies
         run: |
           cd frontend
           npm install # Change to `yarn install` if using Yarn
-
-      - name: Build the project
-        run: |
-          cd frontend
-          npm run build # Ensure your package.json in 'frontend' has a "build" script
-
       - name: Deploy build to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
