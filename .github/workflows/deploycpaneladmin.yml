@@ -1,52 +1,35 @@
-name: Auto Build & Deploy to FTP via Live Branch
-
 on:
   push:
     branches:
-      - main  # Runs only when code is pushed to main
+      - live  # Trigger only when pushing to the 'live' branch
+
+name: Deploy website on push
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Checkout the main repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      # Step 2: Install Dependencies (for React, Next.js, Vue, etc.)
-      - name: Install Dependencies
-        run: npm install
-
-      # Step 3: Build the Project (for frontend apps)
-      - name: Build Project
-        run: npm run build  # Adjust if using another framework
-
-      # Step 4: Deploy Only the `build/` Folder to `live` Branch
-      - name: Push Build to Live Branch
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git checkout --orphan live
-          git rm -rf .
-          mv build/* .
-          git add .
-          git commit -m "Deploy latest build"
-          git push --force origin live
-
-# Step 5: Deploy Only the `live` Branch's Files to FTP
-
   web-deploy:
-    name:  Deploy
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name:  Get latest code
-      uses: actions/checkout@v4
-    
-    - name:  Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ftp.curatedgallery.org 
-        username: AdminB@blucomtechnologies.com
-        password: ${{ secrets.FTP_PASSWORDADMIN }}
-        server-dir:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Change if you use a different Node.js version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install # Change to `yarn install` if using Yarn
+
+      - name: Build the project
+        run: npm run build # Ensure your package.json has a "build" script
+
+      - name: Deploy build to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.curatedgallery.org
+          username: AdminB@blucomtechnologies.com
+          password: ${{ secrets.FTP_PASSWORDADMIN }}
+          local-dir: ./build/  # Upload only the build folder
+          server-dir: /path/to/your/ftp/directory/ # Set the correct FTP directory
