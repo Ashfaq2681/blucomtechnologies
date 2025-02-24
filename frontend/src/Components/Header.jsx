@@ -8,11 +8,13 @@ const Header = () => {
     <header>
       <nav className="text-lg text-gray-500 flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-xl py-6 -mb-5fixed top-0 left-0 w-full bg-[#ffffff] shadow-md z-50">
         <a href="/" aria-label="blucomtechnologies Home">
+         
+         <div></div>
           <img
             loading="lazy"
-            src="./src/assets/logo.svg"
+            src="./src/assets/logo.png"
             alt="blucomtechnologies Logo"
-            className="h-[31px] w-[170px] md:h-[31px] md:w-[146px]"
+            className="h-[31px] w-[150px] md:h-[40px] md:w-[auto]"
           />
         </a>
         <div className="hidden md:flex flex-row justify-center items-center md:gap-7 lg:gap-14 xl:gap-20">

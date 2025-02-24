@@ -127,7 +127,7 @@ const Landing = () => {
           {/* Image Section */}
           <img
             loading="lazy"
-            src="./src/assets/heroimage.svg"
+            src="./src/assets/heroimage.png"
             alt="Brand Strategy & Digital Solutions"
             className="w-[250px] md:w-[350px] lg:w-[450px] xl:w-[600px] h-auto"
           />
