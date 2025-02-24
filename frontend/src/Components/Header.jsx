@@ -1,42 +1,62 @@
 import { useState } from "react";
 import { nav_links } from ".";
-import { Link } from "react-router-dom";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header>
-      <nav className="flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-[0_4px_6px_rgba(0,0,0,0.05)] py-6">
-        <Link to="/">
+      <nav className="flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-xl py-6 -mb-5fixed top-0 left-0 w-full bg-[#ffffff] shadow-md z-50">
+        <a href="/" aria-label="blucomtechnologies Home">
           <img
             loading="lazy"
-            src="/logo main.svg"
-            alt="mainLogo"
+            src="./src/assets/logo.svg"
+            alt="blucomtechnologies Logo"
             className="h-[31px] w-[170px] md:h-[31px] md:w-[146px]"
           />
-        </Link>
+        </a>
         <div className="hidden md:flex flex-row justify-center items-center md:gap-7 lg:gap-14 xl:gap-20">
-        {nav_links.map((item, index) => (
-          <Link key={index} to={item.link} className="font-[16px] text-[#727277] hover:text-black">
-            {item.title}
-          </Link>
-        ))}
+          {nav_links.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              className="font-[16px] text-[#727277] hover:text-black"
+              aria-label={item.title}
+            >
+              {item.title}
+            </a>
+          ))}
         </div>
         <div className="flex md:hidden relative">
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle mobile menu"
           >
-            <span className="sr-only">Open main menu</span>
-            <img loading="lazy" src={mobileMenuOpen ? "./header/close.svg" : "./header/menuBar.png"} className="h-6 w-8" aria-hidden="true" />
+            <img
+              loading="lazy"
+              src={mobileMenuOpen ? "./header/close.svg" : "./header/menuBar.png"}
+              className="h-6 w-8"
+              alt={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-hidden="true"
+            />
           </button>
-          <div className={`${mobileMenuOpen ? "scale-y-100" : "scale-y-0"} transition-transform duration-300 origin-top flex p-10 border border-gray-300 rounded-lg items-center flex-col absolute top-12 right-0 bg-white gap-[10px] w-auto z-[1000]`}>
+          <div
+            className={`${mobileMenuOpen ? "flex" : "hidden"} p-10 border border-gray-300 rounded-lg items-center flex-col absolute top-0 left-0 bg-white mt-[30px] gap-[10px] w-auto -ml-[100px]`}
+            role="menu"
+          >
             {nav_links.map((item, index) => (
-              <Link key={index} to={item.link} className="font-[16px] text-[#727277] hover:text-black">
-              {item.title}
-            </Link>
+              <a
+                key={index}
+                href={item.link}
+                className="font-[16px] text-[#727277] hover:text-black"
+                role="menuitem"
+                aria-label={item.title}
+              >
+                {item.title}
+              </a>
             ))}
           </div>
         </div>
