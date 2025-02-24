@@ -39,7 +39,7 @@ export default function InvestorsOverview() {
         </div>
       </div>
       <div className="">
-      <div className="flex sm:flex-row flex-col justify-between bg-blue-900 rounded-md pl-2 items-center w-60 sm:w-80 sticky top-12 left-full">
+      <div className="flex sm:flex-row flex-col justify-between bg-[#00AE80] rounded-md pl-2 items-center w-60 sm:w-80 sticky top-12 left-full">
             <img src="/investors/book.png" alt="img.." className="w-24 h-44" />
             <div className=" text-gray-200 p-4 rounded">
               <p className="text-sm">Some of our</p>
@@ -52,7 +52,7 @@ export default function InvestorsOverview() {
                 As the most awarded B2B branding agency in Texas, we know how to
                 combine customer
               </p>
-              <button className="bg-gray-100 text-blue-900 mt-2 p-1 w-full">
+              <button className="bg-gray-100 text-[#00AE80] mt-2 p-1 w-full">
                 Download Now
               </button>
             </div>
@@ -62,7 +62,7 @@ export default function InvestorsOverview() {
             <div className="w-full sm:w-52 text-gray-600 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
-              <h1 className="text-blue-800 text-4xl font-medium underline">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline">
                 Q1
               </h1>
               <p className="text-lg font-semibold">
@@ -77,7 +77,7 @@ export default function InvestorsOverview() {
             <div className="w-full sm:w-52 text-gray-600 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
-              <h1 className="text-blue-800 text-4xl font-medium underline">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline">
                 Q2
               </h1>
               <p className="text-lg font-semibold">
@@ -92,7 +92,7 @@ export default function InvestorsOverview() {
             <div className="w-full sm:w-52 text-gray-600 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
-              <h1 className="text-blue-800 text-4xl font-medium underline">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline">
                 Q3
               </h1>
               <p className="text-lg font-semibold">
@@ -107,7 +107,7 @@ export default function InvestorsOverview() {
             <div className="w-full sm:w-52 text-gray-600 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
-              <h1 className="text-blue-800 text-4xl font-medium underline">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline">
                 Q4
               </h1>
               <p className="text-lg font-semibold">
@@ -126,11 +126,11 @@ export default function InvestorsOverview() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
             <div className="text-gray-600 p-1">
               <p>Some of our </p>
-              <h1 className="text-blue-800 text-4xl font-medium underline py-1">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline py-1">
                 Presentations
               </h1>
               <p> Risk Takers, opportunity makers</p>
-              <ul className="text-blue-800 pt-6">
+              <ul className="text-[#00AE80] pt-6">
                 <li className="flex items-center">
                   <img src="./icons/adobe_pdf" alt="adobe_pdf" /> Fiscal Year 2022 Report
                 </li>
@@ -153,7 +153,7 @@ export default function InvestorsOverview() {
             </div>
             <div className="text-gray-600">
               <p>Some of our </p>
-              <h1 className="text-blue-800 text-4xl font-medium underline pt-1 pb-4">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Events
               </h1>
               <div className="bg-gray-300 h-64">
@@ -179,7 +179,7 @@ export default function InvestorsOverview() {
           <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 sm:mt-20 mt-12">
             <div className="text-gray-600">
               <p>Some of our </p>
-              <h1 className="text-blue-800 text-4xl font-medium underline pt-1 pb-4">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release
               </h1>
               <p>
@@ -192,7 +192,7 @@ export default function InvestorsOverview() {
             </div>
             <div className="text-gray-600">
               <p>Some of our </p>
-              <h1 className="text-blue-800 text-4xl font-medium underline pt-1 pb-4">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release
               </h1>
               <p>
@@ -205,7 +205,7 @@ export default function InvestorsOverview() {
             </div>
             <div className="text-gray-600">
               <p>Some of our </p>
-              <h1 className="text-blue-800 text-4xl font-medium underline pt-1 pb-4">
+              <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release
               </h1>
               <p>

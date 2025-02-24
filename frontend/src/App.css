@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+
 
 .logo {
   height: 6em;
@@ -12,12 +12,15 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #00AE80);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #00AE80);
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -38,5 +41,5 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: #727277;
 }

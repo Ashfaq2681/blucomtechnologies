@@ -79,7 +79,7 @@ export default function Careers() {
           </div>
         </div>
       </div>
-      <div className="bg-blue-600  md:py-20 py-10">
+      <div className="bg-[#00AE80]  md:py-20 py-10">
         <div className="w-[80%] mx-auto">
           <div className="flex flex-col-reverse sm:flex-row w-full gap-6 justify-between items-center">
             <div className="text-gray-100">
@@ -118,7 +118,7 @@ export default function Careers() {
         <div className="flex flex-col-reverse sm:flex-row gap-8 items-center my-10 sm:my-20 justify-between">
           <div className="text-gray-500 sm:w-[50%]">
             <p className="text-lg">Some of our</p>
-            <h1 className="text-blue-800 text-4xl font-medium underline my-1">
+            <h1 className="text-[#00AE80] text-4xl font-medium underline my-1">
               Dear Rule Breaker
             </h1>
             <p className="text-lg font-medium pb-10">
@@ -140,7 +140,7 @@ export default function Careers() {
         <div className="">
           <div className="text-gray-600">
             <p className="text-lg">Some of our</p>
-            <h1 className="text-blue-800 text-4xl font-medium underline mb-2 mt-1">
+            <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
               Open Positions
             </h1>
             <p className="text-lg font-medium">

@@ -29,7 +29,7 @@ const Portfolio = () => {
           alt="Background banner featuring digital marketing projects"
           className="w-full h-lvh object-cover"
         />
-        <div className="absolute inset-0 bg-blue-950 opacity-80"></div>
+        <div className="absolute inset-0 bg-[#00AE80] opacity-80"></div>
         <div className="absolute inset-0 flex flex-col sm:flex-row justify-center items-center text-white p-4">
           <div className="sm:w-[35%] w-full lg:p-4 p-2 text-left">
             <h2 className="text-[40px] md:text-[60px]">Hyundai-Pakistan</h2>

@@ -50,7 +50,7 @@ export default function BlogSingle() {
           </div>
         </div>
       </div>
-      <div className="bg-blue-600  md:py-20 py-10">
+      <div className="bg-[#00AE80]  md:py-20 py-10">
         <div className="w-[80%] mx-auto">
           <div className="text-gray-100">
             <p>Found What you are looking for?</p>
@@ -107,7 +107,7 @@ export default function BlogSingle() {
         <div className="w-[57%] mx-auto my-10 sm:my-20">
           <h1 className="text-2xl sm:text-3xl text-gray-900 my-4">
             <p className="inline-flex items-baseline">
-              <span className="text-4xl text-blue-700">
+              <span className="text-4xl text-[#00AE80]">
                 <img src="./icons/quote_left.png" alt="quote_left" />
               </span>
               Organizations
@@ -115,7 +115,7 @@ export default function BlogSingle() {
             that develops true customer connections will thrive in the digital
             <p className="inline-flex items-baseline">
               economy{" "}
-              <span className="text-4xl text-blue-700">
+              <span className="text-4xl text-[#00AE80]">
                 <img src="./icons/quote_right.png" alt="quote_right" />
               </span>
             </p>
@@ -146,7 +146,7 @@ export default function BlogSingle() {
       <div className="text-gray-500 w-[80%] mx-auto my-10 sm:my-20">
         <div className="">
           <p className="text-lg">Creative showcase</p>
-          <h1 className="text-blue-800 text-4xl font-medium underline mb-2 mt-1">
+          <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
             How We Did This!
           </h1>
           <p className="text-lg font-medium">Digital Presence 2.0</p>

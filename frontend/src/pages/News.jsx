@@ -63,7 +63,7 @@ export default function News() {
           className="w-full h-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-blue-950 opacity-80"></div>
+        <div className="absolute inset-0 bg-[#00AE80] opacity-80"></div>
         <div className="absolute inset-0 flex flex-row justify-center items-center text-white p-4">
           <div className="w-[35%] lg:p-4 p-2 text-right">
             <h1 className="text-lg sm:text-3xl lg:text-4xl py-1">
@@ -90,7 +90,7 @@ export default function News() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {news.slice(0, showMore ? news.length : 4).map((newsItem, index) => (
             <article className="text-gray-600" key={index}>
-              <h3 className="uppercase py-2 text-sm text-blue-700">News</h3>
+              <h3 className="uppercase py-2 text-sm text-[#00AE80]">News</h3>
               <div className="h-60 bg-gray-300">
                 <img
                   src={newsItem.image}

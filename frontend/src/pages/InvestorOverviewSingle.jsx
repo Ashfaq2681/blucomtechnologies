@@ -36,7 +36,7 @@ export default function InvestorOverviewSingle() {
       <div className="w-[80%] mx-auto text-gray-500">
         <div className="my-5 sm:my-10">
           <p className="text-lg">For all local and international</p>
-          <h1 className="text-blue-800 text-4xl font-medium underline mb-2 mt-1">
+          <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
             Enquiries
           </h1>
           <p className="text-lg font-medium">Please use the below form</p>
@@ -47,7 +47,7 @@ export default function InvestorOverviewSingle() {
               <label htmlFor="region" className="text-2xl text-gray-700">
                 Your Region of Interest
               </label>
-              <hr className="border-blue-700 border-[1px]" />
+              <hr className="border-[#00AE80] border-[1px]" />
             </div>
             <select
               name=""
@@ -62,7 +62,7 @@ export default function InvestorOverviewSingle() {
               <label htmlFor="area" className="text-2xl text-gray-700">
                 Your Area of Interest
               </label>
-              <hr className="border-blue-700 border-[1px]" />
+              <hr className="border-[#00AE80] border-[1px]" />
             </div>
             <select
               name=""
@@ -77,7 +77,7 @@ export default function InvestorOverviewSingle() {
               <label htmlFor="message" className="text-2xl text-gray-700">
                 What do you want to say?*
               </label>
-              <hr className="border-blue-700 border-[1px]" />
+              <hr className="border-[#00AE80] border-[1px]" />
             </div>
             <textarea
               name=""

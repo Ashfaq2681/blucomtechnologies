@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-xl py-6 -mb-5fixed top-0 left-0 w-full bg-[#ffffff] shadow-md z-50">
+      <nav className="text-lg text-gray-500 flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-xl py-6 -mb-5fixed top-0 left-0 w-full bg-[#ffffff] shadow-md z-50">
         <a href="/" aria-label="blucomtechnologies Home">
           <img
             loading="lazy"
