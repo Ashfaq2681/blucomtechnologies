@@ -7,7 +7,7 @@ const About = lazy(() => import("./pages/About"));
 const News = lazy(() => import("./pages/News"));
 const Ideas = lazy(() => import("./pages/Ideas"))
 const Careers = lazy(() => import("./pages/Careers"));
-const Portfolio = lazy(() => import("./pages/Portfolio"))
+const Portfolio = lazy(() => import("./pages/work"))
 const InvestorsOverview = lazy(() => import("./pages/InvestorsOverview"));
 const BlogSingle = lazy(() => import("./pages/BlogSingle"))
 const OverviewSingle = lazy(() => import("./pages/InvestorOverviewSingle"))

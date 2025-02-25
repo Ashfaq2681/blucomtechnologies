@@ -1,6 +1,6 @@
 export const nav_links = [
   { title: "About us", link: "/About" },
-  { title: "Work", link: "/Portfolio" },
+  { title: "Work", link: "/work" },
   { title: "Blog", link: "/blogsingle" },
   { title: "Ideas", link: "/ideas" },
   { title: "News", link: "/news" },
