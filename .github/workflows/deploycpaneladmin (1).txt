@@ -50,6 +50,3 @@ jobs:
         username: AdminB@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORDADMIN }}
         server-dir:
-
-
-
