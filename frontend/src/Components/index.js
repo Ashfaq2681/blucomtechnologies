@@ -6,5 +6,6 @@ export const nav_links = [
   { title: "News", link: "/news" },
   { title: "Careers", link: "/careers" },
   { title: "Investors", link: "/investors" },
-  {title:"Dashboard",link:"/dashboard"}
+  { title: "Contact", link: "/contact" },
+  
 ];

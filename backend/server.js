@@ -1,33 +1,50 @@
 require("dotenv").config();
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const userRoute = require('./routes/user');
-const path=require('path')
+const path = require("path");
+const userRoute = require("./routes/user");
+
 const app = express();
 
+// 1️⃣ Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-// app.use(express.static('uploads'))
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// 2️⃣ Static file handling for uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// 3️⃣ Logging middleware
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
+// 4️⃣ API Routes
 app.use("/api/user", userRoute);
 
-mongoose
-  .connect(process.env.MONGO_URL_BlucomTech)
-  .then(() => {
-    //port
-    app.listen(process.env.PORT, () => {
-      console.log("Db connected and On port", process.env.PORT);
+// 5️⃣ Connect MongoDB in Your Backend (Server.js)
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL_BlucomTech, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+    console.log("✅ MongoDB Connected Successfully");
+
+    // Start server only after successful DB connection
+    app.listen(process.env.PORT, () => {
+      console.log(`🚀 Server running on port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1); // Exit process if connection fails
+  }
+};
+
+// Call the MongoDB connection function
+connectDB();
+const articleRoutes = require("./routes/articleRoutes");
+
+app.use("/api/articles", articleRoutes);

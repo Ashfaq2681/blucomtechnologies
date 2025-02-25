@@ -7,3 +7,11 @@ git commit --amend
 
 
 git@github.com:Ashfaq2681/blucomtechnologies.git
+mongodb+srv://blusquaretechnologies:<db_password>@blucomtechnologies.i9tlu.mongodb.net/?retryWrites=true&w=majority&appName=blucomtechnologies
+
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::bf9f:ba2b:167c:21da%30
+   IPv4 Address. . . . . . . . . . . : 192.168.1.5
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.1.1

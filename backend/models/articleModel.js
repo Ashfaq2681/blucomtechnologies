@@ -1,25 +1,17 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+const ArticleSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    content: { type: String, required: true },
+    image: { type: String }, // URL of uploaded image
+    category: { type: String },
+    seoMeta: {
+        title: String,
+        description: String,
+        keywords: [String],
+    },
+    publishDate: { type: Date, default: Date.now },
+}, { timestamps: true });
 
-const ArticleSchema = new Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: Object,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    collection: "ArticleDetails",
-  }
-);
-
-module.exports = mongoose.model("ArticleDetails", ArticleSchema);
+module.exports = mongoose.model("Article", ArticleSchema);
