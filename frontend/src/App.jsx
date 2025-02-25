@@ -4,13 +4,13 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 const Landing = lazy(() => import("./pages/Landing"));
 const About = lazy(() => import("./pages/About"));
-const News = lazy(() => import("./pages/News"));
+const News = lazy(() => import("./pages/Landing"));
 const Ideas = lazy(() => import("./pages/Ideas"))
-const Careers = lazy(() => import("./pages/Careers"));
-const Portfolio = lazy(() => import("./pages/work"))
-const InvestorsOverview = lazy(() => import("./pages/InvestorsOverview"));
+const Careers = lazy(() => import("./pages/Landing"));
+const Portfolio = lazy(() => import("./pages/Landing"))
+const InvestorsOverview = lazy(() => import("./pages/Landing"));
 const BlogSingle = lazy(() => import("./pages/BlogSingle"))
-const OverviewSingle = lazy(() => import("./pages/InvestorOverviewSingle"))
+const OverviewSingle = lazy(() => import("./pages/Landing"))
 const Dashboard = lazy(() => import("./pages/Dashboard"))
 
 const App = () => {
