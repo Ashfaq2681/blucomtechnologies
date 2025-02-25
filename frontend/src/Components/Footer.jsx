@@ -16,7 +16,8 @@ return (
   <footer className="text-lg text-gray-500">  {/* Added margin from top & bottom */}
       <div className="bg-[#1E2832] flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] p-20 text-[16px]">
           
-          <img src="./src/assets/logofooter.png" alt="bluccom technologies logo footer" className="w-[auto] h-[130px]"/>
+        {/*  <img src="./src/assets/logofooter.png" alt="bluccom technologies logo footer" className="w-[auto] h-[130px]"/>*/}
+          <img src="./src/assets/logofooter-min.png" alt="insight" className="w-[auto] h-[130px]" /> 
           <div className="flex flex-col">
               <p className="text-lg text-gray-500 font-bold mb-2">About us</p>
              
@@ -40,6 +41,8 @@ return (
       </div>
       <div className="flex flex-col gap-5 items-end pr-40 bg-[#1E2832] text-[#727277]">
           <p className="text-lg text-gray-500 mr-32">We are Too Social</p>
+          
+          
           <div className="bg-[#1E2832] flex flex-row gap-5 pb-5 -mt-2 mb-2">
               {social_icons.map((item, index) => (
                   <img loading="lazy " key={index} src={`./icons/${item}.png`} alt="icon" className="cursor-pointer"/>
