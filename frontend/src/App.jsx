@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 const Landing = lazy(() => import("./pages/Landing"));
-const About = lazy(() => import("./pages/About"))
+const About = lazy(() => import("./pages/About"));
 const News = lazy(() => import("./pages/News"));
 const Ideas = lazy(() => import("./pages/Ideas"))
 const Careers = lazy(() => import("./pages/Careers"));

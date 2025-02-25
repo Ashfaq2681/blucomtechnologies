@@ -1,3 +1,6 @@
+the project is working by removing nav links
+
+
 Color Guide
     Main Color          [#00AE80]
     Supporting Color    [#00996E]

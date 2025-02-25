@@ -8,8 +8,7 @@ const Header = () => {
     <header>
       <nav className="text-lg text-gray-500 flex flex-row justify-between md:justify-center md:gap-5 lg:gap-14 xl:gap-20 items-center px-8 shadow-xl py-6 -mb-5fixed top-0 left-0 w-full bg-[#ffffff] shadow-md z-50">
         <a href="/" aria-label="blucomtechnologies Home">
-         
-         <div></div>
+
           <img
             loading="lazy"
             src="./src/assets/logo.png"
@@ -22,9 +21,7 @@ const Header = () => {
             <a
               key={index}
               href={item.link}
-              className="font-[16px] text-[#727277] hover:text-black"
-              aria-label={item.title}
-            >
+              className="font-[16px] text-[#727277] hover:text-black"aria-label={item.title}>
               {item.title}
             </a>
           ))}
