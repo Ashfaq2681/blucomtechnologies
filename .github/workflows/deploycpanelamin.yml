@@ -14,8 +14,5 @@ jobs:
         server: ftp.curatedgallery.org 
         username: AdminB@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORDADMIN }}
-<<<<<<< HEAD
-        server-dir: /home/ashfaqahmad/blucomtechnologies.com/
-=======
+
         local-dir: ./frontend/dist/
->>>>>>> a60ac141 (v2.1.5)
