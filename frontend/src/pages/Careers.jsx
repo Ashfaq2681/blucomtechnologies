@@ -1,4 +1,7 @@
 import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Helmet } from "react-helmet"; // Import Helmet for SEO
 const links = [
   { src: "./career/link.png", url: "We Got Link" },
   { src: "./career/link.png", url: "We Got Link" },
