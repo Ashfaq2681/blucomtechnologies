@@ -1,8 +1,11 @@
 npm run build
 git status
-git add --all
-git commit -m "v2.1.5"
-git push -u origin main
+git 
+git add .
+git commit -m "blog changes"
+git push origin main
+
+
 
 
 
@@ -10,7 +13,7 @@ git commit --amend
 
 
 git@github.com:Ashfaq2681/blucomtechnologies.git
-mongodb+srv://blusquaretechnologies:<db_password>@blucomtechnologies.i9tlu.mongodb.net/?retryWrites=true&w=majority&appName=blucomtechnologies
+mongodb+srv://blusquaretechnologies:<vGnKYqUIoWOrbpzy>@blucomtechnologies.i9tlu.mongodb.net/?retryWrites=true&w=majority&appName=blucomtechnologies
 
 
    IP Adress : 103.170.179.78
@@ -19,4 +22,4 @@ mongodb+srv://blusquaretechnologies:<db_password>@blucomtechnologies.i9tlu.mongo
 
 -  Mongodb User Passowrd
    theadagepk
-   vGnKYqUIoWOrbpzy           
+   vGnKYqUIoWOrbpzy           itsnot the same db password its another db password let me share it with you
