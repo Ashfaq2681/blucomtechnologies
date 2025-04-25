@@ -12,6 +12,6 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ftp.curatedgallery.org
-        username: live@curatedgallery.org
-        password: ${{ secrets.FTP_PASSWORDMAIN }}
+        username: AdminB@blucomtechnologies.com
+        password: ${{ secrets.FTP_PASSWORDADMIN }}
         server-dir: '/home/ashfaqahmed/public_html/'
