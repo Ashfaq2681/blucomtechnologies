@@ -14,4 +14,4 @@ jobs:
         server: ftp.curatedgallery.org
         username: AdminB@blucomtechnologies.com
         password: ${{ secrets.FTP_PASSWORDADMINB }}
-        server-dir: '/home/ashfaqahmed/public_html/'
+        
