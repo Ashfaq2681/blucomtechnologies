@@ -14,6 +14,8 @@ const InvestorsOverview = lazy(() => import("./pages/InvestorsOverview"));
 const BlogSingle = lazy(() => import("./pages/BlogSingle"));
 const OverviewSingle = lazy(() => import("./pages/InvestorOverviewSingle"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Contact = lazy(() => import("./pages/Contact"));
+
 
 const App = () => {
   return (
@@ -33,6 +35,7 @@ const App = () => {
               <Route path="/blogsingle" element={<BlogSingle />} />
               <Route path="/overviewsingle" element={<OverviewSingle />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </Suspense>
           <Footer />
