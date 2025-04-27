@@ -1,6 +1,5 @@
 npm run build
 git status
-git 
 git add .
 git commit -m "blog changes"
 git push origin main
