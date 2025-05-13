@@ -104,94 +104,108 @@ const Landing = () => {
 
   return (
     <section>
-      <div>
-        <div className="flex flex-col md:flex-row-reverse justify-between md:items-center md:gap-12 lg:gap-28 max-w-[1400px] mx-auto px-8 md:px-32 py-5 h-lvh">
-          <img
-            loading="lazy"
-            src="./src/assets/heroimage.png"
-            alt="Brand Strategy & Digital Solutions"
-            className="w-[200px] lg:w-[400px] xl:w-[850px] h-[182px] lg:h-[300px] xl:h-[600px]"
-          />
-          <div className="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center">
-            <p className="text-2xl text-gray-500">
-              It starts from
-              <br />
-              <p className="text-6xl text-emerald-500 underline decoration-8 decoration-green-300">
-                Simple Idea
-                <br />
-              </p >
-              to next unicorn
-            </p>
-            <div className="mt-24">
-              <a
-                href="/"
-                className="text-3g text-gray-500"
-              >
-                We create valuable brands for your customers rather than just a simple visual.
-                We exist to put all our effort into not only creating beautiful visuals but also
-                strategic experiences.
-               
-              </a>
-            </div>
-          
-          </div>
-        </div>
+      <div className="bg-white py-12 px-6 md:px-20">
+  <div className="flex flex-col-reverse md:flex-row-reverse items-center justify-between gap-12 max-w-7xl mx-auto">
+    
+    {/* Right Section - Image (Optional) */}
+    {/* Uncomment this if needed */}
+     
+    <img
+  //loading="lazy"
+  src="/assets/heroimage.png" 
+  alt="Brand Strategy & Digital Solutions"
+  className="w-[200px]  h-[200px] object-contain mx-auto"
+/>
 
+    
 
+    {/* Left Section - Text Content */}
+    <div className="flex flex-col justify-center text-center md:text-left">
+      <h2 className="text-gray-600 text-2xl mb-2">
+        It starts from
+      </h2>
 
-      </div>
+      <h1 className="text-5xl md:text-6xl font-bold text-emerald-500 underline decoration-green-300 decoration-8 leading-tight">
+        Simple Idea
+      </h1>
 
+      <h2 className="text-gray-600 text-2xl mt-2">
+        to next unicorn
+      </h2>
+
+      <p className="mt-10 text-lg text-gray-700 max-w-xl">
+        We create valuable brands for your customers rather than just simple visuals.
+        At Blucom, we focus not only on stunning design, but on strategic experiences
+        that connect your brand to culture and business value.
+      </p>
+    </div>
+  </div>
+</div>
 
       <div>
 
 
         {/*form start share*/}
         <section className="form">
-          <div className="relative w-full h-screen flex justify-center items-center bg-emerald-500 text-white p-4 xl:p-10">
-            <div className="sm:w-[70%] lg:w-[50%] w-full lg:p-4 p-2 text-left flex flex-col items-center">
+          <div className="relative w-full min-h-screen flex justify-center items-center bg-emerald-500 text-white px-4 py-8 xl:p-10">
+  <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[50%] text-left flex flex-col items-center space-y-6">
 
-              <p className="text-6xl underline underline-offset-8 decoration-green-300 decoration-5 text-left">
-                Let's build your Brand Beyond Visuals
-              </p>
-              <p className="w-full text-2l mt-4 text-left">
-                At Blucom, we create valuable brands for your customers rather than just a simple visual.
-                We exist to put all our effort into not only creating beautiful visuals but strategic
-                design driven by cultural aesthetics to put brands into more known and culturally
-                connected spaces. Let us know what your next idea is!
-              </p>
+    {/* Heading */}
+    <h1 className="text-4xl sm:text-5xl xl:text-6xl underline underline-offset-8 decoration-green-300 w-full text-left">
+      Let&apos;s build your Brand Beyond Visuals
+    </h1>
 
-              {/* Dropdown Section */}
-              <p className="text-lg font-normal mt-12 text-left"></p>
+    {/* Paragraph */}
+    <p className="text-lg sm:text-xl w-full text-left">
+      At Blucom, we create valuable brands for your customers rather than just a simple visual.
+      We exist to put all our effort into not only creating beautiful visuals but strategic
+      design driven by cultural aesthetics to put brands into more known and culturally
+      connected spaces. Let us know what your next idea is!
+    </p>
 
-              {/* Dropdown Button - Full Width */}
-              <div
-                className="bg-white flex flex-row justify-between items-center mt-2 cursor-pointer p-3 w-full max-w-screen-lg"
-                onClick={toggleDropDown}
-              >
-                <p className="text-gray-900">I want to Launch a new product or service</p>
-                <img src="./icons/dropDown.png" alt="Dropdown Icon" className="w-5 h-5 mr-3" />
-              </div>
+    {/* Dropdown Button */}
+    <div className="w-full max-w-2xl mx-auto">
+  {/* Dropdown Header */}
+  <div
+    onClick={toggleDropDown}
+    className="flex justify-between items-center bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300"
+  >
+    <p className="text-lg font-semibold">
+      I want to launch a new product or service
+    </p>
+    <img
+      src="./icons/dropDown.png"
+      alt="Toggle Dropdown"
+      className={`w-5 h-5 text-lg transform transition-transform duration-300 ${dropDownOpen ? 'rotate-180' : ''}`}
+    />
+  </div>
 
-              {/* Dropdown Content - Full Width */}
-              <div
-                className={`bg-gray-200 text-gray-900 flex-col justify-center items-start py-6 px-10 w-full max-w-screen-lg ${dropDownOpen ? "flex" : "hidden"} transition duration-300 ease-in-out`}
-              >
-                <p>Identify Concept</p>
-                <p>UI UX Design</p>
-                <p>Brand Positioning</p>
-                <p>Business Plan</p>
-                <p>Market Research</p>
-                <p>Digital Marketing</p>
-              </div>
-              {/* Call-to-Action Button */}
-              <div className="w-full flex justify-start">
-                <div className="bg-white text-gray-600 font-bold px-4 py-2 w-40 text-center mt-10 border border-gray-400 cursor-pointer">
-                  Lets Get Started
-                </div>
-              </div>
+  {/* Dropdown Content */}
+  <div
+    className={`overflow-hidden transition-all duration-300 ease-in-out mt-2 rounded-lg shadow-inner bg-white ${
+      dropDownOpen ? 'max-h-96 p-6 space-y-3' : 'max-h-0 p-0'
+    }`}
+  >
+    <p className="text-gray-800 font-medium">Identify Concept</p>
+    <p className="text-gray-800 font-medium">UI/UX Design</p>
+    <p className="text-gray-800 font-medium">Brand Positioning</p>
+    <p className="text-gray-800 font-medium">Business Plan</p>
+    <p className="text-gray-800 font-medium">Market Research</p>
+    <p className="text-gray-800 font-medium">Digital Marketing</p>
+  </div>
+</div>
 
-            </div>
-          </div>
+
+    {/* Call-to-Action */}
+    <div className="w-full flex justify-start">
+      <button className="bg-white text-gray-700 font-semibold px-6 py-2 mt-8 border border-gray-300 rounded shadow hover:bg-gray-100 transition">
+        Let&apos;s Get Started
+      </button>
+    </div>
+
+  </div>
+</div>
+
         </section>
 
 
@@ -199,258 +213,434 @@ const Landing = () => {
 
         <section className="Portfolio w-full">
           {/* Hyundai Pakistan */}
-          <div className="flex flex-col md:flex-row w-full items-center">
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/tucson.png"
-                alt="tucson"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
-              <p className="text-2xl text-gray-500">Hyundai Pakistan</p>
-              <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                TUSCON 2020
-              </p>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-                <p>#Activation</p>
-                <p>#Discovery</p>
-                <p>#Design</p>
-              </div>
-              <p className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Hyundai Pakistan launched a newly launched Hyundai Tuscon is a new
-                revolution in the mini SUV Category. Our part was to enable the user to
-                discover the new product, activate the product, and create a digital
-                strategy with design collaterals.
-              </p>
-            </div>
-          </div>
+         
+    <div className="flex flex-col md:flex-row items-center gap-12 mb-24">
+  {/* Image Section with Padding */}
+  <div className="md:w-1/2 pt-10 pl-10">
+    <img
+      src="/landing/tucson.png"
+      alt="Hyundai Tucson"
+      className="rounded-xl shadow-lg w-full h-auto object-cover"
+    />
+  </div>
+
+  {/* Text Section */}
+  <div className="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-12">
+    <h3 className="text-xl text-gray-500 mb-2">Hyundai Pakistan</h3>
+    <h2 className="text-5xl font-bold text-emerald-600 underline decoration-emerald-300 mb-6">
+      TUCSON 2020
+    </h2>
+
+    <div className="flex flex-wrap gap-3 mb-6">
+      {["#Activation", "#Discovery", "#Design"].map((tag) => (
+        <span
+          key={tag}
+          className="bg-emerald-100 text-emerald-700 text-sm px-4 py-1 rounded-full font-medium"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <p className="text-gray-600 text-lg leading-relaxed">
+      The launch of Hyundai Tucson marked a bold move in the mini SUV segment. We crafted a strategy
+      that helped users discover, experience, and engage with the new model through a blend of
+      digital activation, storytelling, and modern design assets.
+    </p>
+  </div>
+</div>
+
+
 
           {/* Codility Hub */}
-          <div className="flex flex-col-reverse md:flex-row w-full items-center">
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-end p-6 md:p-12">
-              <p className="text-2xl text-gray-500">Codility Hub Technologies</p>
-              <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                Interaction Design
-              </p>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-                <p>#Identity</p>
-                <p>#Interaction</p>
-                <p>#Website</p>
-              </div>
-              <p className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Codility Hub came to us with just a name but an amazing proposition. A
-                well-defined brand in the tech sector focused on core development with
-                fast turnaround. We were asked to bring this idea to life through identity
-                and interaction.
-              </p>
-            </div>
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/toyota.png"
-                alt="toyota"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          </div>
+          <div className="flex flex-col-reverse md:flex-row items-center gap-12 mb-24 bg-emerald-50">
+  {/* Text Section */}
+  <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-end px-6 md:px-12">
+    <h3 className="text-xl text-gray-500 mb-2 text-center md:text-right">
+      Codility Hub Technologies
+    </h3>
+    <h2 className="text-5xl font-bold text-emerald-600 underline decoration-emerald-300 mb-6 text-center md:text-right">
+      Interaction Design
+    </h2>
 
-          {/* Interactive Design */}
-          <div className="flex flex-col md:flex-row w-full items-center">
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/interactive_design.png"
-                alt="interactive_design"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
-              <p className="text-2xl text-gray-500">Codility Hub Technologies</p>
-              <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                Interaction Design
-              </p>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-                <p>#Identity</p>
-                <p>#Interaction</p>
-                <p>#Interface</p>
-              </div>
-              <p className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Codility Hub came to us with just a name but an amazing proposition. A
-                well-defined brand in the tech sector focused on core development with
-                fast turnaround. We were asked to bring this idea to life through identity
-                and interaction.
-              </p>
-            </div>
-          </div>
-        </section>
+    <div className="flex flex-wrap gap-3 mb-6 justify-center md:justify-end">
+      {["#Identity", "#Interaction", "#Website"].map((tag) => (
+        <span
+          key={tag}
+          className="bg-emerald-100 text-emerald-700 text-sm px-4 py-1 rounded-full font-medium"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
 
-        <div className="flex flex-col items-center justify-center py-20 px-5 sm:px-10 md:px-0">
-          {/* Title Section */}
-          <div className="flex flex-col items-center text-center m-6 sm:m-10 w-full">
-            <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">This is</p>
-            <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-              How We make Possible
-            </p>
-            <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Discovery / Strategy / Interaction</p>
-          </div>
+    <p className="text-gray-600 text-lg leading-relaxed text-center md:text-right">
+      Codility Hub came to us with just a name but an amazing proposition.
+      A well-defined brand in the tech sector focused on core development with
+      fast turnaround. We were asked to bring this idea to life through identity
+      and interaction.
+    </p>
+  </div>
 
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#727277] mx-auto w-full max-w-6xl">
-            {/* Discovery Section */}
-            <div className="flex flex-col gap-6">
-              <p className="font-bold text-black underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                Discovery
-              </p>
-              {Discovery.map((item, index) => (
-                <p key={index} className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                  {item}
-                </p>
-              ))}
-            </div>
+  {/* Image Section with Padding */}
+  <div className="w-full md:w-1/2  pr-10">
+    <img
+      src="./landing/toyota.png"
+      alt="Toyota"
+      className="rounded-xl shadow-lg w-full h-auto object-cover"
+    />
+  </div>
+</div>
 
-            {/* Strategy Section */}
-            <div className="flex flex-col gap-6">
-              <p className="font-bold text-black underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                Strategy
-              </p>
-              {Strategy.map((item, index) => (
-                <p key={index} className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                  {item}
-                </p>
-              ))}
-            </div>
 
-            {/* Digital Section */}
-            <div className="flex flex-col gap-6">
-              <p className="font-bold text-black underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                Digital
-              </p>
-              {Digital.map((item, index) => (
-                <p key={index} className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                  {item}
-                </p>
-              ))}
-            </div>
+          <div className="flex flex-col md:flex-row items-center gap-12 mb-24">
+  {/* Image Section with Padding */}
+  <div className="w-full md:w-1/2 pl-10">
+    <img
+      src="./landing/interactive_design.png"
+      alt="Interactive Design"
+      className="rounded-xl shadow-lg w-full h-auto object-cover"
+    />
+  </div>
 
-            {/* Interaction Section */}
-            <div className="flex flex-col gap-6">
-              <p className="font-bold text-black underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                Interaction
-              </p>
-              {Interaction.map((item, index) => (
-                <p key={index} className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
-                  {item}
-                </p>
-              ))}
-            </div>
-          </div>
+  {/* Text Section */}
+  <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-6 md:px-12">
+    <h3 className="text-xl text-gray-500 mb-2">Codility Hub Technologies</h3>
+    <h2 className="text-5xl font-bold text-emerald-600 underline decoration-emerald-300 mb-6">
+      Interaction Design
+    </h2>
 
-          {/* Call-to-Action Button */}
-          <div className="w-full flex justify-center">
-            <div className="text-white font-bold px-4 py-2 w-40 text-center mt-10 border bg-gray-400 cursor-pointer">
-              Want to Talk?
-            </div>
-          </div>
-        </div>
+    <div className="flex flex-wrap gap-3 mb-6">
+      {["#Identity", "#Interaction", "#Interface"].map((tag) => (
+        <span
+          key={tag}
+          className="bg-emerald-100 text-emerald-700 text-sm px-4 py-1 rounded-full font-medium"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <p className="text-gray-600 text-lg leading-relaxed">
+      Codility Hub came to us with just a name but an amazing proposition.
+      A well-defined brand in the tech sector focused on core development with
+      fast turnaround. We were asked to bring this idea to life through identity
+      and interaction.
+    </p>
+  </div>
+</div>
+</section>
+
+{/* {Images section Ens here} */}
+
+
+<div className="py-20 px-4 sm:px-10 lg:px-20 bg-emerald-50  ">
+  {/* Header */}
+  <div className="text-center mb-16">
+    <p className="text-xl sm:text-2xl text-gray-500 mb-4">This is</p>
+    <h2 className="text-4xl sm:text-6xl font-bold text-emerald-600 underline underline-offset-4 decoration-emerald-300">
+      How We Make Possible
+    </h2>
+    <p className="text-lg sm:text-2xl text-gray-500 mt-4">
+      Discovery / Strategy / Interaction
+    </p>
+  </div>
+
+  {/* Content Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 max-w-7xl mx-auto text-base sm:text-lg text-gray-700">
+    {[
+      { title: "Discovery", items: Discovery },
+      { title: "Strategy", items: Strategy },
+      { title: "Digital", items: Digital },
+      { title: "Interaction", items: Interaction },
+    ].map((section, idx) => (
+      <div key={idx} className="space-y-4">
+        <h3 className="font-semibold text-black text-lg underline underline-offset-4 decoration-2 decoration-gray-300">
+          {section.title}
+        </h3>
+        {section.items.map((item, i) => (
+          <p
+            key={i}
+            className="underline underline-offset-4 decoration-2 decoration-gray-300"
+          >
+            {item}
+          </p>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  {/* Call-to-Action */}
+  <div className="mt-16 flex justify-center">
+    <button className="inline-block border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
+>
+      Want to Talk?
+    </button>
+  </div>
+</div>
 
 
 
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
-          <div className="flex flex-col justify-start items-center m-10 w-auto">
-            <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-              Get used to industry Insights
-            </p>
-            <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-              As a guiding light for the brands
-            </p>
-          </div>
-          <div className="flex flex-row gap-5 justify-center flex-wrap">
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</p>
-              <img src="./landing/insight1.jpg" alt="insight" className="w-[600px] h-[350px]" />
-              <p className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">Why attention economy is becoming new ecomony, and how brands can take leverage</p>
-              <p className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</p>
-              <Link to={`/blogsingle`} className="bg-gray-400 text-white font-bold px-4 py-2 w-40 text-center mt-10 border  cursor-pointer">
-                Read More
-              </Link>
-            </div>
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</p>
-              <img src="./landing/insight2.jpg" alt="insight" className="w-[600px] h-[350px]" />
-              <p className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">The art of visual communication, how visual grammer can be utilized by the brands</p>
-              <p className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</p>
-              <Link to={`/blogsingle`} className="bg-gray-400 text-white font-bold px-4 py-2 w-40 text-center mt-10 border  cursor-pointer">
-                Read More
-              </Link>
-            </div>
-          </div>
-          {/* Call-to-Action Button */}
 
-        </div>
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
-          <div className="flex flex-col justify-start items-center m-10 w-auto">
-            <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Industry news and what's </p>
-            <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-              See What's Happening
-            </p>
+        <div className="bg-white py-16 px-6 md:py-24 md:px-10 lg:px-20">
+  {/* Header Section */}
+  <div className="text-center mb-16">
+    
+    <h2 className="text-4xl sm:text-6xl font-bold text-emerald-600 underline underline-offset-4 decoration-emerald-300">
+      Industry Insights
+    </h2>
+    <p className="text-lg sm:text-2xl text-gray-500 mt-4">
+      Guiding brands with data-driven perspectives
+    </p>
+  </div>
+  
+  {/* Insights Grid */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
+    {/* Insight Card 1 */}
+    <div className="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src="./landing/insight1.jpg" 
+          alt="Attention economy insight" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <span className="inline-block text-sm font-semibold text-emerald-600 mb-2">
+          MARKET TRENDS
+        </span>
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
+          Why the Attention Economy is Becoming the New Economy
+        </h3>
+        <p className="text-gray-600 mb-6 line-clamp-3">
+          Attention economics is an approach to information management that treats human attention as a scarce commodity, applying economic theory to solve information challenges in the digital age.
+        </p>
+        <Link 
+          to="/blogsingle" 
+          className="inline-flex items-center text-emerald-600 font-medium hover:text-emerald-800 transition-colors"
+        >
+          Read More
+          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+      </div>
+    </div>
 
-          </div>
-          <div className="flex flex-row gap-5 justify-center flex-wrap">
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <img src="./icons/forbes_logo.png" alt="forbes logo" className="w-[80px] h-[30px]" />
-              <img src="./landing/news1.png" alt="insight" className="w-[600px] h-[350px]" />
-              <p className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">Rideshare Advertising To A New Outdoor World</p>
-              <p className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</p>
-              <Link to={`/blogsingle`} className="bg-gray-400 text-white font-bold px-4 py-2 w-40 text-center mt-10 border  cursor-pointer">
-                Read News
-              </Link>
-            </div>
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <img src="./icons/adobe_logo_1.png" alt="adobe logo" className="w-[70px] h-[30px]" />
-              <img src="./landing/news2.png" alt="insight" className="w-[600px] h-[350px]" />
-              <p className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">12 Must-Attend Trade Conferences For Agency Professionals</p>
-              <p className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</p>
-              <Link to={`/blogsingle`} className="bg-gray-400 text-white font-bold px-4 py-2 w-40 text-center mt-10 border  cursor-pointer">
-                Read News
-              </Link>
-            </div>
-          </div>
+    {/* Insight Card 2 */}
+    <div className="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src="./landing/insight2.jpg" 
+          alt="Visual communication insight" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <span className="inline-block text-sm font-semibold text-emerald-600 mb-2">
+          BRAND STRATEGY
+        </span>
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
+          The Art of Visual Communication in Brand Storytelling
+        </h3>
+        <p className="text-gray-600 mb-6 line-clamp-3">
+          How brands can leverage visual grammar to create compelling narratives that cut through the noise and establish meaningful connections with their audience.
+        </p>
+        <Link 
+          to="/blogsingle" 
+          className="inline-flex items-center text-emerald-600 font-medium hover:text-emerald-800 transition-colors"
+        >
+          Read More
+          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+      </div>
+    </div>
+  </div>
 
-        </div>
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-          <div className="flex flex-col justify-start items-center m-10 w-auto">
-            <p className="text-2xl text-gray-500 flex flex-wrap gap-2 m-5">Have and idea? lets talk!</p>
-            <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-              What you're Thinking?
-            </p>
-          </div>
-          <form action="" className="text-2xl text-gray-500 flex flex-col gap-10 w-full max-w-[1300px] px-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-20 xl:gap-x-40 gap-y-10">
-              <input type="text" className="landingInput" placeholder="First Name*" />
-              <input type="text" className="landingInput" placeholder="Last Name*" />
-              <input type="email" className="landingInput" placeholder="Email*" />
-              <input type="text" className="landingInput" placeholder="Company Name*" />
-            </div>
-            <input type="text" className="landingInput" placeholder="YourTitle" />
-            <textarea name="" id="" cols="5" className="landingInput" placeholder="What you want to say?" />
-            <div className="w-full flex justify-start">
-              <Link to={`/blogsingle`} className=" justify-start bg-gray-400 text-white font-bold px-4 py-2 w-40 text-center mt-10 border  cursor-pointer">
-                Contact
-              </Link>
-            </div>
-          </form>
+  {/* CTA Section */}
+  <div className="text-center mt-20">
+    <Link 
+      to="/insights" 
+      className="inline-block border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
+    >
+      View All Insights
+    </Link>
+  </div>
+</div>
 
+{/* New Section */}
+        <div className="bg-white py-16 px-6 md:py-20 lg:px-20 bg-emerald-50">
+  {/* Header Section */}
+  <div className="max-w-4xl mx-auto text-center mb-16">
+    <p className="text-xl md:text-2xl text-gray-500 mb-2">Industry news and what's happening</p>
+    <h2 className="text-4xl md:text-5xl font-bold text-emerald-600 underline underline-offset-4 decoration-emerald-300">
+      See What's Happening
+      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-emerald-400"></span>
+    </h2>
+  </div>
 
-        </div>
+  {/* News Grid */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+    {/* News Card 1 */}
+    <div className="group border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+      <div className="p-6">
+        <img src="./icons/forbes_logo.png" alt="Forbes" className="h-6 mb-4" />
+      </div>
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src="./landing/news1.png" 
+          alt="Rideshare Advertising" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
+          Rideshare Advertising To A New Outdoor World
+        </h3>
+        <p className="text-gray-600 mb-6 line-clamp-3">
+          How mobile advertising transforms urban landscapes and creates new opportunities for brands to engage with audiences in motion.
+        </p>
+        <Link 
+          to="/blogsingle" 
+          className="inline-flex items-center text-emerald-600 font-medium hover:text-emerald-800 transition-colors group"
+        >
+          Read News
+          <svg className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+      </div>
+    </div>
+
+    {/* News Card 2 */}
+    <div className="group border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+      <div className="p-6">
+        <img src="./icons/adobe_logo_1.png" alt="Adobe" className="h-6 mb-4" />
+      </div>
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src="./landing/news2.png" 
+          alt="Trade Conferences" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
+          12 Must-Attend Trade Conferences For Agency Professionals
+        </h3>
+        <p className="text-gray-600 mb-6 line-clamp-3">
+          Discover the most valuable industry events that will help you stay ahead in the rapidly evolving marketing landscape.
+        </p>
+        <Link 
+          to="/blogsingle" 
+          className="inline-flex items-center text-emerald-600 font-medium hover:text-emerald-800 transition-colors group"
+        >
+          Read News
+          <svg className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+      </div>
+    </div>
+  </div>
+
+  {/* CTA Section */}
+  <div className="text-center mt-16">
+    
+    <Link 
+      to="/news" 
+      className="inline-block border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
+    >
+      View All News
+    </Link>
+  </div>
+</div>
+        <div className="bg-white py-16 px-6 md:py-20 lg:px-0">
+  <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16">
+    <p className="text-xl md:text-2xl text-gray-500 mb-2">Have an idea? Let's talk!</p>
+    <h2 className="text-4xl md:text-5xl font-bold text-emerald-600 mb-4 relative pb-4">
+      What You're Thinking?
+      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-emerald-400"></span>
+    </h2>
+  </div>
+
+  <form className="max-w-3xl mx-auto px-6 md:px-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <label htmlFor="firstName" className="sr-only">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+          placeholder="First Name*"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="lastName" className="sr-only">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+          placeholder="Last Name*"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="email" className="sr-only">Email</label>
+        <input
+          type="email"
+          id="email"
+          className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+          placeholder="Email*"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="company" className="sr-only">Company Name</label>
+        <input
+          type="text"
+          id="company"
+          className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+          placeholder="Company Name*"
+          required
+        />
+      </div>
+    </div>
+
+    <div className="mb-6">
+      <label htmlFor="title" className="sr-only">Your Title</label>
+      <input
+        type="text"
+        id="title"
+        className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+        placeholder="Your Title"
+      />
+    </div>
+
+    <div className="mb-8">
+      <label htmlFor="message" className="sr-only">Your Message</label>
+      <textarea
+        id="message"
+        rows="5"
+        className="w-full px-4 py-3 border-b border-gray-300 focus:border-emerald-500 focus:outline-none transition-colors"
+        placeholder="What do you want to say?"
+        required
+      ></textarea>
+    </div>
+
+    <div className="text-right">
+      <button
+        type="submit"
+        className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-300 shadow-md hover:shadow-lg"
+      >
+        Contact Us
+      </button>
+    </div>
+  </form>
+</div>
       </div>
     </section>
   );
