@@ -1,17 +1,22 @@
 Job List
 10-JUN-2025
-Jobs						From-To			Hours		Status
+Jobs						    From-To			Hours		Status
 -----------------------------------------------------------------------------------				
-Menu Relinking			    00:00-00:00	    00:00		Undone
+Menu Relinking			        00:00-00:00	    00:00		Undone
 
 11-JUN-2025
 
-Menu Relinking              00:00-00:00     00:00       Undone
-Redesigned Landing.jsx                                  Done
-Added React Router for smoother navigation              Done
-Changing site content                                   Done
+Menu Relinking                  00:00-00:00     00:00       Undone
+Redesigned Landing.jsx                                      Done
+Added React Router for smoother navigation                  Done
+Responsiveness                                              Done
+Changing site content                                       Done
 
 12-JUN-2025
 
-Menu Relinking "Work"       00:00-00:00     00:00       Done
-Design changed of "Work"    00:00-00:00     00:00       Done
+Menu Relinking "Work"           00:00-00:00     00:00       Done
+Design changed of "Work"        00:00-00:00     00:00       Done
+Menu Relinking "News"           00:00-00:00     00:00       Done
+Menu Relinking "Investors"      00:00-00:00     00:00       Done
+
+13-JUN-2025

@@ -11,7 +11,7 @@ const Portfolio = () => {
           alt="image.."
           className="w-full h-lvh object-cover"
         />
-        <div className="absolute inset-0 bg-blue-950 opacity-80"></div>
+        <div className="absolute inset-0 bg-green-950 opacity-80"></div>
         <div className="absolute inset-0 flex flex-col sm:flex-row justify-center items-center text-white p-4">
           <div className="sm:w-[35%] w-full lg:p-4 p-2 text-left">
             <p className="text-[20px] md:text-[30px] text-[#9A9A9A]">
@@ -67,8 +67,8 @@ const Portfolio = () => {
         <img src="./portfolio/tucson_name.png" alt="" className="w-full h-auto min-w-[200px] max-w-[1200px] -mb-2 lg:-mb-5"/>
         <img src="./portfolio/hyundai_tucson.png" alt="" className="w-full h-auto min-w-[200px] max-w-[1000px] -mb-60"/>
         </div>
-      <div className="bg-[#0A2369]">
-      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-white bg-[#0A2369] pt-72 lg:pt-96 pb-40 max-w-[1200px] mx-5 md:mx-auto">
+      <div className="bg-[#10b981]">
+      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-white bg-[#10b981] pt-72 lg:pt-96 pb-40 max-w-[1200px] mx-5 md:mx-auto">
         <div className="text-[24px] min-w-[400px]">
             <p>Creative showcase</p>
             <p className="text-[40px] underline underline-offset-[15px] decoration-white decoration-4 -mt-3">The Challenge</p>
