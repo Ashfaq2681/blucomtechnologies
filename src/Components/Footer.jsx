@@ -11,9 +11,9 @@ const social_icons = ["whatsapp", "facebook", "twitter", "ball", "pinterest", "l
 
 const Footer = () => {
   return (
-    <footer className="">
-        <div className="bg-[#1E2832] flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] p-20 text-[16px]">
-            <img src="/icons/logofooter.png" alt="bluccom technologies logo footer" className="w-[120px] h-[130px]"/>
+    <footer className="bg-[#1E2832] pt-20 px-10 sm:px-20">
+        <div className="flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] text-[16px]">
+            <img src="/icons/logofooter.svg" alt="bluccom technologies logo footer" className="w-[120px] h-[130px]"/>
             <div className="flex flex-col">
                 <p className="font-bold mb-2">About us</p>
                 {footerLinks.map((items, index) => (
@@ -28,13 +28,13 @@ const Footer = () => {
             </div>
             <form action="">
                 <label htmlFor="">Newsletter</label>
-                <div className="flex flex-row flex-wrap w-auto">
-                <input type="email" className="outline-none border border-[#727277] px-3 bg-transparent w-auto"/>
-                <button type="submit" className="bg-[#727277] text-white py-2 px-5">Let&apos;s Go</button>
+                <div className="flex flex-row flex-wrap w-auto gap-4">
+                    <input type="email" className="outline-none border border-[#727277] px-3 bg-transparent w-auto"/>
+                    <button type="submit" className="bg-[#727277] text-white py-2 px-5">Let&apos;s Go</button>
                 </div>
             </form>
         </div>
-        <div className="flex flex-col gap-5 items-end pr-40 bg-[#1E2832] text-[#727277]">
+        <div className="flex flex-col gap-5 items-end pt-20 sm:pr-40 bg-[#1E2832] text-[#727277]">
             <p className="text-[24px] mr-32">We are Too Social</p>
             <div className="bg-[#1E2832] flex flex-row gap-5 pb-5 -mt-2 mb-2">
                 {social_icons.map((item, index) => (

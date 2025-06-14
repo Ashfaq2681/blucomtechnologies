@@ -36,15 +36,15 @@ const About = () => {
     <div>
       <Header/>
       <section>
-          <div className="relative bg-[linear-gradient(92.76deg,_#10b981_20.14%,_#1da075_87.31%)]">
+        <div className="relative bg-[linear-gradient(92.76deg,_#10b981_20.14%,_#1da075_87.31%)]">
           <img
             loading="lazy"
             src="/about/sec1_bg.png"
             alt="bg image"
-            className="absolute -z-1 h-full"
+            className="absolute h-full"
           />
-          <div className="inset-0 flex sm:flex-row justify-center items-center text-white px-4 py-[100px]">
-            <div className="sm:w-[70%] lg:w-[50%] w-full lg:p-4 p-2 text-left flex flex-col max-w-[600px]">
+          <div className="flex flex-col-reverse sm:flex-row justify-center items-center text-white px-4 py-[100px]">
+            <div className="sm:w-[70%] lg:w-[50%] w-full lg:p-4 p-2 text-left flex flex-col max-w-[600px] mt-[80px] sm:mt-0">
               <p className="text-[50px] font-bold leading-tight">
               Creative Driven, with analytical approach
               </p>
@@ -52,11 +52,11 @@ const About = () => {
               As the most awarded b2d branding agency in texas we know how to combine customer insights with impactful content to get your brand from the top of the list to the dotted line.
               </p>
             </div>
-            <div className="w-2/5 relative">
+            <div className="sm:w-2/5 relative">
               <img src="./about/about_hero.png" alt="about hero" />
-              <div className="flex flex-col justify-center items-center w-[140px] aspect-square shadow-2xl absolute top-[70%] -left-[10%] bg-white text-[#10b981] leading-none">
-                <p className="font-bold text-[40px]">283</p>
-                <p className="text-[20px]">awards</p>
+              <div className="flex flex-col justify-center items-center w-1/3 aspect-square shadow-2xl absolute top-[80%] left-[10%] sm:top-[70%] sm:-left-[10%] bg-white text-[#10b981] leading-none">
+                <p className="font-bold text-[25px] sm:text-[40px]">283</p>
+                <p className="sm:text-[20px]">awards</p>
               </div>
             </div>
           </div>
@@ -127,17 +127,17 @@ const About = () => {
           <button className="py-1 px-5 text-[#5F5F5F] text-[20px] font-bold bg-white mt-5">Get Started</button>
         </div>
         <div className="flex flex-col py-20 px-10 md:px-0 text-[#727277]">
-          <div className="flex flex-col m-10 leading-none">
+          <div className="flex flex-col sm:m-10 leading-none">
             <p className="text-[24px]">Have and idea? lets talk!</p>
             <p className="text-[60px] text-[#10b981] underline decoration-[#1E2832] decoration-4">
               What you&apos;re Thinking?
             </p>
           </div>
-          <form action="" className="flex flex-col gap-6 w-full max-w-[1300px] px-10">
+          <form action="" className="flex flex-col gap-6 w-full max-w-[1300px] sm:px-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[30px]">
-              <input type="text" className="landingInput pt-6" placeholder="First Name*" />
+              <input type="text" className="landingInput sm:pt-6" placeholder="First Name*" />
               <input type="text" className="landingInput" placeholder="Last Name*" />
-              <input type="email" className="landingInput pt-6" placeholder="Email*" />
+              <input type="email" className="landingInput sm:pt-6" placeholder="Email*" />
               <input type="text" className="landingInput" placeholder="Company Name*" />
             </div>
             <input type="text" className="landingInput" placeholder="YourTitle" />

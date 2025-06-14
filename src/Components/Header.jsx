@@ -20,18 +20,15 @@ const Header = () => {
       <nav className="flex justify-between items-center px-8 shadow-xl py-[14px]">
         <a href="/" aria-label="blucomtechnologies Home">
           <div className="flex items-center">
-            <div className="flex justify-center w-[50px] h-[50px] border-2 border-[#727277] p-[10px]">
-              <img
-                loading="lazy"
-                src="/logo.svg"
-                alt="blucomtechnologies Logo"
-                className="w-[16px]"
-              />
-            </div>
+            <img
+              loading="lazy"
+              src="/logo.svg"
+              alt="blucomtechnologies Logo"
+              className="w-[24px]"
+            />
             <div className="uppercase leading-none ml-[20px] font-bold text-[#727277] text-[16px]">
-              <p>Blu</p>
-              <p>Square</p>
-              <p className="text-[12px] font-light leading-[1.4]">Communications</p>
+              <p>BLUCOM</p>
+              <p className="text-[12px] font-light leading-[1.4]">Technologies</p>
             </div>
           </div>
         </a>
@@ -64,7 +61,7 @@ const Header = () => {
             />
           </button>
           <div
-            className={`${mobileMenuOpen ? "flex" : "hidden"} p-10 border border-gray-300 rounded-lg items-center flex-col absolute top-0 left-0 bg-white mt-[30px] gap-[10px] w-auto -ml-[100px]`}
+            className={`${mobileMenuOpen ? "flex" : "hidden"} p-10 border border-gray-300 rounded-lg items-center flex-col absolute top-0 left-0 bg-white mt-[30px] gap-[10px] w-auto -ml-[100px] z-10`}
             role="menu"
           >
             {nav_links.map((item, index) => (

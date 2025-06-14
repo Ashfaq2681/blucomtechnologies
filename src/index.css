@@ -16,6 +16,8 @@
         text-[#727277]
         text-[24px]
         placeholder:text-[16px]
+        mt-[20px]
+        sm:mt-0
 }
 
 html, body {

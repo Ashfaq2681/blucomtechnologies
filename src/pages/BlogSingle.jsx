@@ -137,8 +137,8 @@ export default function BlogSingle() {
               <b className="text-black">5. Highlight Media Mentions and Accolades:</b> Features in reputable publications or industry awards serve as third-party endorsements, bolstering your brand&apos;s credibility. An &quot;As Seen In&quot; section on your website can effectively showcase these accolades.
             </p>
           </div>
-          <div className="w-[40%]">
-            <p className="text-[1.8rem] leading-8 text-black">
+          <div className="sm:w-[40%]">
+            <p className="text-[1.8rem] leading-8 text-black bg-red-200">
               Consider the psychology at play Your next purchase is just one recommendation away. And nothing builds trust faster than real people vouching for your brand
             </p>
             <br />

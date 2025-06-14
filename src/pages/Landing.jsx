@@ -105,14 +105,14 @@ const Landing = () => {
           </script>
         </Helmet>
 
-        <div className="flex mt-[20px]">
-          <div className="flex flex-col w-[40%] mt-[200px] ml-[50px] leading-none">
+        <div className="flex flex-col-reverse mt-[20px] sm:flex-row sm:items-center">
+          <div className="flex flex-col sm:w-[40%] sm:mt-[200px] leading-none mx-[20px] sm:ml-[50px]">
             <p className="text-[30px] text-[#727277] -mb-[12px]">It starts from</p>
               <br />
               <p className="text-[70px] text-[#10b981] underline decoration-8 decoration-[#86efac]">Simple Idea</p>
               <br />
             <p className="text-[30px] text-[#727277]">to next unicorn</p>
-            <div className="mt-24">
+            <div className="my-8 sm:my-24">
               <p className="text-[#727277]">We create valuable brands for your customers rather than just a simple visual. We exist to put all our effort into not only creating beautiful visuals but also strategic experiences.</p>
             </div>
           </div>
@@ -120,12 +120,12 @@ const Landing = () => {
             loading="lazy"
             src="/landing/hero.png"
             alt="Brand Strategy & Digital Solutions"
-            className="w-[60%] aspect-square"
+            className="w-full sm:w-[60%] aspect-square"
           />
         </div>
 
-        <div className="flex justify-center text-white pt-[100px] pb-[60px] bg-[linear-gradient(92.76deg,_#10b981_20.14%,_#1da075_87.31%)]">
-          <div className="sm:w-[70%] lg:w-[70%] lg:p-4 p-2 text-left flex flex-col">
+        <div className="flex justify-center text-white py-[40px] px-[10px] sm:pt-[100px] sm:pb-[60px] bg-[linear-gradient(92.76deg,_#10b981_20.14%,_#1da075_87.31%)]">
+          <div className="sm:w-[70%] lg:p-4 p-2 text-left flex flex-col">
             <p className="-mb-[16px]">Let&apos;s Build Your Brand</p>
             <p className="text-[60px] underline underline-offset-[15px] decoration-2">
               Beyond Visuals
@@ -165,13 +165,13 @@ const Landing = () => {
         </div>
 
 
-        <div className="flex text-[#727277] leading-none">
+        <div className="flex flex-col sm:flex-row text-[#727277] leading-none">
           <img
             src="/landing/tucson.png"
             alt="tucson"
-            className="w-1/2 aspect-auto"
+            className="sm:w-1/2 aspect-auto"
           />
-          <div className="flex flex-col justify-center m-20">
+          <div className="flex flex-col justify-center mx-[20px] my-[40px] sm:m-20">
             <p className="text-[24px]">Hyundai Pakistan</p>
             <p className="text-[60px] text-[#10b981] underline decoration-[#1E2832] decoration-4">
               TUSCON 2020
@@ -186,8 +186,8 @@ const Landing = () => {
             </p>
           </div>
         </div>
-        <div className="flex text-[#727277] leading-none">
-          <div className="flex flex-col justify-center items-end text-end m-20">
+        <div className="flex flex-col-reverse sm:flex-row text-[#727277] leading-none">
+          <div className="flex flex-col justify-center sm:items-end sm:text-end mx-[20px] my-[40px] sm:m-20">
             <p className="text-[24px]">Codility Hub Technologies</p>
             <p className="text-[60px] text-[#10b981] underline decoration-[#1E2832] decoration-4">
               Interaction Design
@@ -204,16 +204,16 @@ const Landing = () => {
           <img
             src="/landing/toyota.png"
             alt="toyota"
-            className="w-1/2 aspect-auto"
+            className="sm:w-1/2 aspect-auto"
           />
         </div>
-        <div className="flex text-[#727277] leading-none">
+        <div className="flex flex-col sm:flex-row text-[#727277] leading-none">
           <img
             src="/landing/interactive_design.png"
             alt="tucson"
-            className="w-1/2 aspect-auto"
+            className="sm:w-1/2 aspect-auto"
           />
-          <div className="flex flex-col justify-center m-20">
+          <div className="flex flex-col justify-center mx-[20px] my-[40px] sm:m-20">
             <p className="text-[24px]">Codility hub technologies</p>
             <p className="text-[60px] text-[#10b981] underline decoration-[#1E2832] decoration-4">
               Interaction Design
@@ -310,8 +310,8 @@ const Landing = () => {
                 As a guiding light for the brands
               </p>
             </div>
-            <div className="flex justify-center max-w-[1200px] gap-[20px]">
-              <div className="flex flex-col gap-5 justify-start items-start w-1/2">
+            <div className="flex flex-col sm:flex-row justify-center max-w-[1200px] gap-[20px]">
+              <div className="flex flex-col gap-5 justify-start items-start sm:w-1/2">
                 <p className="underline decoration-[#1E2832]/30 decoration-2">INSIGHTS</p>
                 <img src="/landing/insight1.jpg" alt="insight" className="w-full" />
                 <p className="text-[30px]">Why attention economy is becoming new ecomony, and how brands can take leverage</p>
@@ -319,7 +319,7 @@ const Landing = () => {
                   ic theory to solve various information management problems</p>
                 <button className="font-bold text-[20px] underline decoration-[#1E2832]/30 decoration-2">Read Report</button>
               </div>
-              <div className="flex flex-col gap-5 justify-start items-start  w-1/2">
+              <div className="flex flex-col gap-5 justify-start items-start sm:w-1/2">
                 <p className="underline decoration-[#1E2832]/30 decoration-2">INSIGHTS</p>
                 <img src="/landing/insight2.jpg" alt="insight" className="w-full" />
                 <p className="text-[30px]">The art of visual communication, how visual grammer can be utilized by the brands</p>
@@ -344,10 +344,10 @@ const Landing = () => {
                 As a guiding light for the brands
               </p>
             </div>
-              <div className="flex justify-center max-w-[1200px] gap-[20px]">
-                <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
+            <div className="flex flex-col sm:flex-row justify-center max-w-[1200px] gap-[20px]">
+              <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
                 <img src="./icons/forbes_logo.png" alt="forbes logo" className="w-[80px] h-[30px]" />
-                <img src="./landing/news1.png" alt="insight" className="w-[600px] h-[350px]" />
+                <img src="./landing/news1.png" alt="insight" className="w-full" />
                 <p className="text-[30px]">Rideshare Advertising To A New Outdoor World</p>
                 <p className="text-[18px]">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
                   ic theory to solve various information management problems</p>
@@ -355,7 +355,7 @@ const Landing = () => {
               </div>
               <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
                 <img src="./icons/adobe_logo_1.png" alt="adobe logo" className="w-[70px] h-[30px]" />
-                <img src="./landing/news2.png" alt="insight" className="w-[600px] h-[350px]" />
+                <img src="./landing/news2.png" alt="insight" className="w-full" />
                 <p className="text-[30px]">12 Must-Attend Trade Conferences For Agency Professionals</p>
                 <p className="text-[18px]">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
                   ic theory to solve various information management problems</p>
@@ -368,17 +368,17 @@ const Landing = () => {
           </div>
         </div>
         <div className="flex flex-col py-20 px-10 md:px-0 text-[#727277]">
-          <div className="flex flex-col m-10 leading-none">
+          <div className="flex flex-col sm:m-10 leading-none">
             <p className="text-[24px]">Have and idea? lets talk!</p>
             <p className="text-[60px] text-[#10b981] underline decoration-[#1E2832] decoration-4">
               What you&apos;re Thinking?
             </p>
           </div>
-          <form action="" className="flex flex-col gap-6 w-full max-w-[1300px] px-10">
+          <form action="" className="flex flex-col gap-6 w-full max-w-[1300px] sm:px-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[30px]">
-              <input type="text" className="landingInput pt-6" placeholder="First Name*" />
+              <input type="text" className="landingInput sm:pt-6" placeholder="First Name*" />
               <input type="text" className="landingInput" placeholder="Last Name*" />
-              <input type="email" className="landingInput pt-6" placeholder="Email*" />
+              <input type="email" className="landingInput sm:pt-6" placeholder="Email*" />
               <input type="text" className="landingInput" placeholder="Company Name*" />
             </div>
             <input type="text" className="landingInput" placeholder="YourTitle" />
