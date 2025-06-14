@@ -38,6 +38,7 @@ const About = () => {
       <section>
           <div className="relative bg-[linear-gradient(92.76deg,_#10b981_20.14%,_#1da075_87.31%)]">
           <img
+            loading="lazy"
             src="/about/sec1_bg.png"
             alt="bg image"
             className="absolute -z-1 h-full"

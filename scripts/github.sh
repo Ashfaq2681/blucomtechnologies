@@ -1,4 +1,4 @@
-@echo off
+#!/bin/bash
 
 npm run build
 cd ./dist

@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer className="">
         <div className="bg-[#1E2832] flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] p-20 text-[16px]">
-            <img src="./src/assets/logofooter.svg" alt="bluccom technologies logo footer" className="w-[120px] h-[130px]"/>
+            <img src="/icons/logofooter.png" alt="bluccom technologies logo footer" className="w-[120px] h-[130px]"/>
             <div className="flex flex-col">
                 <p className="font-bold mb-2">About us</p>
                 {footerLinks.map((items, index) => (
