@@ -88,8 +88,9 @@ export default function AdminDashboard() {
 
             {/* Article Upload Form */}
             <form onSubmit={handleArticleSubmit} style={{ background: "white", padding: "16px", borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", marginTop: "16px" }}>
-              <label style={{ fontWeight: "bold", color: "#374151" }}>Article Title</label>
+              <label htmlFor="admin-article-title" style={{ fontWeight: "bold", color: "#374151" }}>Article Title</label>
               <input
+                id="admin-article-title"
                 type="text"
                 value={articleTitle}
                 onChange={(e) => setArticleTitle(e.target.value)}
@@ -98,8 +99,9 @@ export default function AdminDashboard() {
                 required
               />
 
-              <label style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Article Content</label>
+              <label htmlFor="admin-article-content" style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Article Content</label>
               <textarea
+                id="admin-article-content"
                 value={articleContent}
                 onChange={(e) => setArticleContent(e.target.value)}
                 style={{ width: "100%", padding: "8px", borderRadius: "4px", marginTop: "8px" }}
@@ -108,8 +110,9 @@ export default function AdminDashboard() {
                 required
               ></textarea>
 
-              <label style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Schedule Date</label>
+              <label htmlFor="admin-schedule-date" style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Schedule Date</label>
               <input
+                id="admin-schedule-date"
                 type="date"
                 value={scheduleDate}
                 onChange={(e) => setScheduleDate(e.target.value)}

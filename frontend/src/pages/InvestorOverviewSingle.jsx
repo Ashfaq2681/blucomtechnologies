@@ -95,7 +95,7 @@ export default function InvestorOverviewSingle() {
               placeholder="First Name*"
               required
             />
-            <label htmlFor="fname" className="text-3xl">
+            <label htmlFor="phone" className="text-3xl">
               *
             </label>
           </div>
