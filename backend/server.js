@@ -27,7 +27,13 @@ app.use("/api/user", userRoute);
 // 5️⃣ Connect MongoDB in Your Backend (Server.js)
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL_BlucomTech, {
+    const mongoUri = process.env.MONGO_URL_BlucomTech || process.env.ATLAS_URI;
+
+    if (!mongoUri) {
+      throw new Error("MongoDB connection string is missing. Set ATLAS_URI or MONGO_URL_BlucomTech in .env.");
+    }
+
+    await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

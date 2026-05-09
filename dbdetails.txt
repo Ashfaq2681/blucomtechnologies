@@ -1,0 +1,12 @@
+LocalHost:
+    
+
+
+
+
+
+
+Server:
+Database Name   :   blucdagn_contact_form
+Database User   :   blucdagn_admin
+Database pass   :   )&]x;#^F,ND7
