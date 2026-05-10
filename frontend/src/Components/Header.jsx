@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { nav_links } from ".";
-
+import logo from "../assets/logo-min.png";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -10,7 +10,7 @@ const Header = () => {
         <a href="/" aria-label="blucomtechnologies Home">
 
           {/* Seo section end) img src="./src/assets/logo.png" alt="blucomtechnologies Logo" className="h-[31px] w-[150px] md:h-[40px] md:w-[auto]"*/ }
-          <img src="./src/assets/logo-min.png" alt="insight" className="w-[auto] h-[40px]" />
+          <img src={logo} alt="insight" className="w-auto h-[40px]" />
         </a>
         <div className="hidden md:flex flex-row justify-center items-center md:gap-7 lg:gap-14 xl:gap-20">
           {nav_links.map((item, index) => (

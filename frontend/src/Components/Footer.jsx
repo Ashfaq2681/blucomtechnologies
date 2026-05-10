@@ -1,3 +1,4 @@
+import footerLogo from "../assets/logofooter-min.png";
 const footerLinks = [
   { title: "Work", Link: "/work" },
   { title: "Expertise", Link: "/expertise" },
@@ -23,7 +24,7 @@ const Footer = () => {
     <footer className="text-lg text-gray-500">
       <div className="bg-[#1E2832] flex flex-col md:flex-row flex-wrap justify-start md:justify-center gap-16 lg:gap-24 xl:gap-40 text-[#727277] p-20 text-[16px]">
         <img
-          src="./src/assets/logofooter-min.png"
+          src={footerLogo}
           alt="Blucom Technologies"
           className="w-auto h-[130px]"
         />

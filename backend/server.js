@@ -1,56 +1,68 @@
 require("dotenv").config();
+
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const userRoute = require("./routes/user");
+
+const { pool, query, initializeDatabase } = require("./config/db");
+const postRoutes = require("./routes/postRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const createBlogsRouter = require("./routes/blogs");
+const createPublicBlogsRouter = require("./routes/publicBlogs");
+const ensureBlogTables = require("./utils/ensureBlogTables");
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// 1️⃣ Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// 2️⃣ Static file handling for uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// 3️⃣ Logging middleware
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// 4️⃣ API Routes
-app.use("/api/user", userRoute);
-
-// 5️⃣ Connect MongoDB in Your Backend (Server.js)
-const connectDB = async () => {
+app.get("/api/user/getarticles", async (req, res) => {
   try {
-    const mongoUri = process.env.MONGO_URL_BlucomTech || process.env.ATLAS_URI;
+    await ensureBlogTables();
 
-    if (!mongoUri) {
-      throw new Error("MongoDB connection string is missing. Set ATLAS_URI or MONGO_URL_BlucomTech in .env.");
-    }
+    const rows = await query(
+      `SELECT title, image, content
+       FROM posts
+       WHERE status = 'published'
+       ORDER BY created_at DESC`,
+    );
 
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("✅ MongoDB Connected Successfully");
-
-    // Start server only after successful DB connection
-    app.listen(process.env.PORT, () => {
-      console.log(`🚀 Server running on port ${process.env.PORT}`);
+    return res.status(200).json({
+      status: "ok",
+      data: rows.map((row) => ({
+        title: row.title,
+        image: row.image,
+        description: row.content,
+      })),
     });
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
-    process.exit(1); // Exit process if connection fails
+    console.error("[legacy articles][list]", error);
+    return res.status(500).json({ error: "Failed to retrieve articles" });
   }
+});
+
+app.use("/api", postRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api/blogs", createBlogsRouter({ queryAsync: query }));
+app.use("/blogs", createPublicBlogsRouter({ queryAsync: query }));
+
+const startServer = async () => {
+  await initializeDatabase();
+  await pool.query("SELECT 1");
+  console.log("MySQL connected successfully.");
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 };
 
-// Call the MongoDB connection function
-connectDB();
-const articleRoutes = require("./routes/articleRoutes");
-
-app.use("/api/articles", articleRoutes);
+startServer();
