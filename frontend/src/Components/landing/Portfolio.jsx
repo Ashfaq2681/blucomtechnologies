@@ -36,16 +36,16 @@ const portfolioItems = [
 
 const PortfolioText = ({ item }) => (
   <div className={`w-full md:w-1/2 flex flex-col justify-center items-center ${item.alignEnd ? "md:items-end" : "md:items-start"} p-6 md:p-12`}>
-    <p className="text-2xl text-gray-500">{item.name}</p>
+    <p className="text-2xl text-gray-900">{item.name}</p>
     <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
       {item.title}
     </p>
-    <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
+    <div className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">
       {item.tags.map((tag) => (
         <p key={tag}>{tag}</p>
       ))}
     </div>
-    <p className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
+    <p className="text-lg text-gray-900 mt-10 leading-normal text-left md:text-left">
       {item.description}
     </p>
   </div>

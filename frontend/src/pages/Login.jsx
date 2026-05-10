@@ -32,7 +32,7 @@ export default function Login() {
         width: "320px",
         textAlign: "center"
       }}>
-        <h2 style={{ marginBottom: "16px", color: "#374151" }}>Admin Login</h2>
+        <h2 style={{ marginBottom: "16px", color: "#111827" }}>Admin Login</h2>
         <input
           type="email"
           placeholder="Email"

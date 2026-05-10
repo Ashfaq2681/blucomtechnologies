@@ -78,7 +78,7 @@ const BrandStrategyBento = () => {
                 <CheckCircle2 className="text-[#00AE80] shrink-0" size={18} />
                 <div>
                   <span className="font-black text-xs block">{item.t}</span>
-                  <span className="text-xs text-gray-600">{item.d}</span>
+                  <span className="text-xs text-gray-900">{item.d}</span>
                 </div>
               </li>
             ))}
@@ -101,7 +101,7 @@ const BrandStrategyBento = () => {
                 </div>
                 <div>
                   <h4 className="font-black text-sm mb-2">{item.name}</h4>
-                  <p className="text-gray-600 text-xs leading-relaxed">{item.text}</p>
+                  <p className="text-gray-900 text-xs leading-relaxed">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -142,15 +142,15 @@ const BrandStrategyBento = () => {
           <div className="space-y-4">
             <div className="flex gap-3">
                <MapPin size={16} className="text-gray-400" />
-               <p className="text-[10px] text-gray-500 font-medium">Islamabad</p>
+               <p className="text-[10px] text-gray-900 font-medium">Islamabad</p>
             </div>
             <div className="flex gap-3">
                <Mail size={16} className="text-gray-400" />
-               <p className="text-[10px] text-gray-500 font-medium">connect@blucomtechnologies.com</p>
+               <p className="text-[10px] text-gray-900 font-medium">connect@blucomtechnologies.com</p>
             </div>
             <div className="flex gap-3">
                <Phone size={16} className="text-gray-400" />
-               <p className="text-[10px] text-gray-500 font-medium">+92-303-5907230 | +92-334-0011126</p>
+               <p className="text-[10px] text-gray-900 font-medium">+92-303-5907230 | +92-334-0011126</p>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet"; // Import Helmet for SEO
@@ -108,7 +107,7 @@ export default function Careers() {
         </div>
       </div>
       <div className="w-[80%] mx-auto">
-        <div className="text-gray-600 grid sm:grid-cols-3 grid-cols-2 md:w-[65%] my-10 sm:my-20  mx-auto">
+        <div className="text-gray-900 grid sm:grid-cols-3 grid-cols-2 md:w-[65%] my-10 sm:my-20  mx-auto">
           {links.map((link, key) => (
             <div className="flex flex-col items-center" key={key}>
               <img src={link.src} alt="img" className="h-32" />
@@ -119,7 +118,7 @@ export default function Careers() {
           ))}
         </div>
         <div className="flex flex-col-reverse sm:flex-row gap-8 items-center my-10 sm:my-20 justify-between">
-          <div className="text-gray-500 sm:w-[50%]">
+          <div className="text-gray-900 sm:w-[50%]">
             <p className="text-lg">Some of our</p>
             <h1 className="text-[#00AE80] text-4xl font-medium underline my-1">
               Dear Rule Breaker
@@ -141,7 +140,7 @@ export default function Careers() {
           </div>
         </div>
         <div className="">
-          <div className="text-gray-600">
+          <div className="text-gray-900">
             <p className="text-lg">Some of our</p>
             <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
               Open Positions
@@ -150,7 +149,7 @@ export default function Careers() {
               Risk Takers, opportunity makers
             </p>
           </div>
-          <div className="text-gray-600">
+          <div className="text-gray-900">
             {jobs.map((job,key)=>(
             <div className="my-8" key={key}>
                 <h1 className="text-2xl underline my-2 text-gray-800">{job.title}</h1>

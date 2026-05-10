@@ -55,7 +55,7 @@ const ContentStrategy = () => {
                   <span className="text-[10px] font-black text-[#00AE80] tracking-widest">engagement lift</span>
                 </div>
                 <h3 className="text-4xl font-black text-[#011f18]">+67%</h3>
-                <p className="text-xs text-gray-500 leading-relaxed font-medium">
+                <p className="text-xs text-gray-900 leading-relaxed font-medium">
                   Average engagement increase for organizations with well-defined content strategies.
                 </p>
                 <div className="h-px w-full bg-gray-50"></div>
@@ -93,7 +93,7 @@ const ContentStrategy = () => {
                   <item.icon size={28} />
                 </div>
                 <h4 className="font-black text-sm mb-2">{item.title}</h4>
-                <p className="text-xs text-gray-600 leading-relaxed">{item.d}</p>
+                <p className="text-xs text-gray-900 leading-relaxed">{item.d}</p>
               </div>
             ))}
           </div>
@@ -123,7 +123,7 @@ const ContentStrategy = () => {
               <div className="p-6 bg-white border border-gray-200">
                 <Share2 className="text-[#00AE80] mb-4"/>
                 <h4 className="font-black text-xs mb-2">cross-platform synergy</h4>
-                <p className="text-[10px] text-gray-600 leading-relaxed">From LinkedIn for B2B engagement to Instagram for storytelling, every channel is executed for measurable impact.</p>
+                <p className="text-[10px] text-gray-900 leading-relaxed">From LinkedIn for B2B engagement to Instagram for storytelling, every channel is executed for measurable impact.</p>
               </div>
               <div className="p-6 bg-[#00AE80] text-white">
                 <Zap className="mb-4"/>
@@ -140,7 +140,7 @@ const ContentStrategy = () => {
         <div className="max-w-4xl mx-auto text-center">
           <Quote className="mx-auto text-gray-300 mb-6" size={60} />
           <h3 className="text-3xl font-black mb-6 text-[#00AE80] italic">"Credibility is currency."</h3>
-          <p className="text-gray-600 text-sm leading-relaxed mb-8">
+          <p className="text-gray-900 text-sm leading-relaxed mb-8">
             Through thought leadership, research-backed articles, and multi-channel campaigns, we create trust, nurture leads, and accelerate conversions.
           </p>
           <div className="flex justify-center gap-12">
@@ -151,7 +151,7 @@ const ContentStrategy = () => {
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <span className="block text-2xl font-black text-[#011f18]">{stat.v}</span>
-                <span className="text-[9px] text-gray-500 font-bold">{stat.l}</span>
+                <span className="text-[9px] text-gray-900 font-bold">{stat.l}</span>
               </div>
             ))}
           </div>
@@ -176,7 +176,7 @@ const ContentStrategy = () => {
 
           <div className="bg-gray-50 p-6 border border-gray-200">
             <h5 className="font-black text-xs mb-2">continuous optimization</h5>
-            <p className="text-[10px] font-bold mb-4 text-gray-600">Regular audits and performance reviews ensure your brand achieves sustainable growth.</p>
+            <p className="text-[10px] font-bold mb-4 text-gray-900">Regular audits and performance reviews ensure your brand achieves sustainable growth.</p>
             <button className="flex items-center justify-center w-full bg-[#00AE80] text-white py-3 font-black text-[10px] hover:bg-[#00FFC2] transition-all gap-2">
               Audit my content <MousePointer2 size={14}/>
             </button>

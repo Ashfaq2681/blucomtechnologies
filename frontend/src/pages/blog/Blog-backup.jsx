@@ -89,7 +89,7 @@ export default function News() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {news.slice(0, showMore ? news.length : 4).map((newsItem, index) => (
-            <article className="text-gray-600" key={index}>
+            <article className="text-gray-900" key={index}>
               <h3 className="uppercase py-2 text-sm text-[#00AE80]">News</h3>
               <div className="h-60 bg-gray-300">
                 <img

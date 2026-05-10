@@ -1,232 +1,224 @@
-import React from 'react'; 
-import { Helmet } from 'react-helmet';
+import React from 'react';
 import { 
-  Fingerprint, MousePointer2, Zap, Share2, Activity, Cpu, 
-  BarChart3, Expand, Layers, Infinity, Mail, MapPin, 
-  Phone, Spline, HandMetal, Network, ArrowUpRight, Check 
+  Fingerprint, 
+  MousePointer2, 
+  Zap, 
+  Share2, 
+  Activity, 
+  Cpu, 
+  BarChart3, 
+  Expand, 
+  Layers, 
+  Infinity,
+  Mail,
+  MapPin,
+  Phone,
+  Spline,
+  HandMetal,
+  Network
 } from 'lucide-react';
 
-const InteractionAssetsLab = () => {
+const InteractionNetwork = () => {
   return (
-    <div className="bg-white text-[#011f18] font-sans selection:bg-[#00FFC2] selection:text-[#011f18] overflow-x-hidden">
-
-      {/* SEO Metadata & Social Schema */}
-      <Helmet>
-        <title>Strategic interaction assets & experience design | Blucom Islamabad</title>
-        <meta name="description" content="Elevate your brand with expertly designed interaction assets. Boost engagement and digital growth with our interactive content solutions in Islamabad." />
-        <meta name="keywords" content="Interaction assets development, digital marketing agency Islamabad, brand identity design, digital marketing growth strategy, B2B marketing solutions, social media engagement strategy, AI-driven marketing" />
-        <meta name="robots" content="index, follow" />
-        <script type="application/ld+json">
-          {`
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "name": "Interaction Assets Development",
-            "provider": {
-              "@type": "Organization",
-              "name": "Blucom Technologies",
-              "url": "https://www.blucomtechnologies.com"
-            },
-            "description": "Designing and developing interaction assets that turn static impressions into dynamic engagement and measurable growth.",
-            "areaServed": "Islamabad, Pakistan",
-            "hasOfferCatalog": {
-              "@type": "OfferCatalog",
-              "name": "Digital Interaction Services",
-              "itemListElement": [
-                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "B2B Configurators" } },
-                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interactive Whitepapers" } },
-                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gamified Brand Experiences" } }
-              ]
-            }
-          }
-          `}
-        </script>
-      </Helmet>
-
-      {/* 1. Hero Section - Light Variation */}
-      <section className="relative pt-44 pb-32 px-6 overflow-hidden bg-[#F7FDFB] border-b border-gray-100">
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 60H0V0h60v60zM1 1v58h58V1H1z' fill='%2300AE80' fill-rule='evenodd'/%3E%3C/svg%3E")` }}></div>
+    <div className="bg-white text-[#011f18] font-sans selection:bg-[#00FFC2] overflow-x-hidden">
+      
+      {/* 1. THE PULSE (Hero Section) */}
+      <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-[radial-gradient(circle_at_top_right,#00AE8008,transparent_50%)]">
+        {/* Animated Background Nodes */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-[#00AE80]/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-64 h-64 bg-[#00AE80]/5 rounded-full blur-[100px]"></div>
+        
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col items-center text-center mb-24">
-            <div className="inline-flex items-center gap-3 px-5 py-2 bg-white border border-emerald-100 mb-10 shadow-sm">
-              <Activity size={14} className="text-emerald-500" />
-              <span className="text-[10px] font-black tracking-[0.4em] text-emerald-500 ">Interaction protocol v.26</span>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F0FDFA] border border-[#00AE80]/10 rounded-full mb-8">
+              <Activity size={14} className="text-[#00AE80]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#00AE80]">Live Interaction Protocol</span>
             </div>
-            <h1 className="text-6xl md:text-[9rem] font-black leading-[0.85] tracking-tighter mb-12">
-              Beyond<br/>
-              <span className="text-emerald-500">static.</span>
+            <h1 className="text-6xl md:text-[8.5rem] font-black leading-[0.8] tracking-tighter uppercase mb-12">
+              BEYOND<br/>
+              <span className="text-[#00AE80] italic">STATIC.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 font-medium max-w-4xl leading-relaxed lowercase first-letter:">
-              Brands are no longer defined solely by visual identity—they are defined by <span className="text-[#011f18] underline decoration-[#00FFC2] decoration-4 underline-offset-4">experiences</span>. We turn static impressions into dynamic engagement assets.
+            <p className="text-xl md:text-2xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed">
+              Brands are no longer defined solely by visual identity—they are defined by <span className="text-[#011f18] font-bold">experiences</span>. We turn static impressions into dynamic engagement.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-0 border border-gray-200 shadow-2xl">
-            <div className="bg-white p-14 border-r border-gray-100 group transition-colors hover:bg-[#F8FAFC]">
-              <MousePointer2 className="text-emerald-500 mb-8" size={32} />
-              <h4 className="text-6xl font-black tracking-tighter mb-4 italic">70%</h4>
-              <p className="text-xs font-bold tracking-widest text-gray-400 leading-relaxed">
-                Higher engagement compared to traditional static content systems.
-              </p>
-            </div>
-            <div className="bg-emerald-500 p-14 flex flex-col justify-center border-r border-gray-100">
-              <Zap className="text-white mb-8" size={32} />
-              <h4 className="text-2xl font-black tracking-tighter mb-4 leading-none text-white">The heartbeat of growth strategy</h4>
-              <p className="text-[11px] leading-relaxed font-bold opacity-70 tracking-wider text-white">
-                Optimizing conversions, reducing bounce rates, and enhancing strategy outcomes.
-              </p>
-            </div>
-            <div className="bg-white p-14 group transition-colors hover:bg-[#F8FAFC]">
-              <Share2 className="text-emerald-500 mb-8" size={32} />
-              <h4 className="text-xs font-black tracking-[0.2em] mb-4 ">Social synergy</h4>
-              <p className="text-xs font-bold tracking-widest text-gray-400 leading-relaxed">
-                Integrated with instagram and linkedin brand strategies for maximum recall.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-8">
+             <div className="bg-white/40 backdrop-blur-md border border-gray-100 p-10 rounded-[40px] shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <MousePointer2 className="text-[#00AE80] mb-6 group-hover:scale-110 transition-transform" />
+                <h4 className="text-4xl font-black tracking-tighter mb-2">70%</h4>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Higher engagement compared to static content.</p>
+             </div>
+             <div className="bg-[#011f18] p-10 rounded-[40px] text-white md:scale-110 shadow-2xl relative overflow-hidden">
+                <div className="relative z-10">
+                   <Zap className="text-[#00FFC2] mb-6" />
+                   <h4 className="text-xl font-black uppercase tracking-tighter mb-4 leading-tight text-[#00FFC2]">The Heartbeat of <br/>Growth Strategy</h4>
+                   <p className="text-[11px] leading-relaxed opacity-60 uppercase font-bold tracking-wide">
+                     Optimizing conversions, reducing bounce rates, and enhancing strategy outcomes.
+                   </p>
+                </div>
+                <Infinity className="absolute -right-8 -bottom-8 text-white/5" size={120} />
+             </div>
+             <div className="bg-white/40 backdrop-blur-md border border-gray-100 p-10 rounded-[40px] shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group text-right">
+                <Share2 className="text-[#00AE80] mb-6 ml-auto group-hover:scale-110 transition-transform" />
+                <h4 className="text-xs font-black uppercase tracking-[0.2em] mb-4">Social Synergy</h4>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Integrated with Instagram and LinkedIn brand strategies.</p>
+             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Our Methodology - Bright Contrast */}
-      <section className="py-32 px-6 bg-white">
+      {/* 2. THE ECOSYSTEM (B2B & B2C Applications) */}
+      <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-5xl font-black text-emerald-500 tracking-tighter mb-6 ">Our methodology.</h2>
-              <p className="text-gray-500 font-bold text-xs tracking-widest ">Bridging the lead funnel through interactive alpha tooling.</p>
+          <div className="grid lg:grid-cols-2 gap-24 items-center">
+            <div className="order-2 lg:order-1 relative">
+               <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-4 pt-12">
+                     <div className="bg-gray-50 h-48 rounded-[30px] flex flex-col items-center justify-center p-6 text-center border border-gray-100">
+                        <span className="text-[#00AE80] font-black text-2xl mb-2 italic">Configurators</span>
+                        <span className="text-[8px] uppercase font-bold text-gray-400">B2B Tooling</span>
+                     </div>
+                     <div className="bg-[#F0FDFA] h-64 rounded-[30px] flex flex-col items-center justify-center p-6 text-center border border-[#00AE80]/10">
+                        <span className="text-[#011f18] font-black text-2xl mb-2 italic">Calculators</span>
+                        <span className="text-[8px] uppercase font-bold text-gray-400">Value Engineering</span>
+                     </div>
+                  </div>
+                  <div className="space-y-4">
+                     <div className="bg-[#011f18] h-64 rounded-[30px] flex flex-col items-center justify-center p-6 text-center text-white">
+                        <span className="text-[#00FFC2] font-black text-2xl mb-2 italic">Gamification</span>
+                        <span className="text-[8px] uppercase font-bold opacity-40">Brand Recall</span>
+                     </div>
+                     <div className="bg-gray-50 h-48 rounded-[30px] flex flex-col items-center justify-center p-6 text-center border border-gray-100">
+                        <span className="text-[#00AE80] font-black text-2xl mb-2 italic">Whitepapers</span>
+                        <span className="text-[8px] uppercase font-bold text-gray-400">Interactive Alpha</span>
+                     </div>
+                  </div>
+               </div>
+               <Network className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#00AE80]/10 -z-10" size={300} />
             </div>
-            <div className="h-[1px] flex-grow bg-gray-100 hidden lg:block mb-4 ml-12"></div>
-          </div>
 
-          <div className="grid md:grid-cols-4 gap-0 border border-gray-200">
-            {[
-              { title: "Configurators", label: "B2B tooling", bg: "bg-white" },
-              { title: "Calculators", label: "Value engineering", bg: "bg-[#F8FAFC]" },
-              { title: "Gamification", label: "Brand recall", bg: "bg-[#E6FFFA]" },
-              { title: "Whitepapers", label: "Interactive alpha", bg: "bg-white" }
-            ].map((item, i) => (
-              <div key={i} className={`${item.bg} p-12 border-r border-gray-200 last:border-r-0 group hover:bg-[#00FFC2] transition-all cursor-crosshair`}>
-                <span className="text-[10px] font-black text-emerald-500 tracking-[0.3em] mb-10 block  group-hover:text-[#011f18]">{item.label}</span>
-                <h3 className="text-3xl font-black tracking-tighter group-hover:italic group-hover:translate-x-2 transition-all">{item.title}</h3>
-              </div>
-            ))}
+            <div className="order-1 lg:order-2">
+               <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8 text-[#011f18]">Bridging the <br/><span className="text-[#00AE80]">Lead Funnel.</span></h2>
+               <p className="text-sm text-gray-900 font-bold uppercase leading-relaxed mb-10 tracking-widest">
+                 From B2B lead generation to consumer engagement, interactive experiences communicate complex ideas efficiently while building trust and authority.
+               </p>
+               <ul className="space-y-6">
+                  {[
+                    "Communicate complex product offerings",
+                    "Position brand as a thought leader",
+                    "Dramatically improve brand recall",
+                    "Invite user participation in social narratives"
+                  ].map((list, i) => (
+                    <li key={i} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                       <HandMetal size={16} className="text-[#00AE80]"/> {list}
+                    </li>
+                  ))}
+               </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Content Section - SEO Rich 700+ Words */}
-      <section className="py-32 px-6 bg-[#F8FAFC] border-y border-gray-100">
+      {/* 3. THE NEURAL LINK (Data & AI) */}
+      <section className="py-32 px-6 bg-[#011f18] text-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-4">
-              <div className="sticky top-32 space-y-8">
-                <Cpu className="text-emerald-500" size={48} />
-                <h3 className="text-4xl font-black tracking-tighter leading-none text-[#011f18] ">Ai-powered personalization</h3>
-                <p className="text-sm text-gray-500 leading-relaxed font-medium ">
-                  Predictive analytics suggest content paths and dynamically adapt interfaces to provide personalized calls-to-action.
-                </p>
-                <div className="pt-8 border-t border-gray-200 space-y-4">
-                  <div className="flex items-center gap-3 text-[10px] font-black tracking-widest ">
-                    <Check size={14} className="text-emerald-500" /> 70% higher engagement
-                  </div>
-                  <div className="flex items-center gap-3 text-[10px] font-black tracking-widest">
-                    <Check size={14} className="text-emerald-500" /> Measurable roi tracking
-                  </div>
-                </div>
-              </div>
+          <div className="grid lg:grid-cols-3 gap-16 items-center">
+            <div className="lg:col-span-1">
+               <Cpu className="text-[#00FFC2] mb-8" size={48} />
+               <h3 className="text-4xl font-black uppercase tracking-tighter mb-6 leading-none">AI-Powered <br/>Personalization.</h3>
+               <p className="text-xs text-gray-400 leading-relaxed uppercase font-medium italic">
+                 Predictive analytics suggest content paths and dynamically adapt interfaces to provide personalized calls-to-action.
+               </p>
             </div>
-
-            <div className="lg:col-span-8 space-y-12 prose prose-lg max-w-none text-gray-600 leading-relaxed">
-              <p className="text-2xl text-[#011f18] font-bold lowercase mb-8">
-                In the digital age, where every scroll, click, and hover matters, brands are no longer defined solely by their visual identity—they are defined by the experiences they deliver.
-              </p>
-
-              <h4 className="text-[#011f18] text-xl font-black tracking-tight mb-4">The power of interactive design</h4>
-              <p>
-                Interactive assets are the heartbeat of modern digital marketing. Unlike traditional content, which simply communicates, interactive assets engage, educate, and persuade. Micro-interactions, dynamic infographics, and gamified experiences allow users to participate actively rather than passively.
-              </p>
-
-              <div className="bg-white border border-gray-200 p-10 my-10">
-                <h4 className="text-emerald-500 text-sm font-black tracking-widest mb-6 ">B2B and consumer applications</h4>
-                <p className="mb-6">
-                  For b2b marketing, interaction assets serve a critical role in lead generation. Configurators, calculators, and interactive whitepapers communicate complex ideas efficiently, adding value to potential clients.
-                </p>
-                <p>
-                  For consumer-facing brands, interactive experiences improve recall and engagement. Instagram and LinkedIn increasingly reward participatory content, boosting social media brand strategies.
-                </p>
-              </div>
-
-              <h4 className="text-[#011f18] text-xl font-black tracking-tight mb-4">Data-driven design and analytics</h4>
-              <p>
-                Every interaction can be tracked, analyzed, and optimized. Marketing analytics insights and performance strategies inform design at a granular level, ensuring conversions and user engagement contribute to business goals.
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-8 my-12">
-                <div className="p-8 bg-emerald-50 border border-emerald-100">
-                  <BarChart3 className="text-emerald-500 mb-4" />
-                  <h5 className="font-black text-xs tracking-widest mb-2 ">Granular analytics</h5>
-                  <p className="text-xs leading-relaxed  font-medium">Every interaction is tracked and optimized for maximum performance.</p>
-                </div>
-                <div className="p-8 bg-emerald-50 border border-emerald-100">
-                  <Fingerprint className="text-emerald-500 mb-4" />
-                  <h5 className="font-black text-xs tracking-widest mb-2 ">Conversion psychology</h5>
-                  <p className="text-xs leading-relaxed  font-medium">Clicks and hovers contribute directly to overarching business objectives.</p>
-                </div>
-              </div>
-
-              <h4 className="text-[#011f18] text-xl font-black tracking-tight mb-4">Building a cohesive brand experience</h4>
-              <p>
-                Interaction assets are most effective when aligned with the brand’s voice, identity, and positioning. Our approach combines brand identity design, storytelling marketing, and perception strategy to reinforce consistency across all touchpoints.
-              </p>
-              <p>
-                Our holistic process includes understanding the customer journey, defining engagement goals, wireframing interactive flows, designing responsive visuals, and implementing robust tracking for ongoing optimization. Every asset is visually appealing and strategically potent, driving measurable growth.
-              </p>
+            
+            <div className="lg:col-span-2 grid md:grid-cols-2 gap-8">
+               <div className="p-10 border border-white/10 rounded-[40px] hover:bg-white/5 transition-colors group">
+                  <BarChart3 className="text-[#00FFC2] mb-6 opacity-40 group-hover:opacity-100 transition-opacity" />
+                  <h5 className="font-black uppercase text-xs tracking-widest mb-4">Granular Analytics</h5>
+                  <p className="text-[10px] text-gray-900 leading-relaxed uppercase">Every interaction is tracked and optimized ensuring data-informed design at every level.</p>
+               </div>
+               <div className="p-10 border border-white/10 rounded-[40px] hover:bg-white/5 transition-colors group">
+                  <Fingerprint className="text-[#00FFC2] mb-6 opacity-40 group-hover:opacity-100 transition-opacity" />
+                  <h5 className="font-black uppercase text-xs tracking-widest mb-4">Conversion Psychology</h5>
+                  <p className="text-[10px] text-gray-900 leading-relaxed uppercase">We ensure that clicks and hovers contribute directly to overarching business objectives.</p>
+               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Footer */}
-      <footer className="py-32 px-6 bg-white border-t border-gray-100">
+      {/* 4. BRAND CONSISTENCY (The Experience) */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+           <Layers className="mx-auto text-[#00AE80] mb-10" size={60} />
+           <h2 className="text-5xl font-black uppercase tracking-tighter mb-10 text-[#011f18]">The Cohesive <br/>Immersive Experience.</h2>
+           <p className="text-gray-900 font-bold uppercase text-[11px] tracking-[0.2em] leading-relaxed mb-16 italic">
+             Our approach combines brand identity design and storytelling marketing to reinforce brand consistency across all digital touchpoints—from web interfaces to mobile apps.
+           </p>
+           
+           <div className="flex flex-wrap justify-center gap-12 text-[#011f18]">
+              <div className="text-center group">
+                <span className="block text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-[#00AE80] transition-colors mb-2">Build</span>
+                <span className="block text-2xl font-black uppercase tracking-tighter">Brand Trust</span>
+              </div>
+              <div className="text-center group">
+                <span className="block text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-[#00AE80] transition-colors mb-2">Define</span>
+                <span className="block text-2xl font-black uppercase tracking-tighter">Perception</span>
+              </div>
+              <div className="text-center group">
+                <span className="block text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-[#00AE80] transition-colors mb-2">Deepen</span>
+                <span className="block text-2xl font-black uppercase tracking-tighter">Relationships</span>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* 5. THE CONNECTIVE FOOTER */}
+      <footer className="py-24 px-6 border-t border-gray-100 bg-[#F0FDFA]/30">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-24 mb-24 items-end">
             <div>
-              <h2 className="text-7xl md:text-[9rem] font-black tracking-tighter mb-10 leading-[0.8] text-[#011f18] ">
-                Join the <br/><span className="text-emerald-500">network.</span>
+              <h2 className="text-7xl md:text-[8rem] font-black uppercase tracking-tighter mb-10 leading-[0.8] text-[#011f18]">
+                JOIN THE <br/><span className="text-[#00AE80]">NETWORK.</span>
               </h2>
-              <div className="flex flex-col gap-6 font-bold text-[11px] tracking-[0.3em] text-gray-400 ">
-                 <p className="flex items-center gap-4 text-[#011f18] hover:text-emerald-500 transition-colors"><Mail className="text-emerald-500" size={20}/> connect@blucomtechnologies.com</p>
-                 <p className="flex items-center gap-4 text-[#011f18] hover:text-emerald-500 transition-colors"><Phone className="text-emerald-500" size={20}/> +92-303-5907230 | +92-334-0011126</p>
-                 <div className="flex items-start gap-4 mt-4 border-l-4 border-emerald-500 pl-6">
-                    <MapPin className="text-emerald-500 shrink-0" size={24} />
-                    <p className="leading-relaxed italic opacity-60">Islamabad, hq.</p>
+              <div className="flex flex-col gap-5 font-bold uppercase text-[11px] tracking-widest text-gray-400">
+                 <p className="flex items-center gap-4 text-[#011f18] hover:text-[#00AE80] cursor-pointer transition-colors"><Mail className="text-[#00AE80]" size={18}/> connect@blucomtechnologies.com</p>
+                 <p className="flex items-center gap-4 text-[#011f18] hover:text-[#00AE80] cursor-pointer transition-colors"><Phone className="text-[#00AE80]" size={18}/> +92-303-5907230 | +92-334-0011126</p>
+                 <div className="flex items-start gap-4 mt-4 border-l-2 border-[#00AE80] pl-6">
+                    <MapPin className="text-[#00AE80] shrink-0" size={20} />
+                    <p className="leading-relaxed italic opacity-60">Islamabad</p>
                  </div>
               </div>
             </div>
 
-            <div className="space-y-0">
-               <div className="p-16 bg-[#F8FAFC] border border-gray-200">
-                  <h5 className="font-black text-xs mb-6 tracking-[0.4em] flex items-center gap-4 ">
-                    <Spline size={18} className="text-emerald-500"/> Interaction audit
+            <div className="space-y-10">
+               <div className="p-12 bg-white rounded-[50px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] border border-gray-100">
+                  <h5 className="font-black uppercase text-xs mb-4 tracking-widest flex items-center gap-3">
+                    <Spline size={16} className="text-[#00AE80]"/> Interaction Audit
                   </h5>
-                  <p className="text-sm text-gray-500 font-bold leading-relaxed mb-12 italic sentence ">
+                  <p className="text-[10px] text-gray-900 font-bold uppercase leading-relaxed mb-10 italic">
                     Transform your digital presence into an interactive ecosystem that drives measurable growth.
                   </p>
-                  <button className="w-full py-6 bg-[#011f18] text-white font-black text-[11px] tracking-[0.5em] hover:bg-emerald-500 transition-all flex items-center justify-center gap-4 shadow-xl ">
-                    Sync your brand <ArrowUpRight size={18}/>
+                  <button className="w-full py-5 bg-[#011f18] text-white rounded-full font-black uppercase text-[10px] tracking-[0.3em] hover:bg-[#00AE80] transition-all flex items-center justify-center gap-3">
+                    Sync Your Brand <Expand size={16}/>
                   </button>
                </div>
             </div>
           </div>
-          <div className="pt-12 border-t border-gray-100 flex justify-between items-center text-[10px] text-gray-300 font-black tracking-[2em] ">
-             <p>Blucom lab © 2026</p>
-             <p className="hidden md:block">Strategic interaction systems</p>
+          <div className="pt-10 border-t border-gray-100 flex justify-between items-center text-[10px] text-gray-200 font-black uppercase tracking-[2em]">
+             <p>Blucom Interaction Lab © 2026</p>
           </div>
         </div>
       </footer>
+
+      {/* HIDDEN SEO CONTENT */}
+      <div className="hidden">
+        <h1>Interaction Assets Development – Branding Agency Islamabad</h1>
+        <p>In the digital age, brands are defined by the experiences they deliver. Interaction assets turn static impressions into dynamic engagement. At our Branding Agency in Islamabad, we specialize in interaction assets that capture attention and drive measurable outcomes. Interactive design generates up to 70% more engagement compared to static content. From a digital marketing agency perspective, these are strategic tools in a digital marketing growth strategy. B2B marketing agencies use interaction assets for lead generation through configurators and calculators, positioning brands as thought leaders in the B2B digital marketing strategy landscape. For consumers, these assets improve brand recall and are rewarded by social media brand strategies on Instagram and LinkedIn. Data-driven design allows brands to understand user behavior using marketing analytics insights and performance marketing strategies. Leveraging AI-powered personalization and predictive analytics ensures contextually relevant experiences. Our holistic development process ensures brand consistency across all digital touchpoints, from web interfaces to mobile apps, enhancing brand trust building and deepening customer relationships.</p>
+      </div>
     </div>
   );
 };
 
-export default InteractionAssetsLab;
+export default InteractionNetwork;

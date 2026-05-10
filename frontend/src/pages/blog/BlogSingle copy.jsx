@@ -104,7 +104,7 @@ export default function BlogSingle() {
             </div>
           </div>
         </div>
-        <div className="w-[80%] mx-auto text-gray-500 my-10 sm:my-20">
+        <div className="w-[80%] mx-auto text-gray-900 my-10 sm:my-20">
           <p>Pricing psychology</p>
           <h1 className="text-2xl sm:text-3xl text-gray-900 pt-2">
             The Power of Cognitive Biases in Advertising
@@ -137,7 +137,7 @@ export default function BlogSingle() {
                 after:content-['”'] after:text-[#00AE80] after:text-[12rem] after:leading-none after:absolute after:left-full after:top-[10px]">
               Chracter may almost <span className="font-bold">be called the most effective means of persuation</span>
             </q>
-            <p className="text-gray-500 text-[1.5rem] mt-6">S- <br />-</p>
+            <p className="text-gray-900 text-[1.5rem] mt-6">S- <br />-</p>
           </div>
           {/*Quotes UI Starts Here*/}
 
@@ -158,7 +158,7 @@ export default function BlogSingle() {
 
           </p>
         </div>
-        <div className="text-gray-500 w-[80%] mx-auto my-10 sm:my-20">
+        <div className="text-gray-900 w-[80%] mx-auto my-10 sm:my-20">
           <div className="">
             <p className="text-lg">Ethical Considerations</p>
             <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
@@ -213,7 +213,7 @@ export default function BlogSingle() {
         <div className="w-[80%] mx-auto my-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {blogs.slice(0, showMore ? blogs.length : 2).map((blog, key) => (
-              <div className="text-gray-600" key={key}>
+              <div className="text-gray-900" key={key}>
                 <p className="uppercase py-2">ideas</p>
                 <div className="h-60 bg-gray-300 overflow-hidden">
                   <img src={`http://localhost:4000/uploads/articleImages/${blog.image}`} alt={blog.title} className="object-cover" />
@@ -246,7 +246,7 @@ export default function BlogSingle() {
       <div className="w-[80%] mx-auto my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {blogs.slice(0, showMore ? blogs.length : 2).map((blog, key) => (
-            <div className="text-gray-600" key={key}>
+            <div className="text-gray-900" key={key}>
               <p className="uppercase py-2">Ideas</p>
               <div className="h-60 bg-gray-300 overflow-hidden">
                 <img src={`http://localhost:4000/uploads/articleImages/${blog.image}`} alt={blog.title} className="object-cover" />

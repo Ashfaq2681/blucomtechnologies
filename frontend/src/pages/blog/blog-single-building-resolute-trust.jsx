@@ -127,7 +127,7 @@ Don’t just take our word for it,
             </div>
           </div>
         </div>
-        <div className="w-[80%] mx-auto text-gray-500 my-10 sm:my-20">
+        <div className="w-[80%] mx-auto text-gray-900 my-10 sm:my-20">
           <p>Impact of brand credibility
 
           </p>
@@ -156,7 +156,7 @@ Don’t just take our word for it,
                 after:content-['”'] after:text-[#00AE80] after:text-[12rem] after:leading-none after:absolute after:left-full after:top-[10px]">
     People do not buy goods and services. They buy <span className="font-bold">relations, stories, and magic.</span>
   </q>
-  <p className="text-gray-500 text-[1.5rem] mt-6">Seth Godin<br /> American Author</p>
+  <p className="text-gray-900 text-[1.5rem] mt-6">Seth Godin<br /> American Author</p>
 </div>
 {/*Quotes UI Starts Here*/}
 
@@ -176,7 +176,7 @@ Don’t just take our word for it,
             creating an emotional connection that leads to action.
           </p>
         </div>
-        <div className="text-gray-500 w-[80%] mx-auto my-10 sm:my-20">
+        <div className="text-gray-900 w-[80%] mx-auto my-10 sm:my-20">
           <div className="">
             <p className="text-lg">Customer trust strategies</p>
             <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
@@ -276,7 +276,7 @@ Don’t just take our word for it,
         <div className="w-[80%] mx-auto my-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {blogs.slice(0, showMore ? blogs.length : 2).map((blog, key) => (
-              <div className="text-gray-600" key={key}>
+              <div className="text-gray-900" key={key}>
                 <p className="uppercase py-2">ideas</p>
                 <div className="h-60 bg-gray-300 overflow-hidden">
                   <img src={`http://localhost:4000/uploads/articleImages/${blog.image}`} alt={blog.title} className="object-cover" />
@@ -309,7 +309,7 @@ Don’t just take our word for it,
       <div className="w-[80%] mx-auto my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {blogs.slice(0, showMore ? blogs.length : 2).map((blog, key) => (
-            <div className="text-gray-600" key={key}>
+            <div className="text-gray-900" key={key}>
               <p className="uppercase py-2">Ideas</p>
               <div className="h-60 bg-gray-300 overflow-hidden">
                 <img src={`http://localhost:4000/uploads/articleImages/${blog.image}`} alt={blog.title} className="object-cover" />

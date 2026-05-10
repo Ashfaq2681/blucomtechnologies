@@ -194,12 +194,12 @@ export default DevGridBody;
 
 
 
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
+        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#111827]">
           <div className="flex flex-col justify-start items-center m-10 w-auto">
             <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               From Concept to Impact
             </span>
-            <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
+            <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">
               Our creative process ensures every project delivers real results.
             </span>
           </div>
@@ -207,10 +207,10 @@ export default DevGridBody;
 
 
             <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</span>
+              <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">Insights</span>
               <img src="./landing/insight1.jpg" alt="insight" className="w-[600px] h-[350px]" />
               <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">Why attention economy is becoming new ecomony, and how brands can take leverage</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity
+              <span className="text-lg text-gray-900 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity
                 and applies econom ic theory to solve various information management problems</span>
               <Link to={`Blog/Why-attention-economy-is-becoming-new-ecomony-and-how-brands-can-take-leverage`}>
                 <Button variant="gray">Read More</Button>
@@ -219,10 +219,10 @@ export default DevGridBody;
             </div>
 
             <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</span>
+              <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">Insights</span>
               <img src="./landing/insight2.jpg" alt="insight" className="w-[600px] h-[350px]" />
               <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">The art of visual communication, how visual grammer can be utilized by the brands</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity
+              <span className="text-lg text-gray-900 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity
                 and applies economic theory to solve various information management problems</span>
 
               <Link to={`Blog/The-art-of-visual-communication`}>
@@ -233,9 +233,9 @@ export default DevGridBody;
           {/* Call-to-Action Button */}
 
         </div>
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
+        <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#111827]">
           <div className="flex flex-col justify-start items-center m-10 w-auto">
-            <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">The digital landscape is constantly evolving. </span>
+            <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">The digital landscape is constantly evolving. </span>
             <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               Insights for Modern Brands
             </span>
@@ -246,7 +246,7 @@ export default DevGridBody;
               <img src="./icons/forbes_logo.png" alt="forbes logo" className="w-auto h-[40px]" />
               <img src="./landing/news1.png" alt="insight" className="w-[600px] h-[350px]" />
               <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">Rideshare Advertising To A New Outdoor World</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
+              <span className="text-lg text-gray-900 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
                 ic theory to solve various information management problems</span>
               <Link to={`/Ideas/Rideshare-Advertising-To-A-New-Outdoor-World`}>
                 <Button variant="gray">Read More</Button>
@@ -257,7 +257,7 @@ export default DevGridBody;
               <img src="./icons/adobe_logo_1.png" alt="adobe logo" className="w-auto h-[40px]" />
               <img src="./landing/news2.png" alt="insight" className="w-[600px] h-[350px]" />
               <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">12 Must-Attend Trade Conferences For Agency Professionals</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
+              <span className="text-lg text-gray-900 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
                 ic theory to solve various information management problems</span>
               <Link to={`/Ideas/Must-Attend-Advertising-Confrence`} >
                 <Button variant="gray">Read More</Button>

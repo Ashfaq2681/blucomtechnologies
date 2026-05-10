@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, Sparkles, Rocket, Zap, Target } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 const InteractiveForm = () => {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1); // Start at Step 1
   const [direction, setDirection] = useState(0);
-  const [formData, setFormData] = useState({ category: '', services: [], goals: {}, budget: 50 });
+  const serviceFromUrl = searchParams.get('service') || '';
+  const intentFromUrl = searchParams.get('intent') || '';
 
   const steps = [
     { id: 1, title: "Project Details", subtitle: "Provide basic info" },
@@ -36,6 +39,38 @@ const InteractiveForm = () => {
     Interaction: ["UI Designing","Prototyping & Wireframing","User Journey Mapping","Interaction Design","Web Maintenance","Data Visualization","Web Development"]
   };
 
+  const serviceAliases = {
+    "Lead Gen": "Lead Generation",
+    "Interaction Assets Devs": "Interaction Assets Development",
+    "Omnichannel Campaign Management": "Omnichannel Campaigns",
+  };
+
+  const findServiceCategory = (service) => {
+    const canonicalService = serviceAliases[service] || service;
+
+    for (const [category, services] of Object.entries(servicesByCategory)) {
+      if (services.includes(canonicalService)) {
+        return { category, service: canonicalService };
+      }
+    }
+
+    return { category: '', service: '' };
+  };
+
+  const initialService = findServiceCategory(serviceFromUrl);
+  const [formData, setFormData] = useState({
+    category: initialService.category,
+    services: initialService.service ? [initialService.service] : [],
+    goals: {},
+    budget: 50,
+    projectName: intentFromUrl,
+    companyName: '',
+    position: '',
+    contactNumber: '',
+    email: '',
+  });
+  const [submitted, setSubmitted] = useState(false);
+
   const goalsByService = {
     Identity: ["Build a strong brand","Create a clear visual identity","Craft messaging that connects","Define brand personality","Stand out in the market"],
     "Brand Strategy": ["Plan for long-term growth","Align brand with business goals","Build a clear positioning","Identify market opportunities","Optimize brand performance"],
@@ -64,6 +99,18 @@ const InteractiveForm = () => {
         : [...currentGoals, goal];
       return { ...prev, goals: { ...prev.goals, [service]: updatedGoals } };
     });
+  };
+
+  const handleSubmit = () => {
+    const savedRequests = JSON.parse(localStorage.getItem('projectRequests') || '[]');
+    const newRequest = {
+      id: Date.now(),
+      ...formData,
+      createdAt: new Date().toISOString(),
+    };
+
+    localStorage.setItem('projectRequests', JSON.stringify([newRequest, ...savedRequests]));
+    setSubmitted(true);
   };
 
   return (
@@ -241,8 +288,25 @@ const InteractiveForm = () => {
               {/* Step 6: Contact */}
               {step === 6 && (
                 <motion.div className="flex flex-col gap-4 md:gap-6">
-                  <input type="tel" placeholder="Contact Number" className="p-4 text-black text-base md:text-lg border-2 border-emerald-200  -lg focus:border-emerald-400 focus:outline-none transition-all placeholder:text-emerald-400" />
-                  <input type="email" placeholder="Email Address" className="p-4 text-black text-base md:text-lg border-2 border-emerald-200  -lg focus:border-emerald-400 focus:outline-none transition-all placeholder:text-emerald-400" />
+                  <input
+                    type="tel"
+                    placeholder="Contact Number"
+                    className="p-4 text-black text-base md:text-lg border-2 border-emerald-200  -lg focus:border-emerald-400 focus:outline-none transition-all placeholder:text-emerald-400"
+                    value={formData.contactNumber}
+                    onChange={(e) => setFormData({...formData, contactNumber: e.target.value})}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    className="p-4 text-black text-base md:text-lg border-2 border-emerald-200  -lg focus:border-emerald-400 focus:outline-none transition-all placeholder:text-emerald-400"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                  {submitted && (
+                    <p className="rounded-lg border border-emerald-300 bg-emerald-100 p-4 text-sm font-semibold text-emerald-800">
+                      Request saved. You can view it in the dashboard.
+                    </p>
+                  )}
                 </motion.div>
               )}
 
@@ -261,7 +325,7 @@ const InteractiveForm = () => {
                 </motion.button>
               )}
               {step === steps.length && (
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-8 py-4 bg-emerald-950 font-black  -full shadow-md hover:shadow-lg transition-all uppercase text-white ">
+                <motion.button onClick={handleSubmit} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-8 py-4 bg-emerald-950 font-black  -full shadow-md hover:shadow-lg transition-all uppercase text-white ">
                   Launch Request
                 </motion.button>
               )}

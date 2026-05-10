@@ -72,7 +72,7 @@ const AnalysisMeasurementPage = () => {
 
             <div className="lg:w-1/3 bg-white/10 border border-white/20 p-8 rounded-none backdrop-blur-sm">
               <div className="flex justify-between items-center mb-6">
-                <span className="text-[10px] font-bold tracking-widest text-gray-600">Live ROI Tracking</span>
+                <span className="text-[10px] font-bold tracking-widest text-gray-900">Live ROI Tracking</span>
                 <Activity size={16} className="text-[#00AE80] animate-pulse" />
               </div>
               <div className="space-y-4">
@@ -80,7 +80,7 @@ const AnalysisMeasurementPage = () => {
                 <div className="h-2 bg-white/20 rounded-none overflow-hidden"><div className="h-full bg-[#00AE80] w-[64%]"></div></div>
                 <div className="h-2 bg-white/20 rounded-none overflow-hidden"><div className="h-full bg-[#00AE80] w-[92%]"></div></div>
               </div>
-              <p className="mt-6 text-[11px] text-gray-500 leading-relaxed">
+              <p className="mt-6 text-[11px] text-gray-900 leading-relaxed">
                 Transforming raw metrics into actionable digital marketing strategy for brands in Islamabad and beyond.
               </p>
             </div>
@@ -126,7 +126,7 @@ const AnalysisMeasurementPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="mb-24">
             <h2 className="text-5xl font-black tracking-tighter mb-4 text-center">Technical <span className="text-[#00AE80]">Framework</span></h2>
-            <p className="text-center text-gray-600 text-xs tracking-[0.3em]">Proprietary data-to-intelligence workflow</p>
+            <p className="text-center text-gray-900 text-xs tracking-[0.3em]">Proprietary data-to-intelligence workflow</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -168,7 +168,7 @@ const AnalysisMeasurementPage = () => {
         <div className="max-w-5xl mx-auto border border-[#00AE80]/30 p-12 md:p-24 bg-gradient-to-br from-[#00AE80]/5 to-transparent rounded-none">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">The value of <span className="text-[#00AE80]">evidence</span></h2>
-            <p className="text-gray-600 text-xs tracking-widest font-bold leading-relaxed">In a competitive market, data is your most valuable asset.</p>
+            <p className="text-gray-900 text-xs tracking-widest font-bold leading-relaxed">In a competitive market, data is your most valuable asset.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-10">
             {[
@@ -220,7 +220,7 @@ const AnalysisMeasurementPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-gray-200 text-[10px] text-gray-600 font-black tracking-[1em]">
+          <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-gray-200 text-[10px] text-gray-900 font-black tracking-[1em]">
             <p>Blucom Technologies © 2026</p>
             <div className="flex gap-8 mt-4 md:mt-0">
               <span className="hover:text-[#00AE80] cursor-pointer">Security</span>

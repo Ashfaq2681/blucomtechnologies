@@ -29,7 +29,7 @@ const Messaging = () => {
               <span className="absolute bottom-2 left-0 w-full h-4 bg-[#00FFC2] -z-10 opacity-60"></span>
             </span>
           </h1>
-          <p className="text-gray-600 text-lg max-w-md mb-10 leading-relaxed">
+          <p className="text-gray-900 text-lg max-w-md mb-10 leading-relaxed">
             In today’s digital landscape, effective messaging is the difference between being overlooked and becoming a thought leader. Our strategies ensure your brand speaks with clarity, authority, and consistency across all platforms, engaging the right audiences and driving measurable business outcomes.
           </p>
           <div className="flex flex-wrap gap-4">
@@ -71,7 +71,7 @@ const Messaging = () => {
             <div className="lg:col-span-1">
               <h2 className="text-3xl font-black mb-6">The importance of <span className="text-[#00AE80]">messaging positioning</span></h2>
               <div className="w-20 h-2 bg-[#00AE80] mb-8"></div>
-              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+              <p className="text-gray-900 text-sm leading-relaxed mb-6">
                 Messaging positioning shapes how your brand is perceived, differentiates you from competitors, and builds authority. It ensures all communication—from digital campaigns to social media touchpoints—reinforces your unique value proposition.
               </p>
               <Quote className="text-[#00AE80]" size={40} />
@@ -88,7 +88,7 @@ const Messaging = () => {
                   <div key={i} className="bg-white p-8 border-b-4 border-[#00AE80] shadow-sm hover:-translate-y-2 transition-transform">
                     <Icon className="text-[#00AE80] mb-4" />
                     <h4 className="font-black text-sm mb-2">{item.title}</h4>
-                    <p className="text-gray-600 text-xs leading-relaxed">{item.desc}</p>
+                    <p className="text-gray-900 text-xs leading-relaxed">{item.desc}</p>
                   </div>
                 );
               })}
@@ -118,7 +118,7 @@ const Messaging = () => {
               <div key={i} className="p-12 border-r last-of-type:border-r-0 border-gray-100 hover:bg-[#00AE80]/10 group transition-all duration-500">
                 <span className="text-5xl font-black text-gray-300 group-hover:text-[#00AE80] transition-colors">{item.num}</span>
                 <h4 className="text-xl font-black my-6 group-hover:text-[#011f18] tracking-tight">{item.name}</h4>
-                <p className="text-gray-600 text-sm group-hover:text-gray-800">{item.content}</p>
+                <p className="text-gray-900 text-sm group-hover:text-gray-800">{item.content}</p>
               </div>
             ))}
           </div>
@@ -193,7 +193,7 @@ const Messaging = () => {
             </button>
           </div>
         </div>
-        <div className="mt-20 pt-10 border-t border-gray-900 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-widest">
+        <div className="mt-20 pt-10 border-t border-gray-900 flex justify-between items-center text-[10px] text-gray-900 uppercase tracking-widest">
           <p>© 2026 Blucom Technologies | Islamabad</p>
           <div className="flex gap-6">
             <span>B2B marketing</span>

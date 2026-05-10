@@ -52,7 +52,7 @@ const Contact = () => {
     <div className="flex flex-col items-center py-20 px-10 md:px-0 gap-2 mt-5">
       {/* Header */}
       <div className="flex flex-col justify-start items-center m-10 w-auto text-center">
-        <span className="text-2xl text-gray-500 m-5">Let's build something</span>
+        <span className="text-2xl text-gray-900 m-5">Let's build something</span>
         <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
           Great Together
         </span>

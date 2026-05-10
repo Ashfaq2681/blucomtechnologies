@@ -47,7 +47,7 @@ const MediaCatalyst = () => {
         <div className="h-2 bg-gray-200 w-full overflow-hidden">
           <div className="h-full bg-[#00AE80] w-[30%]"></div>
         </div>
-        <p className="text-[10px] text-gray-500 italic leading-relaxed">
+        <p className="text-[10px] text-gray-900 italic leading-relaxed">
           Businesses implementing structured media planning see an average of 25–30% improvement in campaign effectiveness.
         </p>
       </div>
@@ -64,21 +64,21 @@ const MediaCatalyst = () => {
             <div className="p-6 border border-gray-200 bg-gray-50 flex flex-col gap-4">
               <Crosshair size={32} className="text-[#00AE80]" />
               <h3 className="font-bold text-lg text-gray-800">Audience intelligence</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-900 text-sm leading-relaxed">
                 Using consumer behavior insights and predictive analytics, we map out demographics, psychographics, and online habits of your target audience.
               </p>
             </div>
             <div className="p-6 border border-gray-200 bg-gray-50 flex flex-col gap-4">
               <Share2 size={32} className="text-[#00AE80]" />
               <h3 className="font-bold text-lg text-gray-800">Integrated media buying</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-900 text-sm leading-relaxed">
                 Negotiating, optimizing, and managing media across programmatic, social, and search channels to maximize visibility and ROI.
               </p>
             </div>
             <div className="p-6 border border-gray-200 bg-gray-50 flex flex-col gap-4">
               <PieChart size={32} className="text-[#00AE80]" />
               <h3 className="font-bold text-lg text-gray-800">AI-driven optimization</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-900 text-sm leading-relaxed">
                 AI automation, predictive analytics, and real-time personalization forecast audience behavior and optimize campaigns continuously.
               </p>
             </div>
@@ -99,7 +99,7 @@ const MediaCatalyst = () => {
               <div key={i} className="p-6 border border-gray-200 bg-white flex flex-col gap-4">
                 <item.icon size={32} className="text-[#00AE80]" />
                 <h3 className="font-bold text-lg text-gray-800">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-gray-900 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

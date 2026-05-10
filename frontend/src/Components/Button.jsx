@@ -13,8 +13,8 @@ const Button = ({
 
   const variants = {
     white: {
-      filled: "bg-white text-gray-600 border border-gray-400 hover:bg-gray-100",
-      outline: "bg-transparent text-gray-600 border border-gray-400 hover:bg-gray-100"
+      filled: "bg-white text-gray-900 border border-gray-400 hover:bg-gray-100",
+      outline: "bg-transparent text-gray-900 border border-gray-400 hover:bg-gray-100"
     },
     black: {
       filled: "bg-black text-white border border-black hover:bg-gray-800",
@@ -22,7 +22,7 @@ const Button = ({
     },
     gray: {
       filled: "bg-gray-600 text-white border border-gray-700 hover:bg-gray-700",
-      outline: "bg-transparent text-gray-600 border border-gray-600 hover:bg-gray-600 hover:text-white"
+      outline: "bg-transparent text-gray-900 border border-gray-600 hover:bg-gray-600 hover:text-white"
     },
     emerald: {
       filled: "bg-emerald-500 text-white border border-emerald-500 hover:bg-emerald-600",

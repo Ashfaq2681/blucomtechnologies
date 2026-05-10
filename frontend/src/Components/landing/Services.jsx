@@ -49,16 +49,16 @@ const Services = () => {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-5 sm:px-10 md:px-0">
       <div className="flex flex-col items-center text-center m-6 sm:m-10 w-full">
-        <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">This is</p>
+        <p className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">This is</p>
         <p className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
           How We make Possible
         </p>
-        <p className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
+        <p className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">
           Discovery / Strategy / Interaction
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#727277] mx-auto w-full max-w-6xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#111827] mx-auto w-full max-w-6xl">
         {serviceGroups.map((group) => (
           <div key={group.title} className="flex flex-col gap-6">
             <p className="font-bold text-black underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">

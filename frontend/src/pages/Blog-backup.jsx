@@ -54,7 +54,7 @@ const EditorPick = ({ blog, imageColor, onClick }) => (
       <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName="w-10 h-10 bg-white/20  blur-sm" />
     </div>
     <div>
-      <span className="text-[10px] font-bold bg-gray-100 px-2 py-1  text-gray-600 uppercase tracking-widest">{blog.category}</span>
+      <span className="text-[10px] font-bold bg-gray-100 px-2 py-1  text-gray-900 uppercase tracking-widest">{blog.category}</span>
       <h4 className="mt-2 text-sm font-bold leading-tight group-hover:text-green-700 transition-colors">{blog.title}</h4>
     </div>
   </div>
@@ -65,7 +65,7 @@ const ArticleCard = ({ blog, imageClass, onClick }) => (
     <div className={`aspect-[16/10] -xl mb-4 overflow-hidden shadow-sm ${imageClass} border border-gray-100 transition-transform duration-300 group-hover:scale-[1.02] flex items-center justify-center`}>
       <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName="w-12 h-12 bg-white/30 -lg backdrop-blur-md" />
     </div>
-    <span className="bg-gray-100 text-[10px] font-bold px-2 py-1  text-gray-600 uppercase tracking-widest">{blog.category}</span>
+    <span className="bg-gray-100 text-[10px] font-bold px-2 py-1  text-gray-900 uppercase tracking-widest">{blog.category}</span>
     <h3 className="text-lg font-bold mt-3 leading-tight group-hover:text-blue-700 transition-colors">{blog.title}</h3>
     <div className="flex items-center gap-2 mt-3 text-[11px] text-gray-400 font-medium uppercase tracking-tight">
       <span>{formatDate(blog.created_at)}</span> <span>&bull;</span> <span>{getReadTime(blog.content)}</span>
@@ -75,7 +75,7 @@ const ArticleCard = ({ blog, imageClass, onClick }) => (
 
 const ListArticle = ({ blog, onClick }) => (
   <div className="py-6 border-b border-gray-100 last:border-0 group cursor-pointer" onClick={() => onClick(blog.slug)}>
-    <span className="bg-gray-100 text-[10px] font-bold px-2 py-1  text-gray-600 uppercase tracking-widest">{blog.category}</span>
+    <span className="bg-gray-100 text-[10px] font-bold px-2 py-1  text-gray-900 uppercase tracking-widest">{blog.category}</span>
     <h4 className="text-[15px] font-bold mt-3 leading-snug group-hover:text-blue-700 transition-colors">{blog.title}</h4>
     <div className="flex items-center gap-2 mt-2 text-[11px] text-gray-400 font-medium">
       <span>{formatDate(blog.created_at)}</span> <span>&bull;</span> <span>{getReadTime(blog.content)}</span>
@@ -154,7 +154,7 @@ const HelloPage = () => {
           </div>
         </nav>
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          {loading && <div className="py-24 text-center text-sm font-semibold text-slate-500">Loading posts...</div>}
+          {loading && <div className="py-24 text-center text-sm font-semibold text-gray-900">Loading posts...</div>}
           {!loading && error && <div className="py-24 text-center text-sm font-semibold text-red-600">{error}</div>}
           {!loading && !error && (
             <>
@@ -265,7 +265,7 @@ const HelloPage = () => {
                 <div className={`aspect-[16/10] -2xl ${analyticsImageClasses[index % analyticsImageClasses.length]} mb-5 overflow-hidden transition-transform group-hover:scale-[1.02] flex items-center justify-center p-8`}>
                   <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName="w-full h-full bg-white/10 -xl backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2" />
                 </div>
-                <div className="flex gap-2 mb-3"><span className="bg-gray-100 text-[9px] font-bold px-2 py-1  text-gray-500 uppercase tracking-wider">{blog.category}</span></div>
+                <div className="flex gap-2 mb-3"><span className="bg-gray-100 text-[9px] font-bold px-2 py-1  text-gray-900 uppercase tracking-wider">{blog.category}</span></div>
                 <h3 className="font-bold text-[15px] leading-snug group-hover:text-blue-700 transition-colors">{blog.title}</h3>
                 <div className="flex items-center gap-2 mt-3 text-[10px] text-gray-400 font-bold uppercase">
                   <span>{formatDate(blog.created_at)}</span> <span>&bull;</span> <span>{getReadTime(blog.content)}</span>
@@ -288,8 +288,8 @@ const HelloPage = () => {
                       <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName={index === 0 ? "w-full h-full flex items-center justify-center bg-teal-500/20" : "w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black"} />
                     </div>
                     <div className="flex gap-2 mb-2">
-                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-500 uppercase">Guide</span>
-                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-500 uppercase">{blog.category}</span>
+                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-900 uppercase">Guide</span>
+                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-900 uppercase">{blog.category}</span>
                     </div>
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700 transition-colors">{blog.title}</h3>
                   </div>
@@ -309,8 +309,8 @@ const HelloPage = () => {
                       <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName={index === 0 ? "w-full h-full bg-emerald-950/40" : "w-full h-full bg-gradient-to-tr from-blue-900/20 to-emerald-900/20"} />
                     </div>
                     <div className="flex gap-2 mb-2">
-                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-500 uppercase">Data Report</span>
-                      {index === 0 && <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-500 uppercase">{blog.category}</span>}
+                      <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-900 uppercase">Data Report</span>
+                      {index === 0 && <span className="bg-gray-100 text-[9px] font-bold px-2 py-0.5  text-gray-900 uppercase">{blog.category}</span>}
                     </div>
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700">{blog.title}</h3>
                   </div>
@@ -330,7 +330,7 @@ const HelloPage = () => {
                       <PostImage src={getImageSrc(blog.image)} alt={blog.title} wrapperClassName="w-full h-full" fallbackClassName="" innerClassName="w-full h-full" />
                     </div>
                     <div>
-                      <div className="flex flex-wrap gap-1 mb-1"><span className="text-[8px] font-bold bg-gray-100 px-1.5 py-0.5  text-gray-500 uppercase">{blog.category}</span></div>
+                      <div className="flex flex-wrap gap-1 mb-1"><span className="text-[8px] font-bold bg-gray-100 px-1.5 py-0.5  text-gray-900 uppercase">{blog.category}</span></div>
                       <h3 className="font-bold text-xs leading-tight group-hover:text-blue-700">{blog.title}</h3>
                     </div>
                   </div>
@@ -377,7 +377,7 @@ const HelloPage = () => {
                 <span className="text-2xl font-black tracking-tighter text-[#1d2d35]">Blucomtechnologies</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-[#1d2d35] leading-[1.1] mb-6 tracking-tight">Build and grow stronger relationships on social</h2>
-              <p className="text-lg text-slate-600 font-medium leading-relaxed mb-10 max-w-xl">Blucomtechnologies helps you understand and reach your audience, engage your community and measure performance with the only all-in-one social media management platform built for connection.</p>
+              <p className="text-lg text-gray-900 font-medium leading-relaxed mb-10 max-w-xl">Blucomtechnologies helps you understand and reach your audience, engage your community and measure performance with the only all-in-one social media management platform built for connection.</p>
               <button className="bg-[#005952] hover:bg-[#00423d] text-white font-bold py-5 px-10 -xl transition-all shadow-lg hover:shadow-xl active:scale-95 text-lg">Try Blucomtechnologies for free</button>
             </div>
           </div>

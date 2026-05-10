@@ -1,4 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const launchOptions = [
+  { label: "Identify Concept", service: "Product Mapping" },
+  { label: "UI UX Design", service: "UI Designing" },
+  { label: "Brand Positioning", service: "Brand Strategy" },
+  { label: "Business Plan", service: "Strategic Communication" },
+  { label: "Market Research", service: "Persona Creation" },
+  { label: "Digital Marketing", service: "Search Marketing" },
+];
 
 const LetsGetStarted = () => {
   const [dropDownOpen, setDropDownOpen] = useState(true);
@@ -23,29 +33,50 @@ const LetsGetStarted = () => {
 
           <p className="text-lg font-normal mt-12 text-left"></p>
 
-          <div
-            className="bg-white flex flex-row justify-between items-center mt-2 cursor-pointer p-3 w-full max-w-screen-lg"
+          <button
+            type="button"
+            className="mt-6 flex w-full max-w-screen-lg cursor-pointer flex-row items-center justify-between border border-white bg-white p-3 text-left text-gray-900 shadow-lg transition hover:bg-emerald-50 sm:p-4"
             onClick={toggleDropDown}
+            aria-expanded={dropDownOpen}
           >
-            <p className="text-gray-900">I want to Launch a new product or service</p>
-            <img src="./icons/dropDown.png" alt="Dropdown Icon" className="w-5 h-5 mr-3" />
-          </div>
+            <span className="pr-4 text-sm font-semibold sm:text-base">
+              I want to Launch a new product or service
+            </span>
+            <img
+              src="./icons/dropDown.png"
+              alt=""
+              className={`h-5 w-5 shrink-0 transition-transform duration-300 ${
+                dropDownOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
 
           <div
-            className={`bg-gray-200 text-gray-900 flex-col justify-center items-start py-6 px-10 w-full max-w-screen-lg ${dropDownOpen ? "flex" : "hidden"} transition duration-300 ease-in-out`}
+            className={`w-full max-w-screen-lg overflow-hidden border-x border-b border-white/30 bg-white/15 text-white shadow-lg backdrop-blur-md transition-all duration-300 ease-in-out ${
+              dropDownOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+            }`}
           >
-            <p>Identify Concept</p>
-            <p>UI UX Design</p>
-            <p>Brand Positioning</p>
-            <p>Business Plan</p>
-            <p>Market Research</p>
-            <p>Digital Marketing</p>
+            <ul className="flex flex-col px-3 py-3 text-sm sm:px-4 sm:text-base">
+              {launchOptions.map((option) => (
+                <li key={option.label}>
+                  <Link
+                    to={`/multistepform?service=${encodeURIComponent(option.service)}&intent=${encodeURIComponent(option.label)}`}
+                    className="block border-b border-white/20 px-3 py-3 font-medium transition hover:bg-white/25 hover:pl-5 focus:bg-white/25 focus:outline-none sm:px-4"
+                  >
+                    {option.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="w-full flex justify-start">
-            <div className="bg-white text-gray-600 font-bold px-4 py-2 w-40 text-center mt-10 border border-gray-400 cursor-pointer">
+            <Link
+              to="/multistepform"
+              className="bg-white text-gray-900 font-bold px-4 py-2 w-40 text-center mt-10 border border-gray-400 cursor-pointer"
+            >
               Lets Get Started
-            </div>
+            </Link>
           </div>
         </div>
       </div>

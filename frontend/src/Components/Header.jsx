@@ -17,7 +17,7 @@ const Header = () => {
             <a
               key={index}
               href={item.link}
-              className="font-[16px] text-[#727277] hover:text-black"aria-label={item.title}>
+              className="font-[16px] text-gray-500 hover:text-gray-500"aria-label={item.title}>
               {item.title}
             </a>
           ))}
@@ -46,7 +46,7 @@ const Header = () => {
               <a
                 key={index}
                 href={item.link}
-                className="font-[16px] text-[#727277] hover:text-black"
+                className="font-[16px] text-gray-500 hover:text-gray-500"
                 role="menuitem"
                 aria-label={item.title}
               >

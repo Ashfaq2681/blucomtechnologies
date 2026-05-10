@@ -44,7 +44,7 @@ const AnalyticsImplementation = () => {
               <span className="text-[#00AE80]">for measurable growth.</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-10">
+            <p className="text-lg md:text-xl text-gray-900 leading-relaxed mb-10">
               Data is the most valuable currency for brands aiming to establish authority. At our <span className="text-[#011f18] font-bold">Branding Agency Islamabad</span>, we translate analytics into actionable insights that drive measurable <span className="text-[#00AE80] font-bold">marketing performance</span>.
             </p>
 
@@ -65,7 +65,7 @@ const AnalyticsImplementation = () => {
                 <Terminal size={14} className="text-[#00AE80]"/>
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Data log</span>
               </div>
-              <div className="space-y-2 text-[10px] font-mono text-gray-500">
+              <div className="space-y-2 text-[10px] font-mono text-gray-900">
                 <p>{">"} GA4 initialized successfully</p>
                 <p>{">"} Tag manager container deployed</p>
                 <p>{">"} Tracking pixels consolidated</p>
@@ -85,7 +85,7 @@ const AnalyticsImplementation = () => {
       <section className="py-32 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-black text-[#011f18] mb-12">Our methodology for analytics implementation</h2>
-          <p className="text-gray-600 mb-16 leading-relaxed">
+          <p className="text-gray-900 mb-16 leading-relaxed">
             Analytics implementation is not merely about installing tracking codes or monitoring clicks. It involves a holistic framework integrating digital marketing services, online marketing strategy, and performance marketing. Each touchpoint in the customer journey becomes measurable and actionable. By translating raw data into strategic guidance, we optimize campaigns, improve ROI, and enhance brand perception.
           </p>
 
@@ -101,7 +101,7 @@ const AnalyticsImplementation = () => {
               <div key={i} className="bg-white border border-gray-200 p-8 flex flex-col gap-4">
                 <item.icon className="text-[#00AE80]" size={28}/>
                 <h4 className="font-black text-[#011f18] text-sm">{item.title}</h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
+                <p className="text-gray-900 text-xs leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -113,7 +113,7 @@ const AnalyticsImplementation = () => {
         <div className="max-w-4xl mx-auto text-center">
           <Database className="mx-auto text-[#00AE80] mb-12 opacity-70" size={60} />
           <h3 className="text-4xl font-black text-[#011f18] mb-8">The backbone of marketing transformation</h3>
-          <p className="text-gray-600 leading-relaxed mb-12">
+          <p className="text-gray-900 leading-relaxed mb-12">
             Our Branding Agency Islamabad systematically captures, analyzes, and acts on data to enable businesses to navigate modern marketing with confidence. Tools like GA4, Tag Manager, BigQuery, and Looker provide accurate tracking across all touchpoints, empowering actionable insights and measurable growth.
           </p>
           <div className="inline-grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -138,7 +138,7 @@ const AnalyticsImplementation = () => {
           <div className="flex flex-col justify-end">
             <div className="flex items-start gap-4 mb-6">
               <MapPin className="text-[#00AE80]"/>
-              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Islamabad</p>
+              <p className="text-[10px] font-bold text-gray-900 uppercase tracking-widest">Islamabad</p>
             </div>
             <div className="flex gap-10 text-[9px] font-black uppercase tracking-[0.5em] text-gray-400">
               <p>Blucom © 2026</p>

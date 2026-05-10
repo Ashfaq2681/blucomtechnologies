@@ -31,7 +31,7 @@ const CategoryMenu = ({ className = "" }) => {
 
   if (error) {
     return (
-      <div className={`text-[13px] font-semibold text-slate-500 ${className}`}>
+      <div className={`text-[13px] font-semibold text-gray-900 ${className}`}>
         {error}
       </div>
     );
@@ -52,7 +52,7 @@ const CategoryMenu = ({ className = "" }) => {
               {category.subcategories.map((subcategory) => (
                 <div
                   key={subcategory.id}
-                  className="rounded-xl px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"
+                  className="rounded-xl px-3 py-2 text-sm text-gray-900 transition hover:bg-slate-50 hover:text-slate-950"
                 >
                   {subcategory.name}
                 </div>

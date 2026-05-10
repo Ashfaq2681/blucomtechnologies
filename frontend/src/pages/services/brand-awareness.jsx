@@ -49,7 +49,7 @@ const BrandAwarenessPage = () => {
               Beyond<br/>
               <span className="text-emerald-500">Seen</span>
             </h1>
-            <p className=" text-xl md:text-2xl text-gray-500 font-light max-w-lg leading-relaxed mb-12">
+            <p className=" text-xl md:text-2xl text-gray-900 font-light max-w-lg leading-relaxed mb-12">
               Visibility is the currency of the modern market. We create robust brand awareness strategies that ensure your audience doesn't just notice you—they remember your brand and story.
             </p>
             <div className="flex gap-6">
@@ -77,7 +77,7 @@ const BrandAwarenessPage = () => {
           <div className="grid lg:grid-cols-3 gap-20">
             <div className="lg:col-span-1">
               <h2 className="text-4xl font-black mb-6 leading-snug">Understanding brand awareness</h2>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              <p className="text-gray-900 text-sm leading-relaxed mb-6">
                 Brand awareness is the degree to which consumers recognize and recall a brand. It is the foundation of loyalty, trust, and preference. Strong awareness ensures your audience not only knows your brand exists but understands its values, mission, and unique proposition.
               </p>
               <div className="w-20 h-1 bg-[#00AE80]"></div>
@@ -120,7 +120,7 @@ const BrandAwarenessPage = () => {
               <div key={i} className="bg-white p-8 border border-gray-200 flex flex-col items-start text-left hover:bg-[#00AE80] hover:text-white transition duration-500">
                 <item.icon size={32} className="text-[#00AE80] mb-4 group-hover:text-white" />
                 <h3 className="text-xl font-black mb-4">{item.title}</h3>
-                <p className="text-sm text-gray-600 group-hover:text-white leading-relaxed">{item.body}</p>
+                <p className="text-sm text-gray-900 group-hover:text-white leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -132,7 +132,7 @@ const BrandAwarenessPage = () => {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-20">
           <div>
             <h3 className="text-4xl font-black mb-10">Strategic growth & <span className="text-[#00AE80]">tangible impact</span></h3>
-            <p className="text-gray-500 text-sm leading-relaxed mb-10">
+            <p className="text-gray-900 text-sm leading-relaxed mb-10">
               Investing in brand awareness is an asset. Brands with top-of-mind awareness experience higher engagement, loyalty, and conversions, driving measurable business growth.
             </p>
             <button className="flex items-center gap-4 font-black uppercase text-[10px] tracking-widest text-[#011f18] group">
@@ -152,7 +152,7 @@ const BrandAwarenessPage = () => {
             ].map((benefit, i) => (
               <div key={i} className="flex gap-4 items-center bg-white p-6 border-b-2 border-transparent hover:border-[#00AE80] transition-all">
                 <Heart className="text-[#00AE80] shrink-0" size={18} />
-                <span className="text-[11px] font-black text-gray-600">{benefit}</span>
+                <span className="text-[11px] font-black text-gray-900">{benefit}</span>
               </div>
             ))}
           </div>

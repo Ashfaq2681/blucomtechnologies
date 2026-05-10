@@ -75,7 +75,7 @@ const LeadGenBlueprint = () => {
           <div className="h-1 bg-gray-100 overflow-hidden">
             <div className="h-full bg-[#00AE80] w-[68%]"></div>
           </div>
-          <p className="text-[9px] text-gray-500 leading-relaxed italic uppercase">
+          <p className="text-[9px] text-gray-900 leading-relaxed italic uppercase">
             "68% of B2B companies cite lead generation as their top priority."
           </p>
         </div>
@@ -103,7 +103,7 @@ const LeadGenBlueprint = () => {
                   </div>
                   <div>
                     <h4 className="font-black text-xs mb-1">Seo for lead capture</h4>
-                    <p className="text-[11px] text-gray-500 leading-relaxed">Optimizing landing pages with keywords and structured data to attract high-intent visitors.</p>
+                    <p className="text-[11px] text-gray-900 leading-relaxed">Optimizing landing pages with keywords and structured data to attract high-intent visitors.</p>
                   </div>
                 </div>
 
@@ -113,7 +113,7 @@ const LeadGenBlueprint = () => {
                   </div>
                   <div>
                     <h4 className="font-black text-xs mb-1">Performance marketing</h4>
-                    <p className="text-[11px] text-gray-500 leading-relaxed">Leveraging PPC advertising and programmatic campaigns to increase conversion rates with precision.</p>
+                    <p className="text-[11px] text-gray-900 leading-relaxed">Leveraging PPC advertising and programmatic campaigns to increase conversion rates with precision.</p>
                   </div>
                 </div>
 
@@ -123,7 +123,7 @@ const LeadGenBlueprint = () => {
                   </div>
                   <div>
                     <h4 className="font-black text-xs mb-1">Authority content</h4>
-                    <p className="text-[11px] text-gray-500 leading-relaxed">Building trust through storytelling and B2B content marketing to engage decision-makers.</p>
+                    <p className="text-[11px] text-gray-900 leading-relaxed">Building trust through storytelling and B2B content marketing to engage decision-makers.</p>
                   </div>
                 </div>
               </div>
@@ -146,7 +146,7 @@ const LeadGenBlueprint = () => {
                   <ShieldCheck size={14} className="text-gray-400"/>
                 </div>
               </div>
-              <p className="mt-8 text-[10px] text-gray-500 font-bold leading-relaxed">
+              <p className="mt-8 text-[10px] text-gray-900 font-bold leading-relaxed">
                 Using lead magnets, webinars, and AI-driven personalization to move prospects seamlessly through the customer journey.
               </p>
             </div>
@@ -188,15 +188,15 @@ const LeadGenBlueprint = () => {
           <div className="flex flex-wrap justify-center gap-12">
             <div className="text-center">
               <span className="block text-2xl font-black text-[#011f18]">B2B</span>
-              <span className="text-[9px] font-bold text-gray-500 tracking-widest">Growth marketing</span>
+              <span className="text-[9px] font-bold text-gray-900 tracking-widest">Growth marketing</span>
             </div>
             <div className="text-center border-x border-gray-200 px-12">
               <span className="block text-2xl font-black text-[#011f18]">B2C</span>
-              <span className="text-[9px] font-bold text-gray-500 tracking-widest">Lead acquisition</span>
+              <span className="text-[9px] font-bold text-gray-900 tracking-widest">Lead acquisition</span>
             </div>
             <div className="text-center">
               <span className="block text-2xl font-black text-[#011f18]">ROI</span>
-              <span className="text-[9px] font-bold text-gray-500 tracking-widest">Measurement</span>
+              <span className="text-[9px] font-bold text-gray-900 tracking-widest">Measurement</span>
             </div>
           </div>
         </div>
@@ -210,13 +210,13 @@ const LeadGenBlueprint = () => {
               <h2 className="text-5xl md:text-8xl font-black mb-10 leading-[0.85]">
                 Turn data <br/>into <span className="text-[#00AE80]">revenue.</span>
               </h2>
-              <div className="space-y-4 font-bold text-[10px] tracking-widest text-gray-500">
+              <div className="space-y-4 font-bold text-[10px] tracking-widest text-gray-900">
                 <p className="flex items-center gap-4 text-[#011f18]"><Mail className="text-[#00AE80]" size={16}/> connect@blucomtechnologies.com</p>
                 <p className="flex items-center gap-4 text-[#011f18]"><Phone className="text-[#00AE80]" size={16}/> +92-303-5907230 | +92-334-0011126</p>
               </div>
             </div>
             <div className="border-l-4 border-[#00AE80] pl-12">
-              <p className="text-xs text-gray-500 leading-relaxed mb-8">
+              <p className="text-xs text-gray-900 leading-relaxed mb-8">
                 Lead generation is the engine of business growth. At our Branding Agency Islamabad, we ensure campaigns are measurable growth engines designed to deliver scale and sustainability.
               </p>
               <div className="flex items-start gap-4 opacity-40">

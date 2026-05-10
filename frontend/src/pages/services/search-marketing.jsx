@@ -70,7 +70,7 @@ const SearchMarketingBlueprint = () => {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-black mb-4 leading-tight">SEO: The Organic Base</h2>
-            <p className="text-gray-500 text-sm leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="text-gray-900 text-sm leading-relaxed max-w-2xl mx-auto lg:mx-0">
               Our foundation starts with comprehensive keyword research, competitive analysis, and technical SEO audits. Every element—from meta tags to page speed—is optimized to boost organic traffic growth and maintain authority within your niche.
             </p>
           </div>
@@ -96,7 +96,7 @@ const SearchMarketingBlueprint = () => {
     <div key={i} className="border border-gray-200 p-8 flex flex-col gap-4">
       <item.icon size={28} className="text-[#00AE80]" />
       <h4 className="font-black text-sm tracking-widest">{item.title}</h4>
-      <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+      <p className="text-xs text-gray-900 leading-relaxed">{item.desc}</p>
     </div>
   ))}
 </div>
@@ -110,7 +110,7 @@ const SearchMarketingBlueprint = () => {
       <h2 className="text-5xl font-black tracking-tight text-[#00AE80] mb-4">The conversion accelerator</h2>
       <div className="mb-16 text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-black mb-4 leading-tight">SEO: The Organic Base</h2>
-            <p className="text-gray-500 text-sm leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="text-gray-900 text-sm leading-relaxed max-w-2xl mx-auto lg:mx-0">
               we design paid media strategies that maximize reach, relevance, and return. From Google Ads and Microsoft Ads to programmatic advertising, each campaign is crafted to target high-intent prospects, ensuring that every marketing dollar contributes to measurable growth.
             </p>
           </div>
@@ -125,7 +125,7 @@ const SearchMarketingBlueprint = () => {
         <div key={i} className="bg-white p-12 border border-gray-200 flex flex-col gap-6 group hover:bg-[#D1FFE6] transition-colors">
           <box.icon size={32} className="text-[#00AE80] group-hover:scale-110 transition-transform" />
           <h5 className="font-black text-xs tracking-widest">{box.title}</h5>
-          <p className="text-xs text-gray-600 leading-relaxed">{box.desc}</p>
+          <p className="text-xs text-gray-900 leading-relaxed">{box.desc}</p>
         </div>
       ))}
     </div>
@@ -138,7 +138,7 @@ const SearchMarketingBlueprint = () => {
           <div className="bg-white p-12 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-gray-200">
             <Layers size={28} className="text-[#00AE80]" />
             <h4 className="text-2xl font-black mb-4">B2B reach</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">Target decision-makers through remarketing funnels, optimized landing pages, and sustainable strategies that enhance business outcomes.</p>
+            <p className="text-xs text-gray-900 leading-relaxed">Target decision-makers through remarketing funnels, optimized landing pages, and sustainable strategies that enhance business outcomes.</p>
             <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#00AE80]">
               <span className="w-1.5 h-1.5 bg-[#00AE80]"></span> LinkedIn synergy integrated
             </div>
@@ -146,7 +146,7 @@ const SearchMarketingBlueprint = () => {
           <div className="bg-white p-12 flex flex-col gap-6">
             <Maximize2 size={28} className="text-[#00AE80]" />
             <h4 className="text-2xl font-black mb-4">B2C growth</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">Social proof marketing and engagement-driven SEO content converts casual browsers into loyal brand advocates.</p>
+            <p className="text-xs text-gray-900 leading-relaxed">Social proof marketing and engagement-driven SEO content converts casual browsers into loyal brand advocates.</p>
             <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#00AE80]">
               <span className="w-1.5 h-1.5 bg-[#00AE80]"></span> Instagram marketing optimized
             </div>
@@ -166,7 +166,7 @@ const SearchMarketingBlueprint = () => {
               </div>
             </div>
             <div className="border-l-4 border-[#00AE80] pl-12">
-              <p className="text-sm text-gray-500 leading-relaxed font-bold mb-4">
+              <p className="text-sm text-gray-900 leading-relaxed font-bold mb-4">
                 Search marketing bridges intent and action. Our agency ensures your brand is not only seen but remembered.
               </p>
               <div className="flex items-start gap-4 opacity-50">

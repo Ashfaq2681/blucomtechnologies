@@ -33,7 +33,7 @@ const CampaignOptimization = () => {
                 Maximize<br/>
                 <span className="text-[#00AE80]">the ROI</span>
               </h1>
-              <p className="text-xl text-gray-500 font-light leading-relaxed max-w-lg mb-10">
+              <p className="text-xl text-gray-900 font-light leading-relaxed max-w-lg mb-10">
                 Launching a campaign is just the beginning. At our <span className="font-bold">Branding Agency Islamabad</span>, we refine campaigns so every touchpoint converts and every marketing dollar drives measurable results.
               </p>
               <div className="flex gap-4">
@@ -106,7 +106,7 @@ const CampaignOptimization = () => {
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-[#011f18]">
                 Integrated <span className="text-[#00AE80]">methodology</span>
               </h2>
-              <p className="text-gray-600 leading-relaxed font-light">
+              <p className="text-gray-900 leading-relaxed font-light">
                 Insights from campaigns inform social media content strategies, email targeting, and website UX. We adopt a digital marketing growth strategy that leverages A/B testing, multivariate experiments, and real-time dashboards to continuously optimize campaigns for performance.
               </p>
               <div className="grid gap-4">
@@ -122,7 +122,7 @@ const CampaignOptimization = () => {
             <div className="bg-white p-12 text-[#011f18] border border-gray-200">
                <Cpu className="text-[#00AE80] mb-8" size={48} />
                <h3 className="text-3xl font-black mb-6 tracking-tighter italic">AI-powered refinement</h3>
-               <p className="text-sm text-gray-500 leading-relaxed mb-8">
+               <p className="text-sm text-gray-900 leading-relaxed mb-8">
                  Predictive analytics allow us to anticipate audience needs, personalize content, and optimize marketing campaigns in real time, ensuring measurable growth.
                </p>
                <div className="p-6 bg-gray-100 border-l-4 border-[#00AE80]">
@@ -180,7 +180,7 @@ const CampaignOptimization = () => {
                </div>
             </div>
           </div>
-          <div className="pt-10 border-t border-gray-200 text-center text-[10px] text-gray-500 font-black tracking-[1.5em]">
+          <div className="pt-10 border-t border-gray-200 text-center text-[10px] text-gray-900 font-black tracking-[1.5em]">
              Blucom Technologies © 2026
           </div>
         </div>

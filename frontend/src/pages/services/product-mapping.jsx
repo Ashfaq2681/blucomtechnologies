@@ -23,7 +23,7 @@ const ProductMappingAuthority = () => {
             <span className="text-[#00AE80]">Mapping</span>
           </h1>
           
-          <p className="max-w-4xl mx-auto text-gray-500 text-lg md:text-xl leading-relaxed mb-12">
+          <p className="max-w-4xl mx-auto text-gray-900 text-lg md:text-xl leading-relaxed mb-12">
             In today’s hyper-competitive marketplace, understanding and strategically organizing your product portfolio is the cornerstone of sustainable growth. At Blucom Technologies, we specialize in high-level product mapping services designed to identify hidden opportunities, optimize existing offerings, and align your entire ecosystem with the evolving needs of your target audience.
           </p>
 
@@ -41,7 +41,7 @@ const ProductMappingAuthority = () => {
           <div className="bg-white/40 backdrop-blur-xl border border-gray-100 p-12 md:p-20 rounded-[60px] shadow-sm mb-12">
             <h2 className="text-4xl font-black uppercase mb-12 tracking-tight">What is <span className="text-[#00AE80]">Strategic Product Mapping?</span></h2>
             <div className="grid lg:grid-cols-2 gap-16">
-              <div className="text-gray-600 space-y-6 leading-relaxed">
+              <div className="text-gray-900 space-y-6 leading-relaxed">
                 <p>
                   Product mapping is far more than a simple inventory check. It is a highly structured, data-driven approach to analyzing, categorizing, and strategically positioning your offerings within a specific market landscape. It allows business leaders to visualize their entire ecosystem in a way that reveals competitive positioning and uncovers critical gaps for innovation.
                 </p>
@@ -59,7 +59,7 @@ const ProductMappingAuthority = () => {
                     <item.icon className="text-[#00AE80] shrink-0" />
                     <div>
                       <h4 className="font-black text-xs uppercase mb-1">{item.title}</h4>
-                      <p className="text-[11px] text-gray-500 uppercase leading-tight">{item.d}</p>
+                      <p className="text-[11px] text-gray-900 uppercase leading-tight">{item.d}</p>
                     </div>
                   </div>
                 ))}
@@ -143,7 +143,7 @@ const ProductMappingAuthority = () => {
           <div className="grid lg:grid-cols-3 gap-16">
             <div className="lg:col-span-1">
               <h2 className="text-4xl font-black uppercase leading-[0.9] mb-8">Why Mapping <br/>is <span className="text-[#00AE80]">Essential</span></h2>
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <p className="text-gray-900 text-sm leading-relaxed">
                 In a crowded marketplace, a strong product strategy is not optional—it is essential. It ensures that your business creates a cohesive strategy that drives both customer engagement and revenue growth.
               </p>
             </div>
@@ -193,7 +193,7 @@ const ProductMappingAuthority = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div className="lg:col-span-2">
               <h3 className="text-4xl font-black uppercase mb-6 tracking-tighter text-[#011f18]">Ready to Map Success?</h3>
-              <p className="text-gray-500 max-w-sm mb-8">Optimize your product portfolio and strengthen your market position with Blucom Technologies.</p>
+              <p className="text-gray-900 max-w-sm mb-8">Optimize your product portfolio and strengthen your market position with Blucom Technologies.</p>
               <div className="flex gap-4">
                  <div className="w-12 h-12 bg-[#011f18] rounded-full flex items-center justify-center text-[#00FFC2]"><ShieldCheck /></div>
                  <div className="w-12 h-12 bg-[#E6FFF9] rounded-full flex items-center justify-center text-[#00AE80]"><Workflow /></div>

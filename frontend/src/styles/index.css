@@ -11,14 +11,14 @@
 /* --- Root Colors --- */
 :root {
   --color-primary: #10b981;   /* emerald-500 */
-  --color-secondary: #374151; /* gray-700 */
+  --color-secondary: #111827; /* gray-700 */
 }
 
 /* --- Input Fields --- */
 .landingInput {
   outline: none;
-  border-bottom: 2px solid #727277;
-  color: #727277;
+  border-bottom: 2px solid #111827;
+  color: #111827;
   font-size: 24px;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .hero-subheading {
-  color: #4B5563; /* gray-700 */
+  color: #111827; /* gray-700 */
   margin-bottom: 2rem;
   max-width: 48rem;
   margin-left: auto;
@@ -121,7 +121,7 @@
 }
 
 .feature-card-text {
-  color: #4B5563; /* gray-600 */
+  color: #111827; /* gray-600 */
   line-height: 1.5;
 }
 

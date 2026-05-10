@@ -33,7 +33,7 @@ export default function InvestorOverviewSingle() {
           </div>
         </div>
       </div>
-      <div className="w-[80%] mx-auto text-gray-500">
+      <div className="w-[80%] mx-auto text-gray-900">
         <div className="my-5 sm:my-10">
           <p className="text-lg">For all local and international</p>
           <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">

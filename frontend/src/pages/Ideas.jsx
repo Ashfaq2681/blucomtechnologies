@@ -92,7 +92,7 @@ const Ideas = () => {
       <div className="w-[80%] mx-auto my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {ideas.slice(0, showMore ? ideas.length : 8).map((ideasItem, key) => (
-            <div className="text-gray-600" key={key}>
+            <div className="text-gray-900" key={key}>
               <p className="uppercase py-2">ideas</p>
               <div className="h-60 bg-gray-300">
                 <img src="" alt="img.." />

@@ -84,7 +84,7 @@ const SingleBlog = () => {
           </div>
 
           {loading && (
-            <div className="py-24 text-center text-sm font-semibold text-slate-500">
+            <div className="py-24 text-center text-sm font-semibold text-gray-900">
               Loading post...
             </div>
           )}
@@ -110,7 +110,7 @@ const SingleBlog = () => {
                     {post.category}
                   </span>
                   {post.subcategory && (
-                    <span className="rounded-md bg-slate-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-slate-500">
+                    <span className="rounded-md bg-slate-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-gray-900">
                       {post.subcategory}
                     </span>
                   )}
@@ -118,7 +118,7 @@ const SingleBlog = () => {
                 <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight text-[#1d2d35] md:text-6xl">
                   {post.title}
                 </h1>
-                <div className="mt-6 flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <div className="mt-6 flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-gray-900">
                   <span>{formatDate(post.createdAt)}</span>
                 </div>
               </div>

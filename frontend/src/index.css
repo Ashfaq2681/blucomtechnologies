@@ -9,7 +9,7 @@
 @tailwind utilities;
 
 .landingInput{
-    @apply outline-none border-b-2 border-[#727277] text-[#727277] text-[24px]
+    @apply outline-none border-b-2 border-gray-900 text-gray-900 text-[24px]
 }
 .inputContact {
     @apply w-full bg-[#EDEDED] rounded-md p-2 lg:py-3 lg:px-5 focus:outline-none

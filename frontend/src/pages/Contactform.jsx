@@ -30,7 +30,7 @@ const ContactFormPage = () => {
         <div className="bg-white shadow-lg p-8 md:p-12">
           {/* Heading */}
           <div className="flex flex-col justify-center items-center mb-10">
-            <span className="text-2xl text-gray-500 mb-2">
+            <span className="text-2xl text-gray-900 mb-2">
               Let's build something
             </span>
             <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
@@ -39,7 +39,7 @@ const ContactFormPage = () => {
           </div>
 
           {/* Info Section */}
-          <div className="grid md:grid-cols-3 gap-6 mb-10 text-gray-500">
+          <div className="grid md:grid-cols-3 gap-6 mb-10 text-gray-900">
             <div>
               <p className="font-medium mb-1">Office:</p>
               <p>Islamabad</p>

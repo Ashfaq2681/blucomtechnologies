@@ -36,7 +36,7 @@ const CustomerJourneyMapping = () => {
             <span className="text-[#00AE80]">JOURNEY</span>
           </h1>
           
-          <p className="max-w-3xl mx-auto text-gray-500 text-lg md:text-2xl leading-relaxed font-light mb-16 px-4">
+          <p className="max-w-3xl mx-auto text-gray-900 text-lg md:text-2xl leading-relaxed font-light mb-16 px-4">
             In the high-stakes world of modern commerce, the shortest distance between a brand and a conversion isn't a straight line—<span className="text-[#011f18] font-bold">it’s a story.</span>
           </p>
 
@@ -99,7 +99,7 @@ const CustomerJourneyMapping = () => {
             <div className="md:col-span-8 bg-gray-50 rounded-[40px] p-12 border border-gray-100 hover:border-[#00AE80] transition-all">
               <Search className="text-[#00AE80] mb-8" size={48} />
               <h3 className="text-2xl font-black uppercase mb-4 tracking-tight text-[#011f18]">01. Data Mining & Behavioral Research</h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-8">
+              <p className="text-gray-900 text-sm leading-relaxed mb-8">
                 Gathering raw intelligence is the first node. By integrating **marketing analytics insights** with real-world **B2B marketing insights**, we look at where your customers are coming from and where they drop off. We analyze **digital marketing trends** and historical data to build a baseline of current user behavior.
               </p>
               <div className="flex gap-4">
@@ -123,7 +123,7 @@ const CustomerJourneyMapping = () => {
             <div className="md:col-span-4 bg-[#E6FFF9] rounded-[40px] p-12 border border-[#00AE80]/20 group">
               <Combine className="text-[#00AE80] mb-8 group-hover:scale-110 transition-transform" size={48} />
               <h3 className="text-xl font-black uppercase mb-4 tracking-tighter">03. Cross-Channel Alignment</h3>
-              <p className="text-xs text-gray-600 leading-relaxed uppercase">
+              <p className="text-xs text-gray-900 leading-relaxed uppercase">
                 From LinkedIn to Google to your email list. We align your **social media brand strategy** with your **SEO marketing services** to ensure a seamless narrative.
               </p>
             </div>
@@ -132,7 +132,7 @@ const CustomerJourneyMapping = () => {
             <div className="md:col-span-8 bg-white border border-gray-100 rounded-[40px] p-12 hover:shadow-2xl transition-all">
               <Workflow className="text-[#00AE80] mb-8" size={48} />
               <h3 className="text-2xl font-black uppercase mb-4 tracking-tight text-[#011f18]">04. Predictive Growth & Automation</h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-8">
+              <p className="text-gray-900 text-sm leading-relaxed mb-8">
                 Using **predictive marketing analytics**, we anticipate future customer needs. By implementing **B2B marketing automation**, we ensure that once the map is built, the journey sustains itself—nurturing leads through **B2B lead generation** tactics that operate 24/7.
               </p>
               <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -151,7 +151,7 @@ const CustomerJourneyMapping = () => {
               <h2 className="text-4xl font-black uppercase mb-8 leading-none tracking-tighter">
                 The B2B Complexity: <br/><span className="text-[#00AE80]">Committee Mapping</span>
               </h2>
-              <div className="space-y-6 text-gray-500 text-sm leading-relaxed">
+              <div className="space-y-6 text-gray-900 text-sm leading-relaxed">
                 <p>
                   In the B2B space, the "Customer" is rarely one person; it is a committee of stakeholders. Our **B2B digital marketing strategy** accounts for this by mapping separate sub-journeys for the User, the Influencer, and the Decision Maker. 
                 </p>

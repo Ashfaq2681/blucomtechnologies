@@ -59,7 +59,7 @@ export default function InvestorsOverview() {
           </div>
         <div className="w-[80%] mx-auto lg:my-48 my-10 sm:my-14 md:my-28">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full justify-center gap-8 ">
-            <div className="w-full sm:w-52 text-gray-600 p-1">
+            <div className="w-full sm:w-52 text-gray-900 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline">
@@ -74,7 +74,7 @@ export default function InvestorsOverview() {
                 brand from the top of the list to the dotted line.
               </p>
             </div>
-            <div className="w-full sm:w-52 text-gray-600 p-1">
+            <div className="w-full sm:w-52 text-gray-900 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline">
@@ -89,7 +89,7 @@ export default function InvestorsOverview() {
                 brand from the top of the list to the dotted line.
               </p>
             </div>
-            <div className="w-full sm:w-52 text-gray-600 p-1">
+            <div className="w-full sm:w-52 text-gray-900 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline">
@@ -104,7 +104,7 @@ export default function InvestorsOverview() {
                 brand from the top of the list to the dotted line.
               </p>
             </div>
-            <div className="w-full sm:w-52 text-gray-600 p-1">
+            <div className="w-full sm:w-52 text-gray-900 p-1">
               <p className="text-lg">Company </p>
               <p>Performance</p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline">
@@ -124,7 +124,7 @@ export default function InvestorsOverview() {
         <div className="w-[80%] mx-auto">
        
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-            <div className="text-gray-600 p-1">
+            <div className="text-gray-900 p-1">
               <p>Some of our </p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline py-1">
                 Presentations
@@ -151,7 +151,7 @@ export default function InvestorsOverview() {
                 </li>
               </ul>
             </div>
-            <div className="text-gray-600">
+            <div className="text-gray-900">
               <p>Some of our </p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Events
@@ -177,7 +177,7 @@ export default function InvestorsOverview() {
         </div>
         <div className="w-[80%] mx-auto my-10">
           <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 sm:mt-20 mt-12">
-            <div className="text-gray-600">
+            <div className="text-gray-900">
               <p>Some of our </p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release
@@ -190,7 +190,7 @@ export default function InvestorsOverview() {
                 Read Report
               </button>
             </div>
-            <div className="text-gray-600">
+            <div className="text-gray-900">
               <p>Some of our </p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release
@@ -203,7 +203,7 @@ export default function InvestorsOverview() {
                 Read Report
               </button>
             </div>
-            <div className="text-gray-600">
+            <div className="text-gray-900">
               <p>Some of our </p>
               <h1 className="text-[#00AE80] text-4xl font-medium underline pt-1 pb-4">
                 Press Release

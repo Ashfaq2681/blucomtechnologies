@@ -9,7 +9,7 @@ const Hero = () => {
           className="w-[200px] lg:w-[400px] xl:w-[850px] h-[182px] lg:h-[300px] xl:h-[600px]"
         />
         <div className="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center">
-          <div className="text-2xl text-gray-500">
+          <div className="text-2xl text-gray-900">
             It starts from
             <br />
             <p className="text-6xl text-emerald-500 underline decoration-8 decoration-green-300">
@@ -19,7 +19,7 @@ const Hero = () => {
             to next unicorn
           </div>
           <div className="mt-24">
-            <a href="/" className="text-3g text-gray-500">
+            <a href="/" className="text-3g text-gray-900">
               We create valuable brands for your customers rather than just a simple visual.
               We exist to put all our effort into not only creating beautiful visuals but also
               strategic experiences.

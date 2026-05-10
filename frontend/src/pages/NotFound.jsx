@@ -17,14 +17,14 @@ const NotFound = () => {
         </span>
         
         <div className="relative z-10">
-          <span className="text-2xl text-gray-500 block mb-2">
+          <span className="text-2xl text-gray-900 block mb-2">
             Lost? Let’s redirect you to
           </span>
           <h1 className="text-5xl md:text-7xl text-emerald-500 underline decoration-8 decoration-green-300 mb-8">
              Growth
           </h1>
           
-          <p className="text-xl text-gray-500 max-w-xl mx-auto mb-12">
+          <p className="text-xl text-gray-900 max-w-xl mx-auto mb-12">
             The page you’re looking for is currently outside our digital map. 
             Let’s get your brand back on track.
           </p>

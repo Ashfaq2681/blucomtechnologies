@@ -56,14 +56,14 @@ const LandingServices = () => {
   return (
     <div>
       <div className="flex flex-col items-center text-center m-6 sm:m-10 w-full">
-            <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">We provide a complete range of</span>
+            <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">We provide a complete range of</span>
             <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               Creative & Digital Services
             </span>
-            <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Discovery / Strategy / Interaction</span>
+            <span className="text-2xl text-gray-900 flex flex-wrap gap-2 mt-5">Discovery / Strategy / Interaction</span>
           </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#727277] mx-auto w-full max-w-6xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#111827] mx-auto w-full max-w-6xl">
      
       {sections.map((section, secIndex) => (
         <div key={secIndex} className="flex flex-col gap-6">
@@ -74,7 +74,7 @@ const LandingServices = () => {
             {section.items.map((item, index) => (
               <li key={index}>
                 <Link
-                  className="text-gray-500 hover:text-emerald-500 transition duration-300"
+                  className="text-gray-900 hover:text-emerald-500 transition duration-300"
                   to={item.path}
                 >
                   {item.name}

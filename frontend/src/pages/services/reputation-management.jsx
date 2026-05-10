@@ -73,7 +73,7 @@ const ReputationManagementPage = () => {
                 Management
               </span>
             </h1>
-            <p className="text-gray-600 text-lg leading-relaxed max-w-xl">
+            <p className="text-gray-900 text-lg leading-relaxed max-w-xl">
               In the digital era, your brand’s reputation defines trust, loyalty, and growth. At Blucom Technologies, we deliver end-to-end solutions to protect, enhance, and amplify your brand across online and offline platforms.
             </p>
           </div>
@@ -98,7 +98,7 @@ const ReputationManagementPage = () => {
               <div className="h-1 w-20 bg-[#00AE80] mb-6"></div>
             </div>
             <div className="md:col-span-2 space-y-8">
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className="text-gray-900 text-lg leading-relaxed">
                 Reputation is more than perception; it is a critical asset influencing customer trust, loyalty, and long-term growth. Effective management ensures a strong brand presence, higher engagement, and measurable results across digital channels.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -109,7 +109,7 @@ const ReputationManagementPage = () => {
                 ].map((item, i) => (
                   <div key={i} className="p-6 bg-gray-50 rounded-2xl border-l-4 border-[#00AE80]">
                     <h4 className="font-black text-xs mb-2">{item.t}</h4>
-                    <p className="text-[10px] text-gray-500 tracking-wide">{item.d}</p>
+                    <p className="text-[10px] text-gray-900 tracking-wide">{item.d}</p>
                   </div>
                 ))}
               </div>
@@ -158,7 +158,7 @@ const ReputationManagementPage = () => {
             >
               <item.icon size={32} className="text-[#00AE80] group-hover:text-white mb-4" />
               <h3 className="text-xl font-black mb-4">{item.title}</h3>
-              <p className="text-sm text-gray-600 group-hover:text-white leading-relaxed">{item.body}</p>
+              <p className="text-sm text-gray-900 group-hover:text-white leading-relaxed">{item.body}</p>
             </div>
           ))}
         </div>
@@ -171,7 +171,7 @@ const ReputationManagementPage = () => {
             <h2 className="text-3xl font-black mb-6">
               Why reputation <span className="text-[#00AE80]">management matters</span>
             </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed">
+            <p className="text-gray-900 mb-8 leading-relaxed">
               In a digital-first world, precise brand messaging ensures trust, customer retention, and long-term authority. Reputation management safeguards your growth and strengthens relationships.
             </p>
             <div className="space-y-4">
@@ -220,7 +220,7 @@ const ReputationManagementPage = () => {
             <h2 className="text-5xl font-black mb-6">
               Secure your <span className="text-[#00AE80]">authority</span>
             </h2>
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-900 mb-8">
               Partner with Blucom Technologies to develop strategies that protect your reputation, amplify brand trust, and generate measurable growth.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">

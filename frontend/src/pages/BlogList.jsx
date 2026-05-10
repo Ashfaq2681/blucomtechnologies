@@ -85,7 +85,7 @@ const EditorPick = ({ post, imageClass, onClick }) => (
       />
     </div>
     <div>
-      <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-600">
+      <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
         {post.category}
       </span>
       <h4 className="mt-2 text-sm font-bold leading-tight transition-colors group-hover:text-green-700">
@@ -109,7 +109,7 @@ const ArticleCard = ({ post, imageClass, onClick }) => (
         fallbackClass={imageClass}
       />
     </div>
-    <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-600">
+    <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
       {post.category}
     </span>
     <h3 className="mt-3 text-lg font-bold leading-tight transition-colors group-hover:text-blue-700">
@@ -129,7 +129,7 @@ const ListArticle = ({ post, onClick }) => (
     onClick={() => onClick(post.slug)}
     className="group w-full cursor-pointer border-b border-gray-100 py-6 text-left last:border-0"
   >
-    <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-600">
+    <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
       {post.category}
     </span>
     <h4 className="mt-3 text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
@@ -217,7 +217,7 @@ const BlogList = () => {
 
         <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
           {loading && (
-            <div className="py-24 text-center text-sm font-semibold text-slate-500">
+            <div className="py-24 text-center text-sm font-semibold text-gray-900">
               Loading posts...
             </div>
           )}
@@ -229,7 +229,7 @@ const BlogList = () => {
           )}
 
           {!loading && !error && posts.length === 0 && (
-            <div className="py-24 text-center text-sm font-semibold text-slate-500">
+            <div className="py-24 text-center text-sm font-semibold text-gray-900">
               No blog posts found.
             </div>
           )}

@@ -58,7 +58,7 @@ const Identity = () => {
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-black mb-6 text-emerald-500">The Power Of Brand Identity</h2>
             <div className="w-24 h-2 bg-[#00AE80] mx-auto mb-8"></div>
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-900 max-w-2xl mx-auto">
               Brand identity communicates who you are, what you stand for, and why your audience should engage with you. A well-defined identity creates consistency, strengthens recognition, and amplifies the impact of your digital marketing services. Every element, from typography to tone, becomes part of a cohesive story.
             </p>
           </div>
@@ -72,7 +72,7 @@ const Identity = () => {
               <div key={i} className="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl hover:shadow-[#00AE80]/10 transition-all">
                 <CheckCircle2 className="text-[#00AE80] mb-6" size={40} />
                 <h3 className="text-xl font-black mb-4 tracking-tight">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-gray-900 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

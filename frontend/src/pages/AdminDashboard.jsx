@@ -65,11 +65,11 @@ export default function AdminDashboard() {
       <motion.div style={{ flex: 1, marginLeft: "24px", padding: "24px", background: "rgba(255, 255, 255, 0.6)", borderRadius: "16px", boxShadow: "0px 4px 10px rgba(0,0,0,0.1)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#374151" }}>Admin Dashboard</h1>
+          <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#111827" }}>Admin Dashboard</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <span style={{ fontWeight: "bold", color: "#374151" }}>{userName}</span>
-            <Bell color="#374151" size={24} style={{ cursor: "pointer" }} />
-            <img src="/admin-avatar.jpg" alt="Admin" style={{ width: "40px", height: "40px", borderRadius: "50%", border: "2px solid #374151" }} />
+            <span style={{ fontWeight: "bold", color: "#111827" }}>{userName}</span>
+            <Bell color="#111827" size={24} style={{ cursor: "pointer" }} />
+            <img src="/admin-avatar.jpg" alt="Admin" style={{ width: "40px", height: "40px", borderRadius: "50%", border: "2px solid #111827" }} />
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function AdminDashboard() {
 
             {/* Article Upload Form */}
             <form onSubmit={handleArticleSubmit} style={{ background: "white", padding: "16px", borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", marginTop: "16px" }}>
-              <label htmlFor="admin-article-title" style={{ fontWeight: "bold", color: "#374151" }}>Article Title</label>
+              <label htmlFor="admin-article-title" style={{ fontWeight: "bold", color: "#111827" }}>Article Title</label>
               <input
                 id="admin-article-title"
                 type="text"
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
                 required
               />
 
-              <label htmlFor="admin-article-content" style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Article Content</label>
+              <label htmlFor="admin-article-content" style={{ fontWeight: "bold", color: "#111827", marginTop: "16px", display: "block" }}>Article Content</label>
               <textarea
                 id="admin-article-content"
                 value={articleContent}
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
                 required
               ></textarea>
 
-              <label htmlFor="admin-schedule-date" style={{ fontWeight: "bold", color: "#374151", marginTop: "16px", display: "block" }}>Schedule Date</label>
+              <label htmlFor="admin-schedule-date" style={{ fontWeight: "bold", color: "#111827", marginTop: "16px", display: "block" }}>Schedule Date</label>
               <input
                 id="admin-schedule-date"
                 type="date"
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
             </form>
 
             {/* Display Articles */}
-            <h3 style={{ marginTop: "24px", fontWeight: "bold", color: "#374151" }}>Uploaded Articles</h3>
+            <h3 style={{ marginTop: "24px", fontWeight: "bold", color: "#111827" }}>Uploaded Articles</h3>
             <ul>
               {articles.length === 0 ? (
                 <p>No articles uploaded yet.</p>

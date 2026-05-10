@@ -81,7 +81,7 @@ const About = () => {
       </div>
       
 
-      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#727277]">
+      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#111827]">
         <div className="text-[24px]">
           <p>Our</p>
           <h1 className="text-[#00AF80] text-[60px] underline decoration-[#1E2832]/70 decoration-2 -mt-5">Core Values</h1>
@@ -96,7 +96,7 @@ const About = () => {
           ))}
         </div>
       </div>
-      <div className="my-20 mx-auto w-[80%] text-[#727277]">
+      <div className="my-20 mx-auto w-[80%] text-[#111827]">
         <div className="text-[24px]">
           <p>Our</p>
           <h1 className="text-[#00AF80] text-[60px] underline decoration-[#1E2832]/70 decoration-2 -mt-5">Industry Trends</h1>
@@ -112,7 +112,7 @@ const About = () => {
           ))}
         </div>
       </div>
-      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#727277]">
+      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#111827]">
         <div className="text-[24px]">
           <p>Our</p>
           <h1 className="text-[#00AF80] text-[60px] underline decoration-[#1E2832]/90 decoration-2 -mt-5">Industry Trends</h1>
@@ -128,7 +128,7 @@ const About = () => {
           ))}
         </div>
       </div>
-      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#727277]">
+      <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#111827]">
         <div className="text-[24px]">
           <p>Clients who</p>
           <h1 className="text-[#00AF80] text-[60px] underline decoration-[#1E2832]/90 decoration-2 -mt-5">Trusted</h1>
@@ -146,7 +146,7 @@ const About = () => {
         <p className="text-[24px]  max-w-[1200px] mt-2">Lets Discuss As the most awarded B2B branding agency in texas we know how to combine customer insights with impactful content to get your brand from the top of the list to the dotted line.</p>
         <button className="py-1 px-5 text-[#5F5F5F] text-[30px] font-bold bg-white mt-5">Get Started</button>
       </div>
-      <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
+      <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#111827]">
         <div className="flex flex-col justify-start items-center m-10 w-auto">
           <p className="text-[24px]">Have and idea? lets talk!</p>
           <h1 className="text-[60px] text-[#00AF80] underline decoration-[#1E2832] decoration-4">

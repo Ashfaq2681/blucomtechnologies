@@ -123,7 +123,7 @@ const MaterialLanding = () => {
             MaterialDemo
           </div>
 
-          <p className="text-gray-600">
+          <p className="text-gray-900">
             © 2026 MaterialDemo. All rights reserved.
           </p>
         </div>

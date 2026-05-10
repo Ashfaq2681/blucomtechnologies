@@ -65,7 +65,7 @@ const ForbiddenVault = () => {
         </div>
 
         {/* Bottom stylized footer for the page */}
-        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between text-gray-600 font-mono text-xs uppercase tracking-widest gap-4">
+        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between text-gray-900 font-mono text-xs uppercase tracking-widest gap-4">
           <span>Blucom_Security_Protocol_v2.0</span>
           <span>© 2026 Blucom Technologies</span>
           <span>Blue Area, Islamabad</span>

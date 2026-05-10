@@ -42,7 +42,7 @@ const StrategicCommunication = () => {
       </div>
       <div className="text-right hidden md:block">
         <Mic2 size={120} className="text-gray-300 mb-4 ml-auto" />
-        <p className="text-[10px] font-mono tracking-widest text-gray-500">Code: BLU-COMM-09</p>
+        <p className="text-[10px] font-mono tracking-widest text-gray-900">Code: BLU-COMM-09</p>
       </div>
     </div>
 
@@ -53,7 +53,7 @@ const StrategicCommunication = () => {
         </p>
       </div>
       <div className="md:col-span-5 pt-4">
-        <p className="text-sm text-gray-600 mb-8 leading-relaxed">
+        <p className="text-sm text-gray-900 mb-8 leading-relaxed">
           Our strategic communication services align your messaging with business objectives, ensuring every word, campaign, and interaction drives clarity, credibility, and conversion.
         </p>
         <button className="flex items-center gap-6 bg-[#00AE80] text-white px-8 py-4 font-black text-[10px] tracking-[0.3em] hover:bg-[#00FFC2] transition-colors">
@@ -72,7 +72,7 @@ const StrategicCommunication = () => {
               <h2 className="text-4xl font-black mb-8 tracking-tighter">
                 What is <span className="text-[#00AE80]">strategic communication?</span>
               </h2>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              <p className="text-gray-900 text-lg leading-relaxed mb-8">
                 Strategic communication is the deliberate, data-driven approach to delivering the right message to the right audience at the right time—across the right channels. It bridges brand identity with execution, ensuring consistency and purpose across all touchpoints.
               </p>
               <div className="space-y-4">
@@ -89,14 +89,14 @@ const StrategicCommunication = () => {
             <div className="bg-gray-100 p-12 border border-gray-200">
               <UnfoldHorizontal className="text-[#00AE80] mb-6" size={40} />
               <h4 className="text-xl font-black mb-4 tracking-tight text-[#00AE80]">Intentionality</h4>
-              <p className="text-sm text-gray-500 leading-relaxed italic">
+              <p className="text-sm text-gray-900 leading-relaxed italic">
                 Brands must go beyond visibility. They must communicate with intent. A refined digital marketing strategy ensures every message converts and resonates.
               </p>
             </div>
             <div className="bg-white p-12 border border-gray-200">
               <Layers className="text-[#00AE80] mb-6" size={40} />
               <h4 className="text-xl font-black mb-4 tracking-tight">The Bridge</h4>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-900 leading-relaxed">
                 Strategic communication builds a consistent voice that aligns with audience behaviors, enhancing performance marketing campaigns and brand recall.
               </p>
             </div>
@@ -173,7 +173,7 @@ const StrategicCommunication = () => {
             ].map((item, i) => (
               <div key={i} className="border-t-2 border-[#00AE80] pt-6">
                 <h5 className="font-black text-xs mb-4 text-[#00AE80]">{item.title}</h5>
-                <p className="text-xs text-gray-500 leading-relaxed font-medium">{item.desc}</p>
+                <p className="text-xs text-gray-900 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -195,14 +195,14 @@ const StrategicCommunication = () => {
                <div className="flex items-center gap-4"><Phone className="text-[#00AE80]"/><span className="font-black text-xs">+92-303-5907230 | +92-334-0011126</span></div>
                <div className="flex items-start gap-4">
                  <MapPin className="text-[#00AE80] shrink-0" />
-                 <p className="text-[10px] font-bold text-gray-600 uppercase leading-relaxed">
+                 <p className="text-[10px] font-bold text-gray-900 uppercase leading-relaxed">
                   Islamabad
                  </p>
                </div>
             </div>
           </div>
           <div className="pt-10 border-t border-gray-200 text-center">
-            <p className="text-[10px] text-gray-500 font-black tracking-[1.5em]">Blucom Technologies © 2026</p>
+            <p className="text-[10px] text-gray-900 font-black tracking-[1.5em]">Blucom Technologies © 2026</p>
           </div>
         </div>
       </footer>

@@ -47,7 +47,7 @@ const Portfolio = () => {
       </div>
 
       {/* Showcase Section */}
-      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-[#727277] my-40 mx-5 max-w-[1200px] md:mx-auto">
+      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-[#111827] my-40 mx-5 max-w-[1200px] md:mx-auto">
         <div className="text-[24px] mt-20">
           <h2 className="text-[#00AF80] text-[40px] underline underline-offset-[15px] decoration-[#1E2832] decoration-4 -mt-5">
             Hyundai-Pakistan Case Study
@@ -71,7 +71,7 @@ const Portfolio = () => {
       </div>
 
       {/* Digital Collaterals */}
-      <div className="flex flex-col justify-center items-center gap-10 text-[#727277] my-20">
+      <div className="flex flex-col justify-center items-center gap-10 text-[#111827] my-20">
         <div className="text-[24px]">
           <h2 className="text-[#00AF80] text-[40px] underline underline-offset-[15px] decoration-[#1E2832] decoration-4 -mt-5">
             Digital Collaterals
