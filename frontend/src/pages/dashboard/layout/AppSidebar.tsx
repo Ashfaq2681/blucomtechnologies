@@ -65,13 +65,24 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    name: "Blogs",
+    name: "Blog",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Blogs", path: "/Dashboard/blogs", pro: false },
-      { name: "Blog List", path: "/Dashboard/blog-list", pro: false },
-      { name: "Write Blog", path: "/Dashboard/write-blog", pro: false },
-    ],
+    path: "/Dashboard/blog",
+  },
+  {
+    name: "Ideas",
+    icon: <PageIcon />,
+    path: "/Dashboard/ideas",
+  },
+  {
+    name: "News",
+    icon: <PageIcon />,
+    path: "/Dashboard/news",
+  },
+  {
+    name: "SEO Analysis",
+    icon: <PageIcon />,
+    path: "/Dashboard/seo-analysis",
   },
 ];
 

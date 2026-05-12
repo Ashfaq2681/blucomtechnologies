@@ -1,3 +1,3 @@
-import SingleBlog from "./SingleBlog";
+import SingleBlog from "./blog/SingleBlog";
 
 export default SingleBlog;

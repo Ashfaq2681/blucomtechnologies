@@ -2,12 +2,23 @@
   RewriteEngine On
   RewriteBase /
 
+  # Serve Vite build assets and static files from the production dist directory.
+  RewriteRule ^(assets|about|career|fonts|header|hero|icons|investors|landing|news|portfolio|SVG)/(.*)$ frontend/dist/$1/$2 [L]
+  RewriteRule ^(robots\.txt|sitemap\.xml|Favicon\.svg|icons\.svg|logo_main\.png)$ frontend/dist/$1 [L]
+
+  # Serve prerendered blog HTML so View Source and crawlers receive final SEO tags.
+  RewriteRule ^blog/([^/]+)/?$ blog/index.php [L,QSA]
+  RewriteRule ^blog/([^/]+)/index\.html$ blog/index.php [L,QSA]
+
+  # Serve the Vite SPA shell for the rest of the React routes.
+  RewriteRule ^$ frontend/dist/index.html [L]
+
   # If request is NOT a real file
   RewriteCond %{REQUEST_FILENAME} !-f
 
   # If request is NOT a real directory
   RewriteCond %{REQUEST_FILENAME} !-d
 
-  # Redirect everything to index.html
-  RewriteRule ^ index.html [L]
+  # Redirect everything else to the Vite SPA shell
+  RewriteRule ^ frontend/dist/index.html [L]
 </IfModule>

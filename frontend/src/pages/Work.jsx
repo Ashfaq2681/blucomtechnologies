@@ -7,13 +7,14 @@ import landingImg from "/landing/heroimage.svg";
   <title>Brand Strategy & Digital Marketing Agency | Blucom Technologies</title>
   <meta
     name="description"
-    content="blucomtechnologies specializes in brand positioning, digital marketing, UX/UI design, and SEO-driven strategies for businesses."/>
+    content="blucomtechnologies specializes in brand positioning, digital marketing, UX/UI design, and SEO-driven strategies for businesses."
+  />
   <meta
     name="keywords"
     content="Brand Strategy, Digital Marketing, SEO, UX/UI Design, Content Marketing, Web Development, Social Media Marketing"
   />
   <meta name="author" content="blucomtechnologies" />
-  
+
   {/* Open Graph for Social Media */}
   <meta property="og:title" content="blucomtechnologies - Creative Agency in Islamabad for Brand Strategy & Digital Marketing" />
   <meta
@@ -57,8 +58,8 @@ import landingImg from "/landing/heroimage.svg";
 </Helmet>
 {/* Hero Section */ }
 
-
 <div className="relative w-flex bg-gradient-to-r from-[#00AE80] min-h-screen flex items-center justify-center p-6">
+
   <img
     src="/news/news_bg.png"
     alt="image.."
@@ -137,15 +138,18 @@ const Work = () => {
       </div>
 
 
-      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-[#111827] my-40 mx-5 max-w-[1200px] md:mx-auto">
+      <div className="flex flex-col md:flex-row justify-center items-start gap-20 text-[#727277] my-40 mx-5 max-w-[1200px] md:mx-auto">
+
         <div className="text-[24px] min-w-[400px] mt-20">
-          <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#111827]">
+          <div className="my-40 px-5 md:px-10 lg:px-20 xl:px-40 text-[#727277]">
             <div className="text-[24px]">
               <p>Creative showcase</p>
               <h1 className="text-[#00AF80] text-[60px] underline decoration-[#1E2832]/70 decoration-2 -mt-5">Hyundai- Pakistan</h1>
               <p>Digital Collaterals & Creative Identity</p>
+
             </div>
           </div>
+
         </div>
         <div >
           <p className="text-[25px]">Hyundai Pakistan</p>
@@ -155,6 +159,7 @@ const Work = () => {
             <li>Revamped website and social media layouts for a cohesive brand identity.</li>
             <li>Implemented high-quality digital creatives to showcase vehicles’ features.</li>
             <li>Conducted in-depth audience segmentation for targeted messaging.</li>
+
             <p className="text-[#1E2832] text-[40px] leading-tight">Results</p>
             <li>Enhanced engagement rates across digital channels by 45%.</li>
             <li>Strengthened Hyundai’s online visibility, contributing to higher lead generation.</li>
@@ -189,7 +194,7 @@ const Work = () => {
         </div>
       </div>
       <div className="flex flex-col xl:flex-row md:ml-20 lg:ml-40 xl:ml-60">
-        <div className="flex flex-col justify-center items-start gap-20 text-[#111827] pt-72 lg:pt-24 pb-40 max-w-[1200px] mx-5 md:mx-auto">
+        <div className="flex flex-col justify-center items-start gap-20 text-[#727277] pt-72 lg:pt-24 pb-40 max-w-[1200px] mx-5 md:mx-auto">
           <div className="text-[24px] min-w-[400px]">
             <p>Creative showcase</p>
             <p className="text-[#00AF80] text-[40px] underline underline-offset-[15px] decoration-[#1E2832] decoration-4 -mt-5">Why Blucom Technologies?</p>
@@ -212,7 +217,7 @@ const Work = () => {
         </div>
         <img src="./portfolio/ht_sidepose.png" alt="ht" className="w-auto h-auto max-w-full max-h-[500px] object contain" />
       </div>
-      <div className="flex flex-col justify-center items-center gap-20 text-[#111827] my-40">
+      <div className="flex flex-col justify-center items-center gap-20 text-[#727277] my-40">
         <div className="text-[24px] min-w-[400px]">
           <p>Creative showcase</p>
           <p className="text-[#00AF80] text-[40px] underline underline-offset-[15px] decoration-[#1E2832] decoration-4 -mt-5">Digital Collaterals</p>

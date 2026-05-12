@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import landingImg from "/landing/heroimage.svg";
 import Button from "../Components/Button";
+import { getPublishedPosts } from "../api/blogs";
 
 const Discovery = [
   <div>
@@ -69,11 +70,49 @@ const Interaction = [
   const Landing = () => {
 
   const [dropDownOpen, setDropDownOpen] = useState(true)
+  const [landingPosts, setLandingPosts] = useState([]);
 
   const toggleDropDown = () => {
     setDropDownOpen(!dropDownOpen)
     console.log(dropDownOpen)
   }  
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadPosts = async () => {
+      try {
+        const posts = await getPublishedPosts();
+
+        if (mounted) {
+          setLandingPosts(posts);
+        }
+      } catch (_error) {
+        if (mounted) {
+          setLandingPosts([]);
+        }
+      }
+    };
+
+    loadPosts();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const blogPreviewPosts = landingPosts.slice(0, 3);
+  const ideasPreviewPosts = landingPosts
+    .filter((post) =>
+      [post.category, post.subcategory, post.section, post.tags]
+        .flat()
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes("ideas"),
+    )
+    .slice(0, 3);
+
   return (
     <section className="bg-[#F8FAFC] min-h-screen">
       <Helmet>
@@ -384,6 +423,65 @@ const Interaction = [
        
 
 
+        {(blogPreviewPosts.length > 0 || ideasPreviewPosts.length > 0) && (
+          <section className="bg-white px-5 py-20 text-[#727277]">
+            <div className="mx-auto max-w-7xl">
+              <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <span className="text-2xl text-gray-500">Latest from the CMS</span>
+                  <h2 className="mt-2 text-5xl text-gray-500 underline decoration-emerald-300">
+                    Blog and Ideas
+                  </h2>
+                </div>
+                <div className="flex gap-3">
+                  <Link to="/blog"><Button variant="gray">View Blog</Button></Link>
+                  <Link to="/ideas"><Button variant="gray">View Ideas</Button></Link>
+                </div>
+              </div>
+
+              {blogPreviewPosts.length > 0 && (
+                <div>
+                  <h3 className="mb-5 text-xl font-semibold text-gray-600">Blog Posts</h3>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    {blogPreviewPosts.map((post) => (
+                      <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="group block border border-slate-200 bg-white">
+                        <div className="h-52 bg-slate-100">
+                          {post.image && <img src={post.image} alt={post.title} className="h-full w-full object-cover" />}
+                        </div>
+                        <div className="p-5">
+                          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{post.category || "Blog"}</p>
+                          <h4 className="mt-3 text-2xl font-black leading-snug text-[#1d2d35] group-hover:text-blue-700">{post.title}</h4>
+                          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{post.description || post.seoDescription}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {ideasPreviewPosts.length > 0 && (
+                <div className="mt-12">
+                  <h3 className="mb-5 text-xl font-semibold text-gray-600">Ideas Posts</h3>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    {ideasPreviewPosts.map((post) => (
+                      <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="group block border border-slate-200 bg-white">
+                        <div className="h-52 bg-slate-100">
+                          {post.image && <img src={post.image} alt={post.title} className="h-full w-full object-cover" />}
+                        </div>
+                        <div className="p-5">
+                          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">Ideas</p>
+                          <h4 className="mt-3 text-2xl font-black leading-snug text-[#1d2d35] group-hover:text-emerald-700">{post.title}</h4>
+                          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{post.description || post.seoDescription}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
           <div className="flex flex-col justify-start items-center m-10 w-auto">
             <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
@@ -456,31 +554,6 @@ const Interaction = [
           </div>
 
         </div>
-        <div className="flex flex-col items-center py-20 px-10 md:px-0 flex flex-wrap gap-2 mt-5">
-  <div className="flex flex-col justify-start items-center m-10 w-auto">
-    <span className="text-2xl text-gray-500 flex flex-wrap gap-2 m-5">Let's build something</span>
-    <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
-      Great Together
-    </span>
-  </div>
-  <form action="" className="flex flex-col gap-10 w-full max-w-[1300px] px-10">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-20 xl:gap-x-40 gap-y-10">
-      <input type="text" className="landingInput" placeholder="First Name*" />
-      <input type="text" className="landingInput" placeholder="Last Name*" />
-      <input type="email" className="landingInput" placeholder="Email*" />
-      <input type="text" className="landingInput" placeholder="Company Name*" />
-    </div>
-    <input type="text" className="landingInput" placeholder="YourTitle" />
-    <textarea name="" id="" cols="5" className="landingInput" placeholder="What you want to say?" />
-    <div className="w-full flex justify-start">
-      <Link
-        to={`/ContactForm`}>
-    
-        <Button variant="emerald">Contact Us</Button>
-      </Link>
-    </div>
-  </form>
-</div>
       </div>
     </section>
   );

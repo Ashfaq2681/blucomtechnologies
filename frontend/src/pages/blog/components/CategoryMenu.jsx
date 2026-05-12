@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCategories } from "../../api/blogs";
+import { FALLBACK_CATEGORIES, getCategories } from "../../../api/blogs";
 
 const CategoryMenu = ({ className = "" }) => {
   const [categories, setCategories] = useState([]);
@@ -12,12 +12,13 @@ const CategoryMenu = ({ className = "" }) => {
       try {
         const data = await getCategories();
         if (mounted) {
-          setCategories(data);
+          setCategories(data.length > 0 ? data : FALLBACK_CATEGORIES);
           setError("");
         }
       } catch (_error) {
         if (mounted) {
-          setError("Categories unavailable");
+          setCategories(FALLBACK_CATEGORIES);
+          setError("");
         }
       }
     };
@@ -48,11 +49,11 @@ const CategoryMenu = ({ className = "" }) => {
             {category.name}
           </button>
           {category.subcategories.length > 0 && (
-            <div className="invisible absolute left-0 top-full z-20 mt-3 min-w-[220px] rounded-2xl border border-slate-200 bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:opacity-100">
+            <div className="invisible absolute left-0 top-full z-20 mt-3 min-w-[220px] border border-slate-200 bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:opacity-100">
               {category.subcategories.map((subcategory) => (
                 <div
                   key={subcategory.id}
-                  className="rounded-xl px-3 py-2 text-sm text-gray-900 transition hover:bg-slate-50 hover:text-slate-950"
+                  className="px-3 py-2 text-sm text-gray-900 transition hover:bg-slate-50 hover:text-slate-950"
                 >
                   {subcategory.name}
                 </div>

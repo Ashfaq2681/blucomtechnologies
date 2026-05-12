@@ -1,70 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Top-level pages -->
-  <url><loc>https://blucomtechnologies.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://blucomtechnologies.com/about</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/contact</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/portfolio</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/careers</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/work</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/the-shift-towards-commerce-driven-marketing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-
-  <!-- Ideas pages (daily) -->
-  <url><loc>https://blucomtechnologies.com/ideas</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/ideas/ideas-single</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/ideas/must-attend-advertising-confrence</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/ideas/rideshare-advertising-to-a-new-outdoor-world</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-
-  <!-- News pages (daily) -->
-  <url><loc>https://blucomtechnologies.com/news</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-
-  <!-- Blog pages (daily) -->
-<url><loc>https://blucomtechnologies.com/blog</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/advertisers-are-more-focused-digital-marketing-expansion</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/building-resolute-trust</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/effective-motivation-in-advertising-driving</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/science-of-persuation</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/the-art-of-visual-communication</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/the-evolution-of-corporate-storytelling</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/the-oportunity-code</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/the-rise-of-influencer-driven-marketing</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/the-science-behind-curiosity</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/trust-the-crowd</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/why-attention-economy-is-becoming-new-ecomony-and-how-brands-can-take-leverage</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://blucomtechnologies.com/blog/why-social-proof-is-every-marketers-secret-sauce</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-
-
-  <!-- Services pages -->
-  <url><loc>https://blucomtechnologies.com/services/analysis-measurement</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/analytics-implementation</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/brand-awareness</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/brand-strategy</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/campaign-optimization</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/content-marketing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/content-strategy</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/customer-journey-mapping</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/data-visualization</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/identity</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/impact-measurement</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/interaction-assets-devs</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/interaction-design</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/lead-gen</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/media-planning-buying</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/messaging-positioning</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/nurture-strategies</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/omnichannel-campaign-management</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/persona-creation</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/product-mapping</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/prototyping-and-wireframing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/reputation-management</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/search-marketing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/strategic-communication</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/ui-designing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/user-journey-mapping</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/web-development</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/web-maintenance</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/new-folder/buying</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://blucomtechnologies.com/services/new-folder/omnichannel-campaign-management</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.blucomtechnologies.com/</loc>
+    <lastmod>2026-05-12T16:59:26.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog</loc>
+    <lastmod>2026-05-12T16:59:26.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/blog-to-test-seo-1</loc>
+    <lastmod>2026-05-12T16:59:26.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/blog-to-test-seo</loc>
+    <lastmod>2026-05-12T16:09:37.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-to-make-evergreen-content-stay-commercially-relevant</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/why-conversion-copy-improves-when-product-teams-are-involved</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-marketing-leaders-can-spot-process-debt-early</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/the-best-brand-messages-usually-start-as-better-customer-questions</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-social-listening-becomes-more-valuable-after-launch</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/why-fewer-kpis-often-lead-to-better-marketing-decisions</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/what-makes-a-strong-marketing-experiment-worth-running</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-buyer-enablement-content-shortens-sales-conversations</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/why-great-marketing-ops-teams-obsess-over-handoffs</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-retargeting-creative-should-change-across-funnel-stages</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/the-difference-between-content-volume-and-content-leverage</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/what-better-reporting-looks-like-for-executive-stakeholders</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-to-build-stronger-category-signals-in-early-stage-brands</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/why-more-brands-need-better-internal-content-distribution</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/the-role-of-creative-constraints-in-stronger-campaign-ideas</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-positioning-workshops-should-actually-be-run</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/what-high-performing-social-teams-track-beyond-engagement-rates</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/why-marketing-calendars-fail-when-they-ignore-production-reality</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/the-smartest-use-of-case-studies-in-mid-market-b2b-marketing</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/how-brand-teams-can-build-faster-review-cycles-without-losing-quality</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blucomtechnologies.com/blog/dummy-preview-post</loc>
+    <lastmod>2026-05-12T16:03:50.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

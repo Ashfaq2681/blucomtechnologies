@@ -1,3 +1,32 @@
+import { Link } from "react-router-dom";
+
+const serviceLinks = {
+  Identity: "/services/identity",
+  "Brand Strategy": "/services/brand-strategy",
+  "Messaging Positioning": "/services/messaging-positioning",
+  "Reputation Management": "/services/reputation-management",
+  "Product Mapping": "/services/product-mapping",
+  "Persona Creation": "/services/persona-creation",
+  "Strategy Design": "/services/content-strategy",
+  "Brand Awareness": "/services/brand-awareness",
+  "Strategic Communication": "/services/strategic-communication",
+  "Analysis/Measurement": "/services/analysis-measurement",
+  "Impact Measurement": "/services/impact-measurement",
+  "Analytics Implementation": "/services/analytics-implementation",
+  "Search marketing": "/services/search-marketing",
+  "Lead Gen": "/services/lead-gen",
+  "Media Planning/Buying": "/services/media-planning-buying",
+  "Content Marketing": "/services/content-marketing",
+  "Interaction assets Devs": "/services/interaction-assets-devs",
+  "Nurture Strageties": "/services/nurture-strategies",
+  "Ui Designing": "/services/ui-designing",
+  "User Journey Mapping": "/services/user-journey-mapping",
+  "UX  Design": "/services/prototyping-and-wireframing",
+  "Interaction Design": "/services/interaction-design",
+  "Web Maintenance": "/services/web-maintenance",
+  "Data Visualization": "/services/data-visualization",
+};
+
 const serviceGroups = [
   {
     title: "Discovery",
@@ -65,9 +94,13 @@ const Services = () => {
               {group.title}
             </p>
             {group.items.map((item) => (
-              <p key={item} className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
+              <Link
+                key={item}
+                to={serviceLinks[item] || "/services/brand-strategy"}
+                className="underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4] transition hover:text-emerald-600"
+              >
                 {item}
-              </p>
+              </Link>
             ))}
           </div>
         ))}

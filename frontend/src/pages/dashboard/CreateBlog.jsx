@@ -3,10 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { createPost, getCategories, getPostById, updatePost } from "../../api/blogs";
+import { computeSeoQuality } from "../../utils/seoQuality";
 import ComponentCard from "./common/ComponentCard";
 import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
 import PageMeta from "./common/PageMeta";
+import SeoEditorPanel from "./components/SeoEditorPanel";
 
 const generateSlug = (value = "") =>
   value
@@ -27,9 +29,16 @@ const blogSections = [
   { value: "archive", label: "Archive" },
 ];
 
-const CreateBlog = () => {
+const CreateBlog = ({
+  postId,
+  returnTo = "/Dashboard/blog",
+  showDashboardChrome = true,
+  onSaved,
+  initialValues = {},
+}) => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id: routeId } = useParams();
+  const id = postId || routeId;
   const isEditMode = Boolean(id);
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
@@ -49,6 +58,19 @@ const CreateBlog = () => {
     status: "draft",
     featured: false,
     section: "latest",
+    seoTitle: "",
+    seoDescription: "",
+    metaKeywords: "",
+    focusKeyword: "",
+    canonicalUrl: "",
+    metaRobots: "index, follow",
+    readabilityNotes: "",
+    socialTitle: "",
+    socialDescription: "",
+    socialImage: "",
+    schemaType: "Article",
+    schemaJson: "",
+    ...initialValues,
   });
 
   useEffect(() => {
@@ -60,9 +82,23 @@ const CreateBlog = () => {
         const data = await getCategories();
 
         if (mounted) {
-          setCategories(data);
+          const hasInitialCategory = data.some(
+            (category) => category.name === initialValues.category,
+          );
+          const nextCategories =
+            initialValues.category && !hasInitialCategory
+              ? [
+                  ...data,
+                  {
+                    id: `initial-${initialValues.category}`,
+                    name: initialValues.category,
+                    subcategories: [],
+                  },
+                ]
+              : data;
           const firstCategory = data[0]?.name || "";
           const firstSubcategory = data[0]?.subcategories?.[0]?.name || "";
+          setCategories(nextCategories);
           setForm((current) => ({
             ...current,
             category: current.category || firstCategory,
@@ -111,6 +147,21 @@ const CreateBlog = () => {
             status: data.status || "draft",
             featured: Boolean(data.featured),
             section: data.section || "latest",
+            seoTitle: data.seoTitle || data.title || "",
+            seoDescription: data.seoDescription || data.description || "",
+            metaKeywords:
+              data.metaKeywords ||
+              data.seoKeywords ||
+              (Array.isArray(data.tags) ? data.tags.join(", ") : ""),
+            focusKeyword: data.focusKeyword || "",
+            canonicalUrl: data.canonicalUrl || "",
+            metaRobots: data.metaRobots || "index, follow",
+            readabilityNotes: data.readabilityNotes || "",
+            socialTitle: data.socialTitle || data.seoTitle || data.title || "",
+            socialDescription: data.socialDescription || data.seoDescription || data.description || "",
+            socialImage: data.socialImage || data.image || "",
+            schemaType: data.schemaType || "Article",
+            schemaJson: data.schemaJson || "",
           });
           setCurrentImage(data.image || "");
         }
@@ -136,6 +187,7 @@ const CreateBlog = () => {
     () => categories.find((category) => category.name === form.category) || null,
     [categories, form.category],
   );
+  const seoQuality = useMemo(() => computeSeoQuality(form), [form]);
 
   const handleChange = (event) => {
     const { name, value, type, checked, files } = event.target;
@@ -182,29 +234,43 @@ const CreateBlog = () => {
         await createPost(form);
         setSuccessMessage("Blog post created successfully.");
       }
-      setTimeout(() => navigate("/Dashboard/blog-list"), 900);
+      setTimeout(() => {
+        if (typeof onSaved === "function") {
+          onSaved();
+          return;
+        }
+
+        navigate(returnTo);
+      }, 900);
     } catch (error) {
+      const serverSeoQuality = error?.response?.data?.seoQuality;
       setErrorMessage(
-        error?.response?.data?.message || "Unable to create the blog post.",
+        serverSeoQuality
+          ? `${error.response.data.message} Missing: ${serverSeoQuality.missingFields.join(", ")}.`
+          : error?.response?.data?.message || "Unable to create the blog post.",
       );
     } finally {
       setSubmitting(false);
     }
   };
 
-  return (
+  const editor = (
     <>
       <PageMeta
         title={`${isEditMode ? "Edit" : "Create"} Blog Dashboard | Blucom Technologies`}
         description={`${isEditMode ? "Edit" : "Create"} a CMS blog post from the dashboard.`}
       />
       <div className="dashboard-page-stack">
-        <PageBreadcrumb pageTitle={isEditMode ? "Edit Blog" : "Create Blog"} />
-        <PageIntro
-          eyebrow="Editor"
-          title={isEditMode ? "Update an existing blog post" : "Create a CMS-ready blog post"}
-          description="Capture the publishing fields once and send the post directly to the blog API with image upload, rich text, and category mapping."
-        />
+        {showDashboardChrome && (
+          <>
+            <PageBreadcrumb pageTitle={isEditMode ? "Edit Blog" : "Create Blog"} />
+            <PageIntro
+              eyebrow="Editor"
+              title={isEditMode ? "Update an existing blog post" : "Create a CMS-ready blog post"}
+              description="Capture the publishing fields once and send the post directly to the blog API with image upload, rich text, and category mapping."
+            />
+          </>
+        )}
 
         <ComponentCard
           title={isEditMode ? "Edit Blog" : "Create Blog"}
@@ -215,13 +281,13 @@ const CreateBlog = () => {
               Loading post...
             </div>
           ) : (
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
           <form className="grid gap-5 lg:grid-cols-2" onSubmit={handleSubmit}>
             <div className="lg:col-span-2">
-              <label htmlFor="blog-title" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Title
               </label>
               <input
-                id="blog-title"
                 name="title"
                 type="text"
                 value={form.title}
@@ -233,11 +299,10 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-slug" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Slug
               </label>
               <input
-                id="blog-slug"
                 name="slug"
                 type="text"
                 value={form.slug}
@@ -249,11 +314,10 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-category" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Category
               </label>
               <select
-                id="blog-category"
                 name="category"
                 value={form.category}
                 onChange={handleChange}
@@ -270,11 +334,10 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-subcategory" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Subcategory
               </label>
               <select
-                id="blog-subcategory"
                 name="subcategory"
                 value={form.subcategory}
                 onChange={handleChange}
@@ -289,7 +352,7 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-image" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Featured Image
               </label>
               {currentImage && (
@@ -302,7 +365,6 @@ const CreateBlog = () => {
                 </div>
               )}
               <input
-                id="blog-image"
                 name="image"
                 type="file"
                 accept="image/*"
@@ -312,11 +374,10 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-tags" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Tags
               </label>
               <input
-                id="blog-tags"
                 name="tags"
                 type="text"
                 value={form.tags}
@@ -327,11 +388,10 @@ const CreateBlog = () => {
             </div>
 
             <div>
-              <label htmlFor="blog-section" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Blog Section
               </label>
               <select
-                id="blog-section"
                 name="section"
                 value={form.section}
                 onChange={handleChange}
@@ -345,12 +405,245 @@ const CreateBlog = () => {
               </select>
             </div>
 
+            <div className="lg:col-span-2 border-t border-slate-200 pt-5">
+              <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    SEO Metadata
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Publish threshold: {seoQuality.threshold}. Drafts can be saved below the threshold.
+                  </p>
+                </div>
+                <div className="min-w-[150px]">
+                  <div
+                    className={`rounded-2xl px-4 py-3 text-center ring-1 ${
+                      seoQuality.passed
+                        ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+                        : "bg-amber-50 text-amber-700 ring-amber-200"
+                    }`}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em]">SEO Score</p>
+                    <p className="mt-1 text-3xl font-semibold">{seoQuality.score}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 md:grid-cols-3">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-900">Missing Fields</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                    {(seoQuality.missingFields.length ? seoQuality.missingFields : ["None"]).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-900">Warnings</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                    {(seoQuality.warnings.length ? seoQuality.warnings : ["None"]).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-900">Improvements</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                    {(seoQuality.improvements.length ? seoQuality.improvements.slice(0, 4) : ["None"]).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div>
-              <label htmlFor="blog-status" className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                SEO Title
+              </label>
+              <input
+                name="seoTitle"
+                type="text"
+                value={form.seoTitle}
+                onChange={handleChange}
+                placeholder="Search result title"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                SEO Keywords
+              </label>
+              <input
+                name="metaKeywords"
+                type="text"
+                value={form.metaKeywords}
+                onChange={handleChange}
+                placeholder="digital marketing, SEO, content strategy"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Focus Keyword
+              </label>
+              <input
+                name="focusKeyword"
+                type="text"
+                value={form.focusKeyword}
+                onChange={handleChange}
+                placeholder="Primary keyword for this post"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Canonical URL
+              </label>
+              <input
+                name="canonicalUrl"
+                type="url"
+                value={form.canonicalUrl}
+                onChange={handleChange}
+                placeholder="https://www.blucomtechnologies.com/blog/post-slug"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Meta Robots
+              </label>
+              <select
+                name="metaRobots"
+                value={form.metaRobots}
+                onChange={handleChange}
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              >
+                <option value="index, follow">index, follow</option>
+                <option value="noindex, follow">noindex, follow</option>
+                <option value="index, nofollow">index, nofollow</option>
+                <option value="noindex, nofollow">noindex, nofollow</option>
+              </select>
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                SEO Description
+              </label>
+              <textarea
+                name="seoDescription"
+                value={form.seoDescription}
+                onChange={handleChange}
+                placeholder="Short search result description for this blog post"
+                rows={4}
+                className="w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+              <p className="mt-2 text-xs font-medium text-slate-500">
+                {form.seoDescription.length}/160 characters recommended
+              </p>
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Readability Notes
+              </label>
+              <textarea
+                name="readabilityNotes"
+                value={form.readabilityNotes}
+                onChange={handleChange}
+                placeholder="Editorial or readability notes for this post"
+                rows={4}
+                className="w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="lg:col-span-2 border-t border-slate-200 pt-5">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Social and Schema
+              </h3>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Social Title
+              </label>
+              <input
+                name="socialTitle"
+                type="text"
+                value={form.socialTitle}
+                onChange={handleChange}
+                placeholder="Open Graph / Twitter title"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Social Image URL
+              </label>
+              <input
+                name="socialImage"
+                type="url"
+                value={form.socialImage}
+                onChange={handleChange}
+                placeholder="https://example.com/share-image.jpg"
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Social Description
+              </label>
+              <textarea
+                name="socialDescription"
+                value={form.socialDescription}
+                onChange={handleChange}
+                placeholder="Description shown when this post is shared"
+                rows={3}
+                className="w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Schema Type
+              </label>
+              <select
+                name="schemaType"
+                value={form.schemaType}
+                onChange={handleChange}
+                className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              >
+                <option value="Article">Article</option>
+                <option value="BlogPosting">BlogPosting</option>
+                <option value="NewsArticle">NewsArticle</option>
+                <option value="TechArticle">TechArticle</option>
+              </select>
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Custom Schema JSON-LD
+              </label>
+              <textarea
+                name="schemaJson"
+                value={form.schemaJson}
+                onChange={handleChange}
+                placeholder='{"@context":"https://schema.org","@type":"BlogPosting"}'
+                rows={6}
+                className="w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Status
               </label>
               <select
-                id="blog-status"
                 name="status"
                 value={form.status}
                 onChange={handleChange}
@@ -364,7 +657,6 @@ const CreateBlog = () => {
             <div className="flex items-end">
               <label className="flex items-center gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700">
                 <input
-                  id="blog-featured"
                   name="featured"
                   type="checkbox"
                   checked={form.featured}
@@ -376,9 +668,9 @@ const CreateBlog = () => {
             </div>
 
             <div className=" lg:col-span-2">
-              <div className=" mb-2 block text-sm font-medium text-slate-700">
+              <label className=" mb-2 block text-sm font-medium text-slate-700">
                 Content
-              </div>
+              </label>
               <div className="h-auto overflow-hidden rounded-[24px] border border-slate-300 bg-white">
                 <ReactQuill
                   theme="snow"
@@ -419,18 +711,22 @@ const CreateBlog = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/Dashboard/blog-list")}
+                onClick={() => navigate(returnTo)}
                 className="inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
               >
-                View Blog List
+                Back to Blog
               </button>
             </div>
           </form>
+          <SeoEditorPanel form={form} seoQuality={seoQuality} />
+          </div>
           )}
         </ComponentCard>
       </div>
     </>
   );
+
+  return editor;
 };
 
 export default CreateBlog;

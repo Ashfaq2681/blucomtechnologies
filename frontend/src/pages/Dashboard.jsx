@@ -1,178 +1,59 @@
-import { useState, useEffect } from "react";
-import { Bell, Briefcase, BarChart, Code, Settings } from "lucide-react";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import SignIn from "../pages/dashboard/SignIn";
+import SignUp from "../pages/dashboard/SignUp";
+import NotFound from "../pages/dashboard/NotFound";
+import UserProfiles from "../pages/dashboard/UserProfiles";
+import Videos from "../pages/dashboard/Videos";
+import Images from "../pages/dashboard/Images";
+import Alerts from "../pages/dashboard/Alerts";
+import Badges from "../pages/dashboard/Badges";
+import Avatars from "../pages/dashboard/Avatars";
+import Buttons from "../pages/dashboard/Buttons";
+import LineChart from "../pages/dashboard/charts/line/LineChart";
+import BarChart from "../pages/dashboard/charts/bar/BarChart";
+import Calendar from "../pages/dashboard/Calendar";
+import BasicTables from "../pages/dashboard/tables/BasicTables/BasicTables";
+import FormElements from "../pages/dashboard/form/form-elements/FormElements";
+import Blank from "../pages/dashboard/Blank";
+import AppLayout from "../pages/dashboard/layout/DashboardLayout";
+import { ScrollToTop } from "../pages/dashboard/common/ScrollToTop";
+import Home from "../pages/dashboard/Home";
+import Blogs from "../pages/dashboard/Blogs";
+import BlogList from "../pages/dashboard/BlogList";
+import CreateBlog from "../pages/dashboard/CreateBlog";
+import "../pages/dashboard/dashboard-styling.css";
 
-export default function AdminDashboard() {
-  const [selectedSection, setSelectedSection] = useState("admin");
-  const [articleTitle, setArticleTitle] = useState("");
-  const [articleContent, setArticleContent] = useState("");
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [articles, setArticles] = useState([]);
-  const [projectRequests, setProjectRequests] = useState([]);
-  const userName = "John Doe";
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("Admin Dashboard Loaded");
-    setProjectRequests(JSON.parse(localStorage.getItem("projectRequests") || "[]"));
-  }, []);
-
-  // Logout function
-  const handleLogout = () => {
-    console.log("Logging out...");
-    localStorage.removeItem("isAuthenticated");
-    navigate("/login");
-  };
-
-  // Handle Article Submission
-  const handleArticleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!articleTitle || !articleContent || !scheduleDate) {
-      console.warn("All fields are required.");
-      return;
-    }
-
-    const newArticle = {
-      title: articleTitle,
-      content: articleContent,
-      date: scheduleDate,
-    };
-
-    console.log("New article submitted:", newArticle);
-    setArticles([...articles, newArticle]);
-
-    setArticleTitle("");
-    setArticleContent("");
-    setScheduleDate("");
-  };
-
+export default function App() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "linear-gradient(to bottom right, #e2e8f0, #cbd5e1)", padding: "24px" }}>
-      {/* Sidebar */}
-      <div style={{ width: "80px", background: "black", borderRadius: "16px", boxShadow: "0px 4px 10px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", alignItems: "center", padding: "16px", gap: "24px" }}>
-        <img src="/admin-avatar.jpg" alt="Admin" style={{ width: "48px", height: "48px", borderRadius: "50%", border: "2px solid white" }} />
-        <Briefcase color="white" size={28} onClick={() => { setSelectedSection("admin"); console.log("Switched to Admin section"); }} style={{ cursor: "pointer" }} />
-        <BarChart color="white" size={28} onClick={() => { setSelectedSection("marketing"); console.log("Switched to Marketing section"); }} style={{ cursor: "pointer" }} />
-        <Code color="white" size={28} onClick={() => { setSelectedSection("it"); console.log("Switched to IT section"); }} style={{ cursor: "pointer" }} />
-      </div>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route path="profile" element={<UserProfiles />} />
+          <Route path="calendar" element={<Calendar />} />
+          <Route path="blank" element={<Blank />} />
+          <Route path="form-elements" element={<FormElements />} />
+          <Route path="basic-tables" element={<BasicTables />} />
+          <Route path="alerts" element={<Alerts />} />
+          <Route path="avatars" element={<Avatars />} />
+          <Route path="badge" element={<Badges />} />
+          <Route path="buttons" element={<Buttons />} />
+          <Route path="images" element={<Images />} />
+          <Route path="videos" element={<Videos />} />
+          <Route path="line-chart" element={<LineChart />} />
+          <Route path="bar-chart" element={<BarChart />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="blog-list" element={<BlogList />} />
+          <Route path="write-blog" element={<CreateBlog />} />
+          <Route path="edit-blog/:id" element={<CreateBlog />} />
+        </Route>
 
-      {/* Settings & Logout */}
-      <div style={{ position: "absolute", bottom: "24px", left: "24px", background: "black", borderRadius: "16px", padding: "16px" }}>
-        <Settings color="white" size={28} style={{ cursor: "pointer" }} onClick={handleLogout} />
-      </div>
-
-      {/* Main Content */}
-      <motion.div style={{ flex: 1, marginLeft: "24px", padding: "24px", background: "rgba(255, 255, 255, 0.6)", borderRadius: "16px", boxShadow: "0px 4px 10px rgba(0,0,0,0.1)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-        {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#111827" }}>Admin Dashboard</h1>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <span style={{ fontWeight: "bold", color: "#111827" }}>{userName}</span>
-            <Bell color="#111827" size={24} style={{ cursor: "pointer" }} />
-            <img src="/admin-avatar.jpg" alt="Admin" style={{ width: "40px", height: "40px", borderRadius: "50%", border: "2px solid #111827" }} />
-          </div>
-        </div>
-
-        {/* Sections */}
-        {selectedSection === "admin" && (
-          <div>
-            <h2>Admin Area</h2>
-            <p>Calendar & Daily Tasks Here</p>
-
-            <div style={{ marginTop: "24px", background: "white", padding: "16px", borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
-              <h3 style={{ marginBottom: "12px", fontWeight: "bold", color: "#111827" }}>Project Requests</h3>
-              {projectRequests.length === 0 ? (
-                <p>No project requests submitted yet.</p>
-              ) : (
-                <div style={{ display: "grid", gap: "12px" }}>
-                  {projectRequests.map((request) => (
-                    <div key={request.id} style={{ border: "1px solid #e5e7eb", borderRadius: "8px", padding: "12px" }}>
-                      <h4 style={{ fontWeight: "bold", color: "#111827" }}>{request.projectName || "New project request"}</h4>
-                      <p><strong>Company:</strong> {request.companyName || "Not provided"}</p>
-                      <p><strong>Category:</strong> {request.category || "Not selected"}</p>
-                      <p><strong>Services:</strong> {request.services?.length ? request.services.join(", ") : "Not selected"}</p>
-                      <p><strong>Budget:</strong> ${request.budget}k</p>
-                      <p><strong>Contact:</strong> {[request.email, request.contactNumber].filter(Boolean).join(" | ") || "Not provided"}</p>
-                      <small>Submitted: {new Date(request.createdAt).toLocaleString()}</small>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {selectedSection === "marketing" && (
-          <div>
-            <h2>Marketing</h2>
-            <p>Upload articles here.</p>
-
-            {/* Article Upload Form */}
-            <form onSubmit={handleArticleSubmit} style={{ background: "white", padding: "16px", borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", marginTop: "16px" }}>
-              <label htmlFor="dashboard-article-title" style={{ fontWeight: "bold", color: "#111827" }}>Article Title</label>
-              <input
-                id="dashboard-article-title"
-                type="text"
-                value={articleTitle}
-                onChange={(e) => setArticleTitle(e.target.value)}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", marginTop: "8px" }}
-                placeholder="Enter title"
-                required
-              />
-
-              <label htmlFor="dashboard-article-content" style={{ fontWeight: "bold", color: "#111827", marginTop: "16px", display: "block" }}>Article Content</label>
-              <textarea
-                id="dashboard-article-content"
-                value={articleContent}
-                onChange={(e) => setArticleContent(e.target.value)}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", marginTop: "8px" }}
-                rows="4"
-                placeholder="Write your article..."
-                required
-              ></textarea>
-
-              <label htmlFor="dashboard-schedule-date" style={{ fontWeight: "bold", color: "#111827", marginTop: "16px", display: "block" }}>Schedule Date</label>
-              <input
-                id="dashboard-schedule-date"
-                type="date"
-                value={scheduleDate}
-                onChange={(e) => setScheduleDate(e.target.value)}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", marginTop: "8px" }}
-                required
-              />
-
-              <button type="submit" style={{ marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px 16px", borderRadius: "4px", border: "none", cursor: "pointer" }}>
-                Upload Article
-              </button>
-            </form>
-
-            {/* Display Articles */}
-            <h3 style={{ marginTop: "24px", fontWeight: "bold", color: "#111827" }}>Uploaded Articles</h3>
-            <ul>
-              {articles.length === 0 ? (
-                <p>No articles uploaded yet.</p>
-              ) : (
-                articles.map((article, index) => (
-                  <li key={index} style={{ background: "white", padding: "8px", borderRadius: "4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", marginTop: "8px" }}>
-                    <h4>{article.title}</h4>
-                    <p>{article.content}</p>
-                    <small>Scheduled: {article.date}</small>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        )}
-
-        {selectedSection === "it" && (
-          <div>
-            <h2>IT Section</h2>
-            <p>AI-Based Code Recommendations Here</p>
-          </div>
-        )}
-      </motion.div>
-    </div>
+        <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
+
