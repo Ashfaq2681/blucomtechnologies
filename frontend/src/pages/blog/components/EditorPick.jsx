@@ -1,4 +1,5 @@
 import PostImage from "./PostImage";
+import { getPostTitle } from "../../../utils/postDescriptions";
 
 const EditorPick = ({ post, imageClass, onClick }) => (
   <button
@@ -18,8 +19,8 @@ const EditorPick = ({ post, imageClass, onClick }) => (
       <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
         {post.category}
       </span>
-      <h4 className="mt-2 text-sm font-bold leading-tight transition-colors group-hover:text-green-700">
-        {post.title}
+      <h4 className="mt-2 text-sm font-bold leading-relaxed transition-colors group-hover:text-green-700">
+        {getPostTitle(post)}
       </h4>
     </div>
   </button>

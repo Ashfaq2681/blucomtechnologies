@@ -5,7 +5,7 @@ import { getImageClass } from "../utils";
 
 const LatestPosts = ({ posts, sidebarPosts, onPostClick, onViewAll }) => (
   <>
-    <div className="mb-10 flex items-end justify-between border-b-2 border-black pb-4">
+    <div className="mb-10 flex items-end justify-between border-b-2 border-slate-200 pb-4">
       <h2 className="text-2xl font-black tracking-tight">The Latest</h2>
       <button
         type="button"

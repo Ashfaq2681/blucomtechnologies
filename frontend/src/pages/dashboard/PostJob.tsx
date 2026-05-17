@@ -1,6 +1,6 @@
-import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createJob, JobStatus } from "./career/jobsStore";
+import { FormEvent, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { createJob, getJob, JobStatus, updateJob } from "./career/jobsStore";
 import ComponentCard from "./common/ComponentCard";
 import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
@@ -15,10 +15,54 @@ const initialForm = {
 
 export default function PostJob() {
   const navigate = useNavigate();
+  const { id: jobId } = useParams();
+  const isEditing = Boolean(jobId);
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [previewVisible, setPreviewVisible] = useState(false);
+  const [loading, setLoading] = useState(isEditing);
+
+  useEffect(() => {
+    if (!jobId) {
+      setForm(initialForm);
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+
+    async function loadJob() {
+      try {
+        const job = await getJob(jobId);
+
+        if (!isMounted) return;
+
+        if (!job) {
+          setError("Job not found.");
+          return;
+        }
+
+        setForm({
+          title: job.title,
+          location: job.location,
+          employmentType: job.employmentType,
+          summary: job.summary,
+        });
+      } catch (loadError) {
+        console.error("[career][edit-job][load]", loadError);
+        if (isMounted) setError("Unable to load this job right now.");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    void loadJob();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [jobId]);
 
   function updateField<Key extends keyof typeof initialForm>(key: Key, value: (typeof initialForm)[Key]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -35,22 +79,34 @@ export default function PostJob() {
     }
 
     try {
-      await createJob({
+      const payload = {
         title,
         location,
         employmentType: form.employmentType,
         summary,
         status,
-      });
+      };
+
+      if (jobId) {
+        await updateJob(jobId, payload);
+      } else {
+        await createJob(payload);
+      }
 
       setError("");
-      setNotice(status === "Draft" ? "Draft saved." : "Job opening published.");
-      setForm(initialForm);
+      setNotice(
+        jobId
+          ? "Job opening updated."
+          : status === "Draft"
+            ? "Draft saved."
+            : "Job opening published."
+      );
+      if (!jobId) setForm(initialForm);
       navigate("/dashboard/career/open-jobs");
     } catch (persistError) {
-      console.error("[career][post-job]", persistError);
+      console.error(jobId ? "[career][edit-job]" : "[career][post-job]", persistError);
       setNotice("");
-      setError("Unable to save the job right now. Please try again.");
+      setError(jobId ? "Unable to update the job right now. Please try again." : "Unable to save the job right now. Please try again.");
     }
   }
 
@@ -62,21 +118,26 @@ export default function PostJob() {
   return (
     <>
       <PageMeta
-        title="Post a Job Dashboard | Blucom Technologies"
-        description="Create a new job posting from the dashboard."
+        title={`${isEditing ? "Edit Job" : "Post a Job"} Dashboard | Blucom Technologies`}
+        description={isEditing ? "Edit an existing job posting from the dashboard." : "Create a new job posting from the dashboard."}
       />
       <div className="dashboard-page-stack">
-        <PageBreadcrumb pageTitle="Post a Job" />
+        <PageBreadcrumb pageTitle={isEditing ? "Edit Job" : "Post a Job"} />
         <PageIntro
           eyebrow="Careers"
-          title="Create a new opening"
-          description="Add the role details below to save a draft or publish a new opening directly into the dashboard jobs list."
+          title={isEditing ? "Edit opening" : "Create a new opening"}
+          description={
+            isEditing
+              ? "Update the role details below to keep the dashboard jobs list current."
+              : "Add the role details below to save a draft or publish a new opening directly into the dashboard jobs list."
+          }
         />
 
         <ComponentCard
-          title="Job Posting Draft"
-          desc="Create a role, preview the content, and save it into the jobs board."
+          title={isEditing ? "Job Posting" : "Job Posting Draft"}
+          desc={isEditing ? "Edit the role details and save changes into the jobs board." : "Create a role, preview the content, and save it into the jobs board."}
         >
+          {loading ? <p className="text-sm text-slate-500">Loading job details...</p> : null}
           <form className="grid gap-5 lg:grid-cols-2" onSubmit={handleSubmit}>
             <div className="lg:col-span-2">
               <label className="mb-2 block text-sm font-medium text-slate-700">Job Title</label>
@@ -127,15 +188,17 @@ export default function PostJob() {
               <button
                 type="button"
                 onClick={() => void persistJob("Draft")}
+                disabled={loading}
                 className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
-                Save Draft
+                {isEditing ? "Save as Draft" : "Save Draft"}
               </button>
               <button
                 type="submit"
+                disabled={loading}
                 className="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
-                Publish Job
+                {isEditing ? "Update Job" : "Publish Job"}
               </button>
               <button
                 type="button"

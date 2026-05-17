@@ -63,7 +63,7 @@ const ReputationManagementPage = () => {
       <section className="relative min-h-[90vh] flex items-center bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC] to-white  text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black text-black text-xs font-black tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-black text-xs font-black tracking-widest mb-6">
               <ShieldCheck size={14} />
               Leading branding agency Islamabad
             </div>

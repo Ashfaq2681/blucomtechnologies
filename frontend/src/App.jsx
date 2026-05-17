@@ -156,6 +156,7 @@ const AppContent = () => {
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />
                 <Route path="career/post-job" element={<DashboardPostJob />} />
+                <Route path="career/edit-job/:id" element={<DashboardPostJob />} />
                 <Route path="career/applicants" element={<DashboardApplicants />} />
                 <Route path="error-404" element={<DashboardNotFound />} />
                 <Route path="*" element={<DashboardNotFound />} />
@@ -191,6 +192,7 @@ const AppContent = () => {
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />
                 <Route path="career/post-job" element={<DashboardPostJob />} />
+                <Route path="career/edit-job/:id" element={<DashboardPostJob />} />
                 <Route path="career/applicants" element={<DashboardApplicants />} />
                 <Route path="error-404" element={<DashboardNotFound />} />
                 <Route path="*" element={<DashboardNotFound />} />

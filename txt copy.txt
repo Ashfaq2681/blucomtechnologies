@@ -1,0 +1,137 @@
+I have a React (Vite) blog system with MySQL-based content.
+
+Each bl
+og has SEO fields stored in database:
+
+* seo_title
+* seo_description
+* focus_keyword
+* canonical_url
+* meta_robots
+* readability_notes
+
+Current issue:
+
+* Data is correctly stored in MySQL
+* API/prerender script fetches correct data
+* BUT generated pages still show default SEO in "View Page Source"
+* React Helmet is NOT sufficient because SEO must exist in initial HTML
+
+Root problem:
+This is a SPA (Vite + React), so SEO is currently injected client-side.
+This causes Google and crawlers to see fallback/default metadata instead of real blog SEO.
+
+---
+
+## REQUIRED FIX (IMPORTANT)
+
+You must implement a **scalable Static Site Generation (SSG) prerender pipeline** that ensures SEO exists in raw HTML at build time.
+
+---
+
+## TASKS
+
+### 1. Fix prerender architecture
+
+* Ensure build script fetches ALL blog slugs from MySQL
+* For each slug:
+
+  * fetch full blog data including SEO fields
+  * generate a static HTML file per route (/blog/:slug)
+
+---
+
+### 2. Inject SEO directly into HTML template (NOT React Helmet)
+
+Each generated HTML file MUST include:
+
+* <title> from seo_title or fallback blog title
+* <meta name="description">
+* <meta name="robots">
+* <link rel="canonical">
+* OpenGraph tags (og:title, og:description)
+
+IMPORTANT:
+This must be written into the raw HTML template during build time.
+
+---
+
+### 3. Remove SEO dependency from client rendering
+
+* React Helmet should only be optional fallback
+* Final SEO must NOT depend on JS execution
+
+---
+
+### 4. Fix fallback logic properly
+
+* If seo_title exists → use it
+* Else fallback to blog title
+* Same for all SEO fields
+* Ensure empty strings do NOT trigger fallback incorrectly
+
+---
+
+### 5. Ensure correct routing output
+
+Generate output like:
+dist/blog/my-post-slug/index.html
+
+OR:
+dist/blog/my-post-slug.html
+
+Ensure routing matches deployed structure.
+
+---
+
+### 6. Performance & scalability requirements
+
+* Must support 100+ blog posts
+* Must not query API at runtime
+* Must be build-time deterministic
+* Must work without backend server during deployment
+
+---
+
+### 7. Debug & validation
+
+Add a build-time log:
+
+* slug being processed
+* seo_title used
+* file generated path
+
+---
+
+### 8. Final validation requirement
+
+After build:
+
+* "View Page Source" must show correct SEO per blog
+* No default SEO should appear anywhere in HTML output
+
+---
+
+## IMPORTANT ARCHITECTURE RULE
+
+Do NOT rely on:
+
+* React Helmet for SEO correctness
+* client-side rendering for metadata
+* runtime API calls for SEO
+
+SEO must be fully present in static HTML output.
+
+--- 
+
+## OUTPUT REQUIRED
+
+Provide:
+
+* full prerender script
+* HTML template injection logic
+* MySQL slug fetch function
+* folder structure of generated output
+* explanation of architecture
+
+This must be production-ready and scalable.

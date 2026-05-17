@@ -51,9 +51,9 @@ const topics = [
 ];
 
 const TopicHubs = () => (
-  <div className="space-y-20 bg-white font-sans text-slate-900">
+  <div className="space-y-20 bg font-sans text-slate-900">
     <section className="mx-auto max-w-7xl px-4 sm:px-6">
-      <div className="border-2 border-black p-10 md:p-16">
+      <div className="border-2 border-slate-200 bg-white p-10 md:p-16">
         <h2 className="mb-12 text-2xl font-black tracking-tight">Topic Hubs</h2>
 
         <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 lg:grid-cols-5">

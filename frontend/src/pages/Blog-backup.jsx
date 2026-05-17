@@ -135,7 +135,7 @@ const HelloPage = () => {
         <title>Blucomtechnologies Blog | The Latest in Social Strategy</title>
         <meta name="description" content="Explore the latest in social media strategy, AI marketing, and data-driven insights." />
       </Helmet>
-      <div className="min-h-screen bg-white font-sans text-slate-900">
+      <div className="min-h-screen bg-[#e9f1f8] font-sans text-slate-900">
         <nav className="border-b sticky top-0 bg-white/95 backdrop-blur-sm z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
             <div className="flex items-center space-x-10">
@@ -294,7 +294,7 @@ const HelloPage = () => {
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700 transition-colors">{blog.title}</h3>
                   </div>
                 ))}
-                {guidesBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {guidesBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
             <div>
@@ -315,7 +315,7 @@ const HelloPage = () => {
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700">{blog.title}</h3>
                   </div>
                 ))}
-                {reportsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {reportsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
             <div>
@@ -335,7 +335,7 @@ const HelloPage = () => {
                     </div>
                   </div>
                 ))}
-                {insightsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {insightsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
           </div>
@@ -357,7 +357,7 @@ const HelloPage = () => {
         <section className="bg-[#e9f1f8] py-20 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
-              <div className="-2xl shadow-2xl overflow-hidden border border-white/50 bg-white group transition-transform hover:scale-[1.01]">
+              <div className="-2xl  overflow-hidden border border-white/50 bg-white group transition-transform hover:scale-[1.01]">
                 <div className="aspect-[4/3] bg-zinc-100 flex items-center justify-center overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-tr from-gray-200 to-white relative">
                     <div className="absolute bottom-10 left-[-20px] bg-white -xl shadow-xl p-4 border border-gray-100 animate-bounce-slow">

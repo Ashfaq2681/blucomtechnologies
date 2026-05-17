@@ -1,3 +1,4 @@
+import { getPostTitle } from "../../../utils/postDescriptions";
 import { estimateReadTime, formatDate } from "../utils";
 
 const ListArticle = ({ post, onClick }) => (
@@ -9,8 +10,8 @@ const ListArticle = ({ post, onClick }) => (
     <span className="bg-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
       {post.category}
     </span>
-    <h4 className="mt-3 text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
-      {post.title}
+    <h4 className="mt-3 text-[15px] font-bold leading-relaxed transition-colors group-hover:text-blue-700">
+      {getPostTitle(post)}
     </h4>
     <div className="mt-2 flex items-center gap-2 text-[11px] font-medium text-gray-400">
       <span>{formatDate(post.createdAt)}</span>

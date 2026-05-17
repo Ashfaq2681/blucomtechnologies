@@ -1,6 +1,6 @@
 const SocialMediaAnalytics = () => (
   <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-    <div className="mb-10 flex items-end justify-between border-b-2 border-black pb-3">
+    <div className="mb-10 flex items-end justify-between border-b-2 border-slate-200 pb-3">
       <h2 className="text-xl font-black tracking-tight text-[#1d2d35]">
         Social Media Analytics
       </h2>
@@ -23,7 +23,7 @@ const SocialMediaAnalytics = () => (
             Social Media Analytics
           </span>
         </div>
-        <h3 className="text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
+        <h3 className="text-[15px] font-bold leading-relaxed transition-colors group-hover:text-blue-700">
           How to conduct a speedy social media audit
         </h3>
         <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-gray-400">
@@ -43,7 +43,7 @@ const SocialMediaAnalytics = () => (
             Social Media Analytics
           </span>
         </div>
-        <h3 className="text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
+        <h3 className="text-[15px] font-bold leading-relaxed transition-colors group-hover:text-blue-700">
           Facebook analytics: A guide to Facebook insights
         </h3>
         <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-gray-400">
@@ -63,7 +63,7 @@ const SocialMediaAnalytics = () => (
             YouTube
           </span>
         </div>
-        <h3 className="text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
+        <h3 className="text-[15px] font-bold leading-relaxed transition-colors group-hover:text-blue-700">
           How to build a strategic YouTube dashboard: A guide to YouTube Studio and beyond
         </h3>
         <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-gray-400">
@@ -85,7 +85,7 @@ const SocialMediaAnalytics = () => (
             Twitter
           </span>
         </div>
-        <h3 className="text-[15px] font-bold leading-snug transition-colors group-hover:text-blue-700">
+        <h3 className="text-[15px] font-bold leading-relaxed transition-colors group-hover:text-blue-700">
           X (Twitter) analytics: How to view insights and improve your data
         </h3>
         <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-gray-400">

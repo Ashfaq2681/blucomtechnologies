@@ -84,6 +84,15 @@ const navItems: NavItem[] = [
     icon: <PageIcon />,
     path: "/Dashboard/seo-analysis",
   },
+  {
+    name: "Careers",
+    icon: <PageIcon />,
+    subItems: [
+      { name: "Open Jobs", path: "/Dashboard/career/open-jobs", pro: false },
+      { name: "Post a Job", path: "/Dashboard/career/post-job", pro: false },
+      { name: "Applicants", path: "/Dashboard/career/applicants", pro: false },
+    ],
+  },
 ];
 
 const othersItems: NavItem[] = [

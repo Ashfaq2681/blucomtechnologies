@@ -7,6 +7,7 @@ const path = require("path");
 const { pool, query, initializeDatabase } = require("./config/db");
 const postRoutes = require("./routes/postRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const careerRoutes = require("./routes/careerRoutes");
 const createBlogsRouter = require("./routes/blogs");
 const createPublicBlogsRouter = require("./routes/publicBlogs");
 const ensureBlogTables = require("./utils/ensureBlogTables");
@@ -52,6 +53,7 @@ app.get("/api/user/getarticles", async (req, res) => {
 
 app.use("/api", postRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", careerRoutes);
 app.use("/api/blogs", createBlogsRouter({ queryAsync: query }));
 app.use("/blogs", createPublicBlogsRouter({ queryAsync: query }));
 

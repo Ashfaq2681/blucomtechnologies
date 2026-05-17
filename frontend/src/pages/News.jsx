@@ -9,6 +9,8 @@ const News = () => (
     description="Follow Blucom Technologies updates, announcements, and timely marketing and technology coverage."
     accentClass="bg-slate-900"
     showManagement={false}
+    publicPostLimit={2}
+    showHero={false}
     editorInitialValues={{
       category: "News",
       section: "latest",

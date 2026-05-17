@@ -17,8 +17,8 @@ const Button = ({
       outline: "bg-transparent text-gray-900 border border-gray-400 hover:bg-gray-100"
     },
     black: {
-      filled: "bg-black text-white border border-black hover:bg-gray-800",
-      outline: "bg-transparent text-black border border-black hover:bg-black hover:text-white"
+      filled: "bg-black text-white border border-slate-200 hover:bg-gray-800",
+      outline: "bg-transparent text-black border border-slate-200 hover:bg-black hover:text-white"
     },
     gray: {
       filled: "bg-gray-600 text-white border border-gray-700 hover:bg-gray-700",

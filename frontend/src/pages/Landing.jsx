@@ -4,6 +4,20 @@ import { Helmet } from "react-helmet-async";
 import landingImg from "/landing/heroimage.svg";
 import Button from "../Components/Button";
 import { getPublishedPosts } from "../api/blogs";
+import { getPostDescription, getPostTitle } from "../utils/postDescriptions";
+
+const postMatchesType = (post, contentType) => {
+  const target = contentType.toLowerCase();
+  const values = [post.category, post.subcategory, post.section, post.tags]
+    .flat()
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  return values.includes(target);
+};
+
+const PREVIEW_POST_LIMIT = 2;
 
 const Discovery = [
   <div>
@@ -101,17 +115,14 @@ const Interaction = [
     };
   }, []);
 
-  const blogPreviewPosts = landingPosts.slice(0, 3);
-  const ideasPreviewPosts = landingPosts
-    .filter((post) =>
-      [post.category, post.subcategory, post.section, post.tags]
-        .flat()
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
-        .includes("ideas"),
-    )
-    .slice(0, 3);
+  const newsPreviewPosts = landingPosts
+    .filter((post) => postMatchesType(post, "News"))
+    .slice(0, PREVIEW_POST_LIMIT);
+  const blogPreviewPosts = landingPosts
+    .filter((post) => !postMatchesType(post, "Ideas") && !postMatchesType(post, "News"))
+    .slice(0, PREVIEW_POST_LIMIT);
+  const insightPosts = newsPreviewPosts;
+  const conceptImpactPosts = blogPreviewPosts;
 
   return (
     <section className="bg-[#F8FAFC] min-h-screen">
@@ -171,7 +182,7 @@ const Interaction = [
             <span className="text-2xl text-gray-500">
               Brand Strategy &
               <br />
-              <span className="text-6xl text-gray-500 underline decoration-8 decoration-green-300">
+              <span className="text-6xl text-emerald-500 underline decoration-8 decoration-green-300">
                 Digital Marketing Agency
                 <br />
               </span>
@@ -271,7 +282,7 @@ const Interaction = [
             {/* Text Section */}
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
               <span className="text-2xl text-gray-500">Hyundai Pakistan</span>
-              <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
                 TUSCON 2020
               </span>
               <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
@@ -293,7 +304,7 @@ const Interaction = [
             {/* Text Section */}
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-end p-6 md:p-12">
               <span className="text-2xl text-gray-500">Toyota Motors Islamabad</span>
-              <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
                 Digital Experience
               </span>
               <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
@@ -333,7 +344,7 @@ const Interaction = [
             {/* Text Section */}
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
               <span className="text-2xl text-gray-500">Codility Hub Technologies</span>
-              <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
                 Interaction Design
               </span>
               <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
@@ -356,7 +367,7 @@ const Interaction = [
           {/* Title Section */}
           <div className="flex flex-col items-center text-center m-6 sm:m-10 w-full">
             <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">We provide a complete range of</span>
-            <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+            <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               Creative & Digital Services
             </span>
             <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Discovery / Strategy / Interaction</span>
@@ -366,7 +377,7 @@ const Interaction = [
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-lg md:text-xl text-[#727277] mx-auto w-full max-w-6xl">
             {/* Discovery Section */}
             <div className="flex flex-col gap-6">
-              <span className="font-bold text-gray-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
+              <span className="font-bold text-emerald-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
                 Discovery
               </span>
               {Discovery.map((item, index) => (
@@ -378,7 +389,7 @@ const Interaction = [
 
             {/* Strategy Section */}
             <div className="flex flex-col gap-6">
-              <span className="font-bold text-gray-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
+              <span className="font-bold text-emerald-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
                 Strategy
               </span>
               {Strategy.map((item, index) => (
@@ -390,7 +401,7 @@ const Interaction = [
 
             {/* Digital Section */}
             <div className="flex flex-col gap-6">
-              <span className="font-bold text-gray-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
+              <span className="font-bold text-emerald-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
                 Digital
               </span>
               {Digital.map((item, index) => (
@@ -402,7 +413,7 @@ const Interaction = [
 
             {/* Interaction Section */}
             <div className="flex flex-col gap-6">
-              <span className="font-bold text-gray-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
+              <span className="font-bold text-emerald-500 underline underline-offset-[8px] decoration-2 decoration-[#C4C4C4]">
                 Interaction
               </span>
               {Interaction.map((item, index) => (
@@ -423,68 +434,9 @@ const Interaction = [
        
 
 
-        {(blogPreviewPosts.length > 0 || ideasPreviewPosts.length > 0) && (
-          <section className="bg-white px-5 py-20 text-[#727277]">
-            <div className="mx-auto max-w-7xl">
-              <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <span className="text-2xl text-gray-500">Latest from the CMS</span>
-                  <h2 className="mt-2 text-5xl text-gray-500 underline decoration-emerald-300">
-                    Blog and Ideas
-                  </h2>
-                </div>
-                <div className="flex gap-3">
-                  <Link to="/blog"><Button variant="gray">View Blog</Button></Link>
-                  <Link to="/ideas"><Button variant="gray">View Ideas</Button></Link>
-                </div>
-              </div>
-
-              {blogPreviewPosts.length > 0 && (
-                <div>
-                  <h3 className="mb-5 text-xl font-semibold text-gray-600">Blog Posts</h3>
-                  <div className="grid gap-6 md:grid-cols-3">
-                    {blogPreviewPosts.map((post) => (
-                      <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="group block border border-slate-200 bg-white">
-                        <div className="h-52 bg-slate-100">
-                          {post.image && <img src={post.image} alt={post.title} className="h-full w-full object-cover" />}
-                        </div>
-                        <div className="p-5">
-                          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{post.category || "Blog"}</p>
-                          <h4 className="mt-3 text-2xl font-black leading-snug text-[#1d2d35] group-hover:text-blue-700">{post.title}</h4>
-                          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{post.description || post.seoDescription}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {ideasPreviewPosts.length > 0 && (
-                <div className="mt-12">
-                  <h3 className="mb-5 text-xl font-semibold text-gray-600">Ideas Posts</h3>
-                  <div className="grid gap-6 md:grid-cols-3">
-                    {ideasPreviewPosts.map((post) => (
-                      <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="group block border border-slate-200 bg-white">
-                        <div className="h-52 bg-slate-100">
-                          {post.image && <img src={post.image} alt={post.title} className="h-full w-full object-cover" />}
-                        </div>
-                        <div className="p-5">
-                          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">Ideas</p>
-                          <h4 className="mt-3 text-2xl font-black leading-snug text-[#1d2d35] group-hover:text-emerald-700">{post.title}</h4>
-                          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{post.description || post.seoDescription}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
-
         <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
           <div className="flex flex-col justify-start items-center m-10 w-auto">
-            <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+            <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               From Concept to Impact
             </span>
             <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
@@ -492,31 +444,34 @@ const Interaction = [
             </span>
           </div>
           <div className="flex flex-row gap-5 justify-center flex-wrap">
-
-
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</span>
-              <img src="./landing/insight1.jpg" alt="insight" className="w-[600px] h-[350px]" />
-              <span className="text-4xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">Why attention economy is becoming new ecomony, and how brands can take leverage</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</span>
-              <Link to={`Blog/Why-attention-economy-is-becoming-new-ecomony-and-how-brands-can-take-leverage`}>
-                <Button variant="gray">Read More</Button>
-              </Link>
-              
-            </div>
-
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">Insights</span>
-              <img src="./landing/insight2.jpg" alt="insight" className="w-[600px] h-[350px]" />
-              <span className="text-4xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">The art of visual communication, how visual grammer can be utilized by the brands</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</span>
-              
-              <Link to={`Blog/The-art-of-visual-communication`}>
-                <Button variant="gray">Read More</Button>
-              </Link>
-            </div>
+            {(conceptImpactPosts.length > 0 ? conceptImpactPosts : [
+              {
+                id: "static-impact-1",
+                title: "Why attention economy is becoming new ecomony, and how brands can take leverage",
+                slug: "Why-attention-economy-is-becoming-new-ecomony-and-how-brands-can-take-leverage",
+                image: "./landing/insight1.jpg",
+                description: "Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies economic theory to solve various information management problems",
+                link: "Blog/Why-attention-economy-is-becoming-new-ecomony-and-how-brands-can-take-leverage",
+              },
+              {
+                id: "static-impact-2",
+                title: "The art of visual communication, how visual grammer can be utilized by the brands",
+                slug: "The-art-of-visual-communication",
+                image: "./landing/insight2.jpg",
+                description: "Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies economic theory to solve various information management problems",
+                link: "Blog/The-art-of-visual-communication",
+              },
+            ]).map((post) => (
+              <div key={post.id || post.slug} className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
+                <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">{post.category || "Blog"}</span>
+                {post.image && <img src={post.image} alt={post.title} className="w-[600px] h-[350px] object-cover" />}
+                <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">{getPostTitle(post)}</span>
+                <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">{getPostDescription(post)}</span>
+                <Link to={post.link || `/blog/${post.slug}`}>
+                  <Button variant="gray">Read More</Button>
+                </Link>
+              </div>
+            ))}
           </div>
           {/* Call-to-Action Button */}
 
@@ -524,33 +479,44 @@ const Interaction = [
         <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
           <div className="flex flex-col justify-start items-center m-10 w-auto">
             <span className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">The digital landscape is constantly evolving. </span>
-            <span className="text-6xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">
+            <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
               Insights for Modern Brands
             </span>
 
           </div>
           <div className="flex flex-row gap-5 justify-center flex-wrap">
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <img src="./icons/forbes_logo.png" alt="forbes logo" className="w-auto h-[40px]" />
-              <img src="./landing/news1.png" alt="insight" className="w-[600px] h-[350px]" />
-              <span className="text-4xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">Rideshare Advertising To A New Outdoor World</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</span>
-              <Link to={`/Ideas/Rideshare-Advertising-To-A-New-Outdoor-World`}>
-                <Button variant="gray">Read More</Button>
-              </Link>
-              
-            </div>
-            <div className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
-              <img src="./icons/adobe_logo_1.png" alt="adobe logo" className="w-auto h-[40px]" />
-              <img src="./landing/news2.png" alt="insight" className="w-[600px] h-[350px]" />
-              <span className="text-4xl text-gray-500 underline decoration-gray-500 decoration-emerald-300">12 Must-Attend Trade Conferences For Agency Professionals</span>
-              <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies econom
-                ic theory to solve various information management problems</span>
-              <Link to={`/Ideas/Must-Attend-Advertising-Confrence`} >
-                <Button variant="gray">Read More</Button>
-              </Link>
-            </div>
+            {(insightPosts.length > 0 ? insightPosts : [
+              {
+                id: "static-news-1",
+                title: "Rideshare Advertising To A New Outdoor World",
+                slug: "Rideshare-Advertising-To-A-New-Outdoor-World",
+                image: "./landing/news1.png",
+                description: "Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies economic theory to solve various information management problems",
+                logo: "./icons/forbes_logo.png",
+                logoAlt: "forbes logo",
+                link: "/Ideas/Rideshare-Advertising-To-A-New-Outdoor-World",
+              },
+              {
+                id: "static-news-2",
+                title: "12 Must-Attend Trade Conferences For Agency Professionals",
+                slug: "Must-Attend-Advertising-Confrence",
+                image: "./landing/news2.png",
+                description: "Attention economics is an approach to the management of information that treats human attention as a scarce commodity and applies economic theory to solve various information management problems",
+                logo: "./icons/adobe_logo_1.png",
+                logoAlt: "adobe logo",
+                link: "/Ideas/Must-Attend-Advertising-Confrence",
+              },
+            ]).map((post) => (
+              <div key={post.id || post.slug} className="flex flex-col gap-5 justify-start items-start max-w-[600px]">
+                {post.logo && <img src={post.logo} alt={post.logoAlt || ""} className="w-auto h-[40px]" />}
+                {post.image && <img src={post.image} alt={post.title} className="w-[600px] h-[350px] object-cover" />}
+                <span className="text-4xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">{getPostTitle(post)}</span>
+                <span className="text-lg text-gray-500 flex flex-wrap gap-2 mt-5">{getPostDescription(post)}</span>
+                <Link to={post.link || `/blog/${post.slug}`}>
+                  <Button variant="gray">Read More</Button>
+                </Link>
+              </div>
+            ))}
           </div>
 
         </div>

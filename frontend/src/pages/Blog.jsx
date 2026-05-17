@@ -135,7 +135,7 @@ const HelloPage = () => {
         <title>Blucomtechnologies Blog | The Latest in Social Strategy</title>
         <meta name="description" content="Explore the latest in social media strategy, AI marketing, and data-driven insights." />
       </Helmet>
-      <div className="min-h-screen bg-white font-sans text-slate-900">
+      <div className="min-h-screen bg-[#e9f1f8] font-sans text-slate-900">
         <nav className="border-b sticky top-0 bg-white/95 backdrop-blur-sm z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
             <div className="flex items-center space-x-10">
@@ -294,7 +294,7 @@ const HelloPage = () => {
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700 transition-colors">{blog.title}</h3>
                   </div>
                 ))}
-                {guidesBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {guidesBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
             <div>
@@ -315,7 +315,7 @@ const HelloPage = () => {
                     <h3 className="font-bold text-sm leading-snug group-hover:text-blue-700">{blog.title}</h3>
                   </div>
                 ))}
-                {reportsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {reportsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
             <div>
@@ -335,15 +335,15 @@ const HelloPage = () => {
                     </div>
                   </div>
                 ))}
-                {insightsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">{blog.title}</h4></div>)}
+                {insightsBlogs.slice(2, 4).map((blog) => <div key={blog.id} className="pt-4 border-t border-gray-100 cursor-pointer group" onClick={() => handleNavigate(blog.slug)}><h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">{blog.title}</h4></div>)}
               </div>
             </div>
           </div>
         </section>
-        <div className="space-y-20 bg-white font-sans text-slate-900">
+        <div className="space-y-20 bg-[#e9f1f8] font-sans text-slate-900">
           <section className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="border-2 border-black -[40px] p-10 md:p-16">
-              <h2 className="text-2xl font-black mb-12 tracking-tight">Topic Hubs</h2>
+              <h2 className="text-2xl font-black mb-12 tracking-">Topic Hubs</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-6">
                 {["AI Marketing", "AI in Social Media", "Best Times to Post on Social Media", "Business Intelligence", "Competitive Analysis", "Crisis Communications", "Customer Care", "Employee Advocacy", "Facebook Analytics", "Facebook Marketing", "Hashtags", "Influencer Marketing", "Instagram Analytics Tools", "Instagram Marketing", "LinkedIn Marketing", "Reputation Management", "Sentiment Analysis", "Social Media Advertising", "Social Media Analytics", "Social Media Audit", "Social Media Content", "Social Media Customer Service", "Social Media Engagement", "Social Media Listening", "Social Media Management", "Social Media Marketing", "Social Media Planning", "Social Media ROI", "Social Media Reporting", "Social Media Scheduling", "Social Media Search", "Social Media Statistics", "Social Media for Healthcare", "TikTok Analytics", "TikTok Marketing", "UK Influencers", "X (Twitter) Analytics", "X (Twitter) Marketing", "YouTube Marketing"].map((topic) => (
                   <div key={topic} className="group cursor-pointer">

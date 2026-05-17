@@ -188,5 +188,6 @@ function devBlogSeoPlugin() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: projectRoot,
   plugins: [svgReactPlugin(), react(), devBlogSeoPlugin()],
 });

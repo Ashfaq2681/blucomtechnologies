@@ -1,6 +1,6 @@
 const AllMarketingInsights = () => (
   <div>
-    <div className="mb-8 flex items-end justify-between border-b-2 border-black pb-3">
+    <div className="mb-8 flex items-end justify-between border-b-2 border-slate-200 pb-3">
       <h2 className="text-xl font-black tracking-tight">All Marketing Insights</h2>
       <button className="flex items-center text-xs font-bold text-blue-700 hover:underline">
         View all <span className="ml-1">&rsaquo;</span>
@@ -16,7 +16,7 @@ const AllMarketingInsights = () => (
               Community Management
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             The complete crisis management guide for communication leaders
           </h3>
         </div>
@@ -30,19 +30,19 @@ const AllMarketingInsights = () => (
               All Industries
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             How to use brand safety tools to protect your brand&apos;s reputation
           </h3>
         </div>
       </div>
 
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           Why the best AI use cases in marketing start with intelligence, not creation
         </h4>
       </div>
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           The state of social media in 2026: Data from blucomtechnologies&apos;s latest pulse survey
         </h4>
       </div>

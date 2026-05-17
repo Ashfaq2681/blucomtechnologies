@@ -18,20 +18,26 @@ type ContentCheck = {
   numericId: number;
   title: string;
   type: string;
+  category: string;
   status: string;
   score: number;
+  path?: string;
+  editable: boolean;
   findings: string[];
 };
 
-type ContentFilter = "all" | "blog" | "ideas" | "news";
+type ContentFilter = "all" | "page" | "blog" | "ideas" | "news";
 
 type EditableSeoItem = {
   id: string;
   numericId: number;
+  source: "post" | "page";
   type: string;
   title: string;
   slug: string;
+  path?: string;
   category: string;
+  subcategory?: string;
   content: string;
   tags: string[];
   status: string;
@@ -60,8 +66,17 @@ const manualPublicPaths = [
   "/careers",
   "/ideas",
   "/news",
+  "/notfound",
+  "/login",
+  "/multistepform",
+  "/testpage",
   "/blog",
+  "/blog/blog-single-b",
+  "/blog/blog-single-the-oportunity-code",
+  "/ideas/ideas-single",
   "/work",
+  "/admindashboard",
+  "/admin",
   "/the-shift-towards-commerce-driven-marketing",
   "/services/analysis-measurement",
   "/services/analytics-implementation",
@@ -91,11 +106,15 @@ const manualPublicPaths = [
   "/services/user-journey-mapping",
   "/services/web-development",
   "/services/web-maintenance",
+  "/services/new-folder/buying",
+  "/services/new-folder/omnichannel-campaign-management",
 ];
 
 const metaRobotsOptions = ["index,follow", "noindex,follow", "index,nofollow", "noindex,nofollow"];
 const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "FAQPage"];
 const twitterCardOptions = ["summary", "summary_large_image"];
+
+const allSeoPaths = Array.from(new Set(manualPublicPaths));
 
 const getContentType = (item: any): "blog" | "ideas" | "news" => {
   const values = [item.category, item.subcategory, item.section, item.tags]
@@ -108,6 +127,68 @@ const getContentType = (item: any): "blog" | "ideas" | "news" => {
   if (values.includes("news")) return "news";
   return "blog";
 };
+
+const formatRouteLabel = (path: string) => {
+  if (path === "/") return "Home";
+
+  return path
+    .split("/")
+    .filter(Boolean)
+    .pop()
+    ?.split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ") || path;
+};
+
+const getPageCategory = (path: string) => {
+  const normalizedPath = path.toLowerCase();
+
+  if (normalizedPath === "/") return "Core Pages";
+  if (normalizedPath.startsWith("/services/")) return "Services";
+  if (normalizedPath.startsWith("/blog")) return "Blog";
+  if (normalizedPath.startsWith("/ideas")) return "Ideas";
+  if (normalizedPath.startsWith("/news")) return "News";
+  if (
+    normalizedPath.startsWith("/admin") ||
+    normalizedPath.startsWith("/dashboard") ||
+    normalizedPath === "/login" ||
+    normalizedPath === "/testpage" ||
+    normalizedPath === "/multistepform"
+  ) {
+    return "System";
+  }
+
+  return "Core Pages";
+};
+
+const buildPageSeoItems = (): EditableSeoItem[] =>
+  allSeoPaths.map((path) => {
+    const routeSeo = getRouteSeo(path);
+    const normalizedPath = path.toLowerCase();
+    const slug = path === "/" ? "home" : path.split("/").filter(Boolean).pop() || path;
+
+    return {
+      id: `page-${normalizedPath === "/" ? "home" : normalizedPath.replace(/[^a-z0-9]+/g, "-")}`,
+      numericId: 0,
+      source: "page",
+      type: "page",
+      title: routeSeo.title || formatRouteLabel(path),
+      slug,
+      path,
+      category: getPageCategory(path),
+      subcategory: normalizedPath.startsWith("/services/") ? "Service Page" : "",
+      content: routeSeo.description || "",
+      tags: [getPageCategory(path), "page"],
+      status: getPageCategory(path) === "System" ? "noindex" : "published",
+      seoTitle: routeSeo.title,
+      seoDescription: routeSeo.description,
+      canonicalUrl: `https://www.blucomtechnologies.com${path === "/" ? "" : path}`,
+      metaRobots: getPageCategory(path) === "System" ? "noindex,nofollow" : "index,follow",
+      schemaType: "WebPage",
+      twitterCard: "summary_large_image",
+    };
+  });
 
 const getRouteSeo = (path: string) => getPageSeo(path);
 
@@ -209,7 +290,7 @@ const scoreContent = (item: any, type: string): ContentCheck => {
     findings.push("Missing category weakens content organization signals.");
   }
 
-  if (!item.image) {
+  if (item.source !== "page" && !item.image) {
     score -= 10;
     findings.push("Missing featured image reduces rich-result and social preview quality.");
   }
@@ -224,8 +305,11 @@ const scoreContent = (item: any, type: string): ContentCheck => {
     numericId: Number(item.id),
     title: item.title || "Untitled",
     type,
+    category: item.category || "Uncategorized",
     status: item.status || "draft",
     score: Math.max(score, 0),
+    path: item.path,
+    editable: item.source !== "page",
     findings: findings.length ? findings : ["No major content-level issues detected."],
   };
 };
@@ -235,6 +319,7 @@ const SeoAnalysis = () => {
   const [editableItems, setEditableItems] = useState<EditableSeoItem[]>([]);
   const [selectedItemId, setSelectedItemId] = useState("");
   const [contentFilter, setContentFilter] = useState<ContentFilter>("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [editorForm, setEditorForm] = useState({
     seoTitle: "",
     seoDescription: "",
@@ -266,10 +351,13 @@ const SeoAnalysis = () => {
           return;
         }
 
-        const editable = posts.map((item) => ({
+        const postItems = posts.map((item) => ({
           ...item,
+          source: "post",
           type: getContentType(item),
         })) as EditableSeoItem[];
+        const pageItems = buildPageSeoItems();
+        const editable = [...pageItems, ...postItems];
 
         setContentChecks(editable.map((item) => scoreContent(item, item.type)));
         setEditableItems(editable);
@@ -313,6 +401,7 @@ const SeoAnalysis = () => {
     () => editableItems.find((item) => `${item.type}-${item.id}` === selectedItemId) || null,
     [editableItems, selectedItemId]
   );
+  const selectedItemIsEditable = selectedItem?.source === "post";
 
   const handleSelectChange = (value: string) => {
     setSelectedItemId(value);
@@ -355,6 +444,12 @@ const SeoAnalysis = () => {
       setSaveMessage("");
       setErrorMessage("");
 
+      if (!selectedItemIsEditable) {
+        setSaveMessage("");
+        setErrorMessage("Static page metadata is managed in the page SEO registry, not the posts API.");
+        return;
+      }
+
       const payload = {
         ...selectedItem,
         tags: Array.isArray(selectedItem.tags) ? selectedItem.tags.join(", ") : "",
@@ -391,15 +486,14 @@ const SeoAnalysis = () => {
   };
 
   const routeChecks = useMemo(() => {
-    const allPaths = Array.from(new Set(manualPublicPaths));
-    const sitemapPaths = new Set(manualPublicPaths.map((path) => path.toLowerCase()));
-    const duplicateMap = allPaths.reduce((map, path) => {
+    const sitemapPaths = new Set(allSeoPaths.map((path) => path.toLowerCase()));
+    const duplicateMap = allSeoPaths.reduce((map, path) => {
       const key = path.toLowerCase();
       map.set(key, (map.get(key) || 0) + 1);
       return map;
     }, new Map<string, number>());
 
-    return allPaths
+    return allSeoPaths
       .filter((path) => path.startsWith("/"))
       .map((path) => scoreRoute(path, duplicateMap, sitemapPaths))
       .sort((first, second) => first.score - second.score);
@@ -430,12 +524,18 @@ const SeoAnalysis = () => {
   const visibleContentChecks = useMemo(() => {
     const sortedItems = [...contentChecks].sort((first, second) => first.score - second.score);
 
-    if (contentFilter === "all") {
-      return sortedItems;
-    }
+    return sortedItems.filter((item) => {
+      const matchesType = contentFilter === "all" || item.type === contentFilter;
+      const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
 
-    return sortedItems.filter((item) => item.type === contentFilter);
-  }, [contentChecks, contentFilter]);
+      return matchesType && matchesCategory;
+    });
+  }, [categoryFilter, contentChecks, contentFilter]);
+
+  const contentCategories = useMemo(
+    () => Array.from(new Set(contentChecks.map((item) => item.category).filter(Boolean))).sort(),
+    [contentChecks]
+  );
 
   const handleEditContentSeo = (itemId: string) => {
     handleSelectChange(itemId);
@@ -472,7 +572,7 @@ const SeoAnalysis = () => {
               </div>
             </div>
           </ComponentCard>
-          <ComponentCard title="Content Health" desc="Blogs, ideas, and news scored against title, slug, excerpt, and image checks.">
+          <ComponentCard title="Content Health" desc="Pages, blogs, ideas, and news scored against title, slug, description, category, and media checks.">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[6px] border border-slate-200 bg-white p-5">
                 <p className="text-sm font-medium text-slate-500">Average content score</p>
@@ -502,7 +602,7 @@ const SeoAnalysis = () => {
                 >
                   {editableItems.map((item) => (
                     <option key={`${item.type}-${item.id}`} value={`${item.type}-${item.id}`}>
-                      {item.title} ({item.type})
+                      {item.title} ({item.type}{item.category ? `, ${item.category}` : ""})
                     </option>
                   ))}
                 </select>
@@ -659,7 +759,9 @@ const SeoAnalysis = () => {
               {selectedItem ? (
                 <div className="lg:col-span-2 rounded-[6px] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
                   Editing <span className="font-semibold text-slate-900">{selectedItem.title}</span> as a{" "}
-                  <span className="capitalize">{selectedItem.type}</span> item.
+                  <span className="capitalize">{selectedItem.type}</span> item in{" "}
+                  <span className="font-semibold text-slate-900">{selectedItem.category || "Uncategorized"}</span>.
+                  {selectedItemIsEditable ? "" : " Static page metadata is read from the page SEO registry."}
                 </div>
               ) : null}
 
@@ -679,10 +781,10 @@ const SeoAnalysis = () => {
                 <button
                   type="button"
                   onClick={handleSave}
-                  disabled={saving || !selectedItem}
+                  disabled={saving || !selectedItem || !selectedItemIsEditable}
                   className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {saving ? "Saving..." : "Save SEO Fields"}
+                  {saving ? "Saving..." : selectedItemIsEditable ? "Save SEO Fields" : "Static Page Metadata"}
                 </button>
               </div>
             </div>
@@ -735,7 +837,7 @@ const SeoAnalysis = () => {
           ) : (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
-                {(["all", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
+                {(["all", "page", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
                   <button
                     key={filterValue}
                     type="button"
@@ -750,6 +852,23 @@ const SeoAnalysis = () => {
                   </button>
                 ))}
               </div>
+              <div className="flex flex-wrap items-center gap-3 rounded-[6px] border border-slate-200 bg-white px-4 py-3">
+                <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Category
+                </label>
+                <select
+                  value={categoryFilter}
+                  onChange={(event) => setCategoryFilter(event.target.value)}
+                  className="h-10 min-w-[220px] rounded-[6px] border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                >
+                  <option value="all">All categories</option>
+                  {contentCategories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-200 text-sm text-slate-700">
@@ -757,6 +876,7 @@ const SeoAnalysis = () => {
                   <tr>
                     <th className="px-4 py-3">Title</th>
                     <th className="px-4 py-3">Type</th>
+                    <th className="px-4 py-3">Category</th>
                     <th className="px-4 py-3">Status</th>
                     <th className="px-4 py-3">Score</th>
                     <th className="px-4 py-3">Findings</th>
@@ -766,8 +886,12 @@ const SeoAnalysis = () => {
                 <tbody className="divide-y divide-slate-200 bg-white">
                   {visibleContentChecks.map((item) => (
                       <tr key={item.id}>
-                        <td className="px-4 py-3 font-medium text-slate-900">{item.title}</td>
+                        <td className="px-4 py-3 font-medium text-slate-900">
+                          {item.title}
+                          {item.path ? <span className="mt-1 block text-xs font-normal text-slate-500">{item.path}</span> : null}
+                        </td>
                         <td className="px-4 py-3 capitalize">{item.type}</td>
+                        <td className="px-4 py-3">{item.category}</td>
                         <td className="px-4 py-3 capitalize">{item.status}</td>
                         <td className="px-4 py-3">{item.score}/100</td>
                         <td className="px-4 py-3">{item.findings.join(" ")}</td>
@@ -777,7 +901,7 @@ const SeoAnalysis = () => {
                             onClick={() => handleEditContentSeo(item.id)}
                             className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
                           >
-                            Edit SEO
+                            {item.editable ? "Edit SEO" : "View SEO"}
                           </button>
                         </td>
                       </tr>
@@ -788,7 +912,7 @@ const SeoAnalysis = () => {
 
               {!visibleContentChecks.length ? (
                 <div className="rounded-[6px] border border-slate-200 bg-white px-4 py-8 text-sm font-medium text-slate-500">
-                  No {contentFilter === "all" ? "" : `${contentFilter} `}items match the current filter.
+                  No {contentFilter === "all" ? "" : `${contentFilter} `}items match the current filters.
                 </div>
               ) : null}
             </div>

@@ -90,7 +90,7 @@ function normalizeApplication(application: any): JobApplication {
 
 export async function getJobs(): Promise<JobOpening[]> {
   try {
-    const { data } = await http.get("/career/jobs");
+    const { data } = await http.get("/api/career/jobs");
     return Array.isArray(data) ? data.map(normalizeJob) : fallbackJobs;
   } catch {
     return fallbackJobs;
@@ -100,13 +100,30 @@ export async function getJobs(): Promise<JobOpening[]> {
 export async function createJob(
   job: Omit<JobOpening, "id" | "createdAt">
 ): Promise<JobOpening> {
-  const { data } = await http.post("/career/jobs", job);
+  const { data } = await http.post("/api/career/jobs", job);
+  return normalizeJob(data);
+}
+
+export async function getJob(jobId: string): Promise<JobOpening | null> {
+  try {
+    const { data } = await http.get(`/api/career/jobs/${jobId}`);
+    return data ? normalizeJob(data) : null;
+  } catch {
+    return fallbackJobs.find((job) => job.id === jobId) || null;
+  }
+}
+
+export async function updateJob(
+  jobId: string,
+  job: Omit<JobOpening, "id" | "createdAt">
+): Promise<JobOpening> {
+  const { data } = await http.put(`/api/career/jobs/${jobId}`, job);
   return normalizeJob(data);
 }
 
 export async function getOpenJobs(): Promise<JobOpening[]> {
   try {
-    const { data } = await http.get("/career/jobs", {
+    const { data } = await http.get("/api/career/jobs", {
       params: { status: "Open" },
     });
     return Array.isArray(data) ? data.map(normalizeJob) : fallbackJobs.filter((job) => job.status === "Open");
@@ -116,13 +133,13 @@ export async function getOpenJobs(): Promise<JobOpening[]> {
 }
 
 export async function getApplications(): Promise<JobApplication[]> {
-  const { data } = await http.get("/career/applications");
+  const { data } = await http.get("/api/career/applications");
   return Array.isArray(data) ? data.map(normalizeApplication) : [];
 }
 
 export async function createApplication(
   application: Omit<JobApplication, "id" | "status" | "createdAt">
 ): Promise<JobApplication> {
-  const { data } = await http.post("/career/applications", application);
+  const { data } = await http.post("/api/career/applications", application);
   return normalizeApplication(data);
 }

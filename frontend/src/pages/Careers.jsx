@@ -1,181 +1,492 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Helmet } from "react-helmet"; // Import Helmet for SEO
-const links = [
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
-  { src: "./career/link.png", url: "We Got Link" },
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowRight,
+  BriefcaseBusiness,
+  CheckCircle2,
+  Clock3,
+  Globe2,
+  MapPin,
+  Send,
+  Sparkles,
+  UsersRound,
+} from "lucide-react";
+import {
+  createApplication,
+  getOpenJobs,
+} from "./dashboard/career/jobsStore";
+
+const emptyApplication = {
+  jobId: "",
+  jobTitle: "",
+  fullName: "",
+  email: "",
+  phone: "",
+  linkedIn: "",
+  portfolio: "",
+  coverNote: "",
+};
+
+const cultureStats = [
+  { value: "Strategy", label: "Brand, digital, and growth work" },
+  { value: "Hybrid", label: "Focused delivery with flexible collaboration" },
+  { value: "Impact", label: "Projects built around measurable outcomes" },
 ];
-const jobs = [
+
+const benefits = [
   {
-    title: "Associate Creative Director",
-    description:
-      "We choose our people more carefully. We bring them in if we think they're good fit, regardless of whether we have work for them right away. We choose our peaople more carefully. We bring them in if they are good fit, regardless of whteher we have work for them right away",
-    graduation: "Min Bachlors",
-    experience: "8+ Years",
-    prefrence: "Telco Experemce Would be Perffrered",
+    icon: Sparkles,
+    title: "Creative ownership",
+    text: "Take ideas from insight to launch with room to shape the final work.",
   },
   {
-    title: "Client Relationship Manager",
-    description:
-      "We choose our people more carefully. We bring them in if we think they're good fit, regardless of whether we have work for them right away. We choose our peaople more carefully. We bring them in if they are good fit, regardless of whteher we have work for them right away",
-    graduation: "Min Bachlors",
-    experience: "8+ Years",
-    prefrence: "Telco Experemce Would be Perffrered",
+    icon: UsersRound,
+    title: "Cross-functional teams",
+    text: "Work closely with strategy, design, marketing, and development leads.",
   },
   {
-    title: "Account Manager",
-    description:
-      "We choose our people more carefully. We bring them in if we think they're good fit, regardless of whether we have work for them right away. We choose our peaople more carefully. We bring them in if they are good fit, regardless of whteher we have work for them right away",
-    graduation: "Min Bachlors",
-    experience: "8+ Years",
-    prefrence: "Telco Experemce Would be Perffrered",
-  },
-  {
-    title: "Mr. Visualizer",
-    description:
-      "We choose our people more carefully. We bring them in if we think they're good fit, regardless of whether we have work for them right away. We choose our peaople more carefully. We bring them in if they are good fit, regardless of whteher we have work for them right away",
-    graduation: "Min Bachlors",
-    experience: "8+ Years",
-    prefrence: "Telco Experemce Would be Perffrered",
+    icon: Globe2,
+    title: "Real client impact",
+    text: "Build brands, campaigns, and digital products for growing businesses.",
   },
 ];
+
+const hiringSteps = [
+  "Apply with your details and links to relevant work.",
+  "Meet the team for a focused role conversation.",
+  "Complete a short skills discussion or practical review.",
+  "Start with clear goals, ownership, and support.",
+];
+
 export default function Careers() {
+  const formRef = useRef(null);
+  const jobsRef = useRef(null);
+  const [jobs, setJobs] = useState([]);
+  const [application, setApplication] = useState(emptyApplication);
+  const [loadingJobs, setLoadingJobs] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getOpenJobs()
+      .then((openJobs) => {
+        if (!isMounted) return;
+        setJobs(openJobs);
+        if (openJobs.length > 0) {
+          setApplication((current) => ({
+            ...current,
+            jobId: current.jobId || openJobs[0].id,
+            jobTitle: current.jobTitle || openJobs[0].title,
+          }));
+        }
+      })
+      .finally(() => {
+        if (isMounted) setLoadingJobs(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const updateApplication = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "jobId") {
+      const selectedJob = jobs.find((job) => job.id === value);
+      setApplication((current) => ({
+        ...current,
+        jobId: value,
+        jobTitle: selectedJob?.title || "",
+      }));
+      return;
+    }
+
+    setApplication((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const chooseJob = (job) => {
+    setApplication((current) => ({
+      ...current,
+      jobId: job.id,
+      jobTitle: job.title,
+    }));
+    setMessage("");
+    setError("");
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const submitApplication = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    setError("");
+
+    if (!application.jobId) {
+      setError("Please choose a job before applying.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await createApplication(application);
+      setMessage("Your application has been submitted. Our team will review it shortly.");
+      setApplication({
+        ...emptyApplication,
+        jobId: jobs[0]?.id || "",
+        jobTitle: jobs[0]?.title || "",
+      });
+    } catch (submitError) {
+      console.error("[career][apply]", submitError);
+      setError("Unable to submit your application right now. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const scrollToJobs = () => {
+    jobsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <div>
-      <div className="relative w-full">
+    <main className="bg-white text-[#1E2832]">
+      <section className="relative min-h-[78vh] overflow-hidden bg-[#111827]">
         <img
           src="/career/careers.png"
-          alt="image.."
-          className="w-full h-lvh object-cover"
+          alt="Blucom team working together"
+          className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-black opacity-30"></div>
-        <div className="absolute inset-0 flex flex-col sm:flex-row justify-center items-center text-white p-4">
-          <div className="sm:w-[35%] w-full lg:p-4 p-2 text-left">
-            <p className="text-xs sm:text-base">Open Positions</p>
-            <h1 className="text-lg sm:text-2xl lg:text-4xl">
-              Sr. Creative Director
-            </h1>
-            <p className="text-xs sm:text-base">
-              Found what you are looking for?
+        <div className="absolute inset-0 bg-gradient-to-r from-[#111827]/95 via-[#111827]/78 to-[#00AE80]/45" />
+        <div className="relative z-10 mx-auto flex min-h-[78vh] w-[90%] max-w-7xl flex-col justify-end pb-12 pt-32 text-white md:pb-16">
+          <div className="max-w-3xl">
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur">
+              <BriefcaseBusiness size={16} />
+              Careers at Blucom Technologies
             </p>
-          </div>
-          <div className="sm:w-[35%] w-full sm:border-l-2 border-t-2 sm:border-t-0 border-white lg:p-4 p-2 text-left mt-4 lg:mt-0">
-            <h1 className=" text-lg sm:text-2xl lg:text-4xl">
-              It's who we are.
+            <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl">
+              Build sharp digital work with people who care about outcomes.
             </h1>
-            <h1 className=" text-lg sm:text-2xl lg:text-4xl">
-              It's what we're about
-            </h1>
-            <p className="text-xs sm:text-base">
-              As the most awarded B2B branding agency in Texas, we know how to
-              combine customer insight with impactful content to get your brand
-              from the top of the list to the dotted line.
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/85 sm:text-lg">
+              Join a team where brand strategy, design, marketing, and technology
+              move together. We are looking for people who think clearly, execute
+              carefully, and keep raising the quality of the work.
             </p>
-          </div>
-        </div>
-      </div>
-      <div className="bg-[#00AE80]  md:py-20 py-10">
-        <div className="w-[80%] mx-auto">
-          <div className="flex flex-col-reverse sm:flex-row w-full gap-6 justify-between items-center">
-            <div className="text-gray-100">
-              <p>Aurthor</p>
-              <h1 className="text-white text-4xl my-1">Polly Row</h1>
-              <p>Partner Ships manager</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={scrollToJobs}
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#00AE80] px-6 py-3 font-semibold text-white transition hover:bg-[#00946d]"
+              >
+                View open roles
+                <ArrowRight size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  formRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-[#1E2832]"
+              >
+                Apply now
+                <Send size={18} />
+              </button>
             </div>
-            <div className="bg-gray-300 h-72 sm:w-[50%] w-full">
-              <img src="" alt="img.." />
-            </div>
           </div>
-          <div className="text-gray-100 mt-10 sm:mt-20">
-            <p>Found What you are looking for?</p>
-            <h1 className="text-white text-4xl my-1">
-              Exploring some of the key topics
-            </h1>
-            <p>
-              Let's discuss As the most awarded B2B branding agency in Texas, we
-              know how to combine customer insight with impactful content to get
-              your brand from the top of the list to the dotted line.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="w-[80%] mx-auto">
-        <div className="text-gray-600 grid sm:grid-cols-3 grid-cols-2 md:w-[65%] my-10 sm:my-20  mx-auto">
-          {links.map((link, key) => (
-            <div className="flex flex-col items-center" key={key}>
-              <img src={link.src} alt="img" className="h-32" />
-              <p className="text-2xl hover:underline hover:text-gray-800 cursor-pointer">
-                {link.url}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col-reverse sm:flex-row gap-8 items-center my-10 sm:my-20 justify-between">
-          <div className="text-gray-500 sm:w-[50%]">
-            <p className="text-lg">Some of our</p>
-            <h1 className="text-[#00AE80] text-4xl font-medium underline my-1">
-              Dear Rule Breaker
-            </h1>
-            <p className="text-lg font-medium pb-10">
-              Risk Takers, opportunity makers
-            </p>
-            <p>
-              As the most awarded B2B branding agency in Texas, we know how to
-              combine customer insights with impactful content to get your brand
-              from the top of the list to the dotted line.
-            </p>
-            <button className="bg-gray-800 px-2 text-lg mt-8 text-white hover:opacity-80">
-              Come Join Us
-            </button>
-          </div>
-          <div className="sm:w-[50%]">
-            <img src="./career/rulebreaker.png" alt="img.." className="" />
-          </div>
-        </div>
-        <div className="">
-          <div className="text-gray-600">
-            <p className="text-lg">Some of our</p>
-            <h1 className="text-[#00AE80] text-4xl font-medium underline mb-2 mt-1">
-              Open Positions
-            </h1>
-            <p className="text-lg font-medium">
-              Risk Takers, opportunity makers
-            </p>
-          </div>
-          <div className="text-gray-600">
-            {jobs.map((job,key)=>(
-            <div className="my-8" key={key}>
-                <h1 className="text-2xl underline my-2 text-gray-800">{job.title}</h1>
-                <p>{job.description}</p>
-                <h2 className="text-gray-800 font-bold text-lg my-1">Preffered Qualifications</h2>
-                <div className="flex flex-wrap gap-4 w-full">
-                    <div className="flex gap-2 border-r-2 border-gray-600 px-4">
-                        <p>Graduations:</p>
-                        <p>{job.graduation}</p>
-                    </div>
-                    <div className="flex gap-2 border-r-2 border-gray-600 px-4">
-                        <p>Industry Experience:</p>
-                        <p>{job.experience}</p>
-                    </div>
-                    <div className="flex gap-2 border-gray-600 px-4">
-                        <p>Preference:</p>
-                        <p>{job.prefrence}</p>
-                    </div>
-                </div>
-                <button className="bg-gray-700 text-white font-semibold px-4 text-lg mt-2 hover:opacity-80">Apply</button>
-            </div>
-
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+            {cultureStats.map((item) => (
+              <div
+                key={item.value}
+                className="rounded-lg border border-white/15 bg-white/10 p-5 backdrop-blur"
+              >
+                <p className="text-2xl font-bold text-white">{item.value}</p>
+                <p className="mt-2 text-sm leading-6 text-white/75">{item.label}</p>
+              </div>
             ))}
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section className="mx-auto grid w-[90%] max-w-7xl gap-10 py-16 md:grid-cols-[0.95fr_1.05fr] md:py-24">
+        <div>
+          <p className="text-sm font-bold uppercase text-[#00AE80]">
+            Why work here
+          </p>
+          <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-5xl">
+            Work with enough structure to focus and enough space to own the idea.
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-[#5F5F5F]">
+            Blucom is built for people who like practical creativity: clear
+            strategy, thoughtful execution, and steady improvement after launch.
+          </p>
+        </div>
+        <div className="grid gap-5">
+          {benefits.map(({ icon: Icon, title, text }) => (
+            <article
+              key={title}
+              className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md bg-[#00AE80]/10 text-[#00AE80]">
+                <Icon size={24} />
+              </div>
+              <h3 className="text-2xl font-semibold text-[#1E2832]">{title}</h3>
+              <p className="mt-3 leading-7 text-[#5F5F5F]">{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-[#F4F7F6] py-16 md:py-24">
+        <div className="mx-auto grid w-[90%] max-w-7xl gap-10 md:grid-cols-[1fr_0.85fr] md:items-center">
+          <div className="overflow-hidden rounded-lg bg-[#D7DEDB]">
+            <img
+              src="/career/rulebreaker.png"
+              alt="Creative team culture at Blucom"
+              className="h-full min-h-[320px] w-full object-cover"
+            />
+          </div>
+          <div>
+            <p className="text-sm font-bold uppercase text-[#00AE80]">
+              Dear rule breaker
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-5xl">
+              Bring the curiosity. We will bring the briefs worth solving.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-[#5F5F5F]">
+              We value people who ask better questions, respect the details, and
+              turn ambiguity into clear next steps. If that sounds like your way
+              of working, start with one of the roles below.
+            </p>
+            <button
+              type="button"
+              onClick={scrollToJobs}
+              className="mt-8 inline-flex items-center gap-2 rounded-md bg-[#1E2832] px-6 py-3 font-semibold text-white transition hover:bg-[#111827]"
+            >
+              See roles
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        ref={jobsRef}
+        className="mx-auto grid w-[90%] max-w-7xl gap-10 py-16 md:py-24 lg:grid-cols-[1fr_430px]"
+      >
+        <div>
+          <div className="mb-8 max-w-2xl">
+            <p className="text-sm font-bold uppercase text-[#00AE80]">
+              Open positions
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-5xl">
+              Find the role where your work can move fastest.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-[#5F5F5F]">
+              Current openings are managed from the Blucom dashboard, so this
+              list stays aligned with the roles our team is actively hiring for.
+            </p>
+          </div>
+
+          <div className="grid gap-5">
+            {loadingJobs ? (
+              <div className="rounded-lg border border-dashed border-gray-300 p-8 text-[#5F5F5F]">
+                Loading open positions...
+              </div>
+            ) : jobs.length === 0 ? (
+              <div className="rounded-lg border border-dashed border-gray-300 p-8">
+                <h3 className="text-2xl font-semibold text-[#1E2832]">
+                  No roles are open right now.
+                </h3>
+                <p className="mt-3 leading-7 text-[#5F5F5F]">
+                  Check back soon, or share your profile when a role appears
+                  that matches your experience.
+                </p>
+              </div>
+            ) : (
+              jobs.map((job) => (
+                <article
+                  className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:border-[#00AE80]/60 hover:shadow-md"
+                  key={job.id}
+                >
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 className="text-2xl font-semibold text-[#1E2832]">
+                        {job.title}
+                      </h3>
+                      <p className="mt-3 leading-7 text-[#5F5F5F]">
+                        {job.summary}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => chooseJob(job)}
+                      className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-[#00AE80] px-5 py-3 font-semibold text-white transition hover:bg-[#00946d]"
+                    >
+                      Apply
+                      <ArrowRight size={17} />
+                    </button>
+                  </div>
+                  <div className="mt-5 flex flex-wrap gap-3 text-sm font-semibold text-[#5F5F5F]">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#F4F7F6] px-4 py-2">
+                      <MapPin size={16} />
+                      {job.location}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#F4F7F6] px-4 py-2">
+                      <Clock3 size={16} />
+                      {job.employmentType}
+                    </span>
+                  </div>
+                </article>
+              ))
+            )}
+          </div>
+        </div>
+
+        <aside className="space-y-6">
+          <form
+            ref={formRef}
+            onSubmit={submitApplication}
+            className="rounded-lg border border-gray-200 bg-white p-6 shadow-lg lg:sticky lg:top-6"
+          >
+            <p className="text-sm font-bold uppercase text-[#00AE80]">
+              Quick application
+            </p>
+            <h2 className="mt-2 text-3xl font-bold text-[#1E2832]">
+              Apply for a job
+            </h2>
+            <p className="mt-3 leading-7 text-[#5F5F5F]">
+              Share your details and the role you want. We will follow up if
+              your profile fits.
+            </p>
+
+            <div className="mt-6 grid gap-4">
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Job
+                <select
+                  name="jobId"
+                  value={application.jobId}
+                  onChange={updateApplication}
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                >
+                  <option value="">Select a job</option>
+                  {jobs.map((job) => (
+                    <option value={job.id} key={job.id}>
+                      {job.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Full name
+                <input
+                  name="fullName"
+                  value={application.fullName}
+                  onChange={updateApplication}
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="Your name"
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  value={application.email}
+                  onChange={updateApplication}
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="you@example.com"
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Phone
+                <input
+                  type="tel"
+                  name="phone"
+                  value={application.phone}
+                  onChange={updateApplication}
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="+92 300 0000000"
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                LinkedIn
+                <input
+                  type="url"
+                  name="linkedIn"
+                  value={application.linkedIn}
+                  onChange={updateApplication}
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="https://linkedin.com/in/username"
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Portfolio
+                <input
+                  type="url"
+                  name="portfolio"
+                  value={application.portfolio}
+                  onChange={updateApplication}
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="https://yourwork.com"
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#1E2832]">
+                Short note
+                <textarea
+                  name="coverNote"
+                  value={application.coverNote}
+                  onChange={updateApplication}
+                  rows="4"
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 outline-none transition focus:border-[#00AE80] focus:ring-2 focus:ring-[#00AE80]/20"
+                  placeholder="Tell us briefly why this role fits you."
+                />
+              </label>
+            </div>
+
+            {message ? (
+              <p className="mt-4 rounded-md bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700">
+                {message}
+              </p>
+            ) : null}
+            {error ? (
+              <p className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
+                {error}
+              </p>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={submitting || jobs.length === 0}
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#00AE80] px-4 py-3 text-lg font-semibold text-white transition hover:bg-[#00946d] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "Submitting..." : "Submit application"}
+              <Send size={18} />
+            </button>
+          </form>
+
+          <div className="rounded-lg bg-[#1E2832] p-6 text-white">
+            <h3 className="text-2xl font-semibold">Hiring process</h3>
+            <div className="mt-5 grid gap-4">
+              {hiringSteps.map((step) => (
+                <div key={step} className="flex gap-3">
+                  <CheckCircle2 className="mt-1 shrink-0 text-[#00AE80]" size={20} />
+                  <p className="leading-7 text-white/80">{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
   );
 }

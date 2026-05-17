@@ -8,6 +8,7 @@ const Ideas = () => (
     title="Ideas for Modern Brands"
     description="Explore practical ideas, reports, and creative thinking for brand, marketing, and digital growth teams."
     showManagement={false}
+    showHero={false}
     editorInitialValues={{
       category: "Ideas",
       section: "insights",

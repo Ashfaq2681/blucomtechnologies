@@ -67,6 +67,7 @@ export default function OpenJobs() {
                   <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Type</th>
                   <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Applicants</th>
                   <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Status</th>
+                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
@@ -87,11 +88,19 @@ export default function OpenJobs() {
                         {job.status}
                       </span>
                     </td>
+                    <td className="px-4 py-4">
+                      <Link
+                        to={`/dashboard/career/edit-job/${job.id}`}
+                        className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:text-blue-700"
+                      >
+                        Edit
+                      </Link>
+                    </td>
                   </tr>
                 ))}
                 {jobs.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-sm text-slate-500">
+                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-slate-500">
                       No jobs created yet. Use Post a Job to add the first opening.
                     </td>
                   </tr>

@@ -1,0 +1,61 @@
+
+git status
+git add .
+git commit -m "dashboard layout,blog ideas,news, seo changes"
+git commit -m "blog frontend"
+git push
+git push -origin main (or)
+git push --force origin main
+
+seo,lading page frontend
+
+› add all the page into content-level checks for seo edits, with caterories
+landing page issues
+headig to be colord as emerald-500, display only two blogs in the blog posts section, same as display two ideas post to ideas sectio,
+
+-do following fixes in home/landing page, heading to be colored as emerald-500, display only two blogs in the blog posts section, same as display
+two ideas post to ideas section.
+----------------------------
+  
+  emerald-500
+  text-gray-900
+  npm run dev 
+  - 1 commit labeled commit: blog changes
+
+  1-  ashfaq2681      v 
+  2-  electricpoles   v   <    
+  2-  blucommw        v     
+  3-  bctvm           v    
+  4-  curatedgallery  v   
+  2-  
+  3-  bluedots        
+  4-  mrtom           
+  5-  meadpost        
+  6-  adagepk          
+
+
+  -Move (Blog List,Write Blog) feature to blog page without removing existing data keeping single page for all blog features.
+  -Display the blog and ideas posts to landing page.
+  › make an option to edit the job as well
+  -Link all services pages to relevant links in services section.
+  -Integrate same seo changes/features for all website pages.
+  -add an option of editing seo metadata ad social descrioption to every website page for that make anoter page on dashboard sidebar named as seo data
+  › make exact same pages for ideas and news as well and display it as blog ideas news 
+  git commit "blog,ideas,news, seo,car
+  
+dashboard pages
+ecommerce
+google aalytics
+leads form
+blog
+ideas
+ews
+careers
+  cadidates
+  post a job
+
+web itegratatios
+make sure all forms are working including email subscriptions-contact form-multistep form-career page itegratios
+› improve career page frotend
+o
+

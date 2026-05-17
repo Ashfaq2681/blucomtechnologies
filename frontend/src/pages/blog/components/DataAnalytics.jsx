@@ -1,6 +1,6 @@
 const DataAnalytics = () => (
   <div>
-    <div className="mb-8 flex items-end justify-between border-b-2 border-black pb-3">
+    <div className="mb-8 flex items-end justify-between border-b-2 border-slate-200 pb-3">
       <h2 className="text-xl font-black tracking-tight">Data Analytics</h2>
       <button className="flex items-center text-xs font-bold text-blue-700 hover:underline">
         View all <span className="ml-1">&rsaquo;</span>
@@ -21,7 +21,7 @@ const DataAnalytics = () => (
               Agency
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             The 2026 Agency Pricing and Packaging Report
           </h3>
         </div>
@@ -37,19 +37,19 @@ const DataAnalytics = () => (
               Data Report
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             The 2026 Social Media Content Strategy Report
           </h3>
         </div>
       </div>
 
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           The 2025 Impact of Social Media Marketing Report
         </h4>
       </div>
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           The 2025 Content Benchmarks Report: Schools & Education
         </h4>
       </div>

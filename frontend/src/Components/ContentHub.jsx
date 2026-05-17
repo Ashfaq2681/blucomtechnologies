@@ -9,6 +9,7 @@ import {
 } from "../api/blogs";
 import CreateBlog from "../pages/dashboard/CreateBlog";
 import SeoStatusBadge from "../pages/dashboard/components/SeoStatusBadge";
+import { getPostDescription, getPostTitle } from "../utils/postDescriptions";
 import PageSeo from "./PageSeo";
 
 const matchesContentType = (post, contentType) => {
@@ -32,6 +33,8 @@ const ContentHub = ({
   accentClass = "bg-[#00AE80]",
   editorInitialValues = {},
   showManagement = true,
+  publicPostLimit = null,
+  showHero = true,
 }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("published");
@@ -111,8 +114,12 @@ const ContentHub = ({
     };
   }, [activeTab, contentType]);
 
-  const featuredPost = posts[0] || null;
-  const gridPosts = useMemo(() => posts.slice(1, 9), [posts]);
+  const visiblePosts = useMemo(
+    () => (publicPostLimit ? posts.slice(0, publicPostLimit) : posts),
+    [posts, publicPostLimit],
+  );
+  const featuredPost = visiblePosts[0] || null;
+  const gridPosts = useMemo(() => visiblePosts.slice(1, 9), [visiblePosts]);
 
   const refreshDashboardPosts = async () => {
     const data = await getDashboardPosts();
@@ -161,17 +168,19 @@ const ContentHub = ({
     <main className="min-h-screen bg-white text-slate-900">
       <PageSeo path={path} title={title} description={description} />
 
-      <section className="relative min-h-[58vh] overflow-hidden">
-        <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        <div className={`absolute inset-0 ${accentClass} opacity-80`} />
-        <div className="relative mx-auto flex min-h-[58vh] max-w-6xl flex-col justify-end px-4 pb-12 pt-32 text-white sm:px-6">
-          <p className="text-sm font-black uppercase tracking-[0.24em]">{eyebrow || contentType}</p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-tight md:text-6xl">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/90">{description}</p>
-        </div>
-      </section>
+      {showHero && (
+        <section className="relative min-h-[58vh] overflow-hidden">
+          <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <div className={`absolute inset-0 ${accentClass} opacity-80`} />
+          <div className="relative mx-auto flex min-h-[58vh] max-w-6xl flex-col justify-end px-4 pb-12 pt-32 text-white sm:px-6">
+            <p className="text-sm font-black uppercase tracking-[0.24em]">{eyebrow || contentType}</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-tight md:text-6xl">
+              {title}
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/90">{description}</p>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         {showManagement && (
@@ -237,10 +246,10 @@ const ContentHub = ({
                     Featured {contentType}
                   </p>
                   <h2 className="mt-4 text-4xl font-black leading-tight tracking-tight text-[#1d2d35]">
-                    {featuredPost.title}
+                    {getPostTitle(featuredPost)}
                   </h2>
                   <p className="mt-5 text-lg leading-8 text-slate-600">
-                    {featuredPost.description || featuredPost.seoDescription}
+                    {getPostDescription(featuredPost)}
                   </p>
                 </div>
               </Link>
@@ -258,10 +267,10 @@ const ContentHub = ({
                     {post.category || contentType}
                   </p>
                   <h3 className="mt-3 text-2xl font-black leading-snug text-[#1d2d35] group-hover:text-blue-700">
-                    {post.title}
+                    {getPostTitle(post)}
                   </h3>
                   <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                    {post.description || post.seoDescription}
+                    {getPostDescription(post)}
                   </p>
                 </Link>
               ))}

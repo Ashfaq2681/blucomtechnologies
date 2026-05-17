@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { FALLBACK_BLOG_POSTS, getPostBySlug } from "../../api/blogs";
-import { formatDate } from "./utils";
+import { getPostDescription, getPostTitle } from "../../utils/postDescriptions";
+import { estimateReadTime, formatDate } from "./utils";
 
 const stripHtml = (value = "") =>
   value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -86,6 +87,9 @@ const SingleBlog = () => {
     seoDescription,
     socialImage,
   );
+  const postDescription = post ? getPostDescription(post) : "";
+  const readTime = post?.content ? estimateReadTime(post.content) : "";
+  const publishedDate = post ? formatDate(post.createdAt) : "";
 
   useEffect(() => {
     let isMounted = true;
@@ -160,17 +164,8 @@ const SingleBlog = () => {
         )}
       </Helmet>
 
-      <div className="min-h-screen bg-white text-slate-900">
-        <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-          <div className="mb-10">
-            <Link
-              to="/blog"
-              className="text-sm font-bold uppercase tracking-[0.2em] text-blue-700 hover:underline"
-            >
-              Back to blog
-            </Link>
-          </div>
-
+      <div className="min-h-screen bg-[#e9f1f8] text-slate-900">
+        <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           {loading && (
             <div className="py-24 text-center text-sm font-semibold text-gray-900">
               Loading post...
@@ -178,91 +173,140 @@ const SingleBlog = () => {
           )}
 
           {!loading && post && (
-            <article>
-              {usingFallbackPost && (
-                <div className="mb-8 border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
-                  Live blog content is unavailable, so a preview post is shown.
-                </div>
-              )}
-              <div className="mb-8">
-                <div className="flex flex-wrap gap-3">
-                  <span className="rounded-md bg-gray-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-zinc-500">
-                    {post.category}
-                  </span>
-                  {post.subcategory && (
-                    <span className="rounded-md bg-slate-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-gray-900">
-                      {post.subcategory}
-                    </span>
-                  )}
-                </div>
-                <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight text-[#1d2d35] md:text-6xl">
-                  {post.title}
-                </h1>
-                <div className="mt-6 flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-gray-900">
-                  <span>{formatDate(post.createdAt)}</span>
-                </div>
-                {post.description && (
-                  <p className="mt-6 text-lg leading-8 text-slate-600">
-                    {post.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-12 overflow-hidden border border-gray-100 bg-slate-100 shadow-sm">
+            <article className="space-y-10">
+              <div className="mx-auto max-w-5xl overflow-hidden">
                 {post.image ? (
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="max-h-[520px] w-full object-cover"
+                    className="max-h-[560px] min-h-[320px] w-full object-cover"
                   />
                 ) : (
-                  <div className="h-[360px] bg-gradient-to-br from-slate-200 via-white to-slate-100" />
+                  <div className="min-h-[320px] border border-slate-200 bg-slate-100" />
                 )}
               </div>
 
-              <div
-                className="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-[#1d2d35] prose-p:leading-8 prose-p:text-slate-700"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
+              {usingFallbackPost && (
+                <div className="border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+                  Live blog content is unavailable, so a preview post is shown.
+                </div>
+              )}
 
-              {relatedPosts.length > 0 && (
-                <aside className="mt-16 border-t border-slate-200 pt-10">
-                  <div className="mb-6">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
-                      Keep reading
-                    </span>
-                    <h2 className="mt-2 text-2xl font-black tracking-tight text-[#1d2d35]">
-                      Related Posts
-                    </h2>
+              <header className="text-center">
+                <div className="mx-auto max-w-4xl">
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {post.category && (
+                      <span className="border border-blue-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-blue-700">
+                        {post.category}
+                      </span>
+                    )}
+                    {post.subcategory && (
+                      <span className="border border-slate-200 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-slate-700">
+                        {post.subcategory}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
+                  <h1 className="mx-auto mt-7 max-w-4xl text-4xl font-black leading-relaxed tracking-normal text-[#16242c] sm:text-5xl lg:text-6xl">
+                    {post.title}
+                  </h1>
+
+                  {postDescription && (
+                    <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+                      {postDescription}
+                    </p>
+                  )}
+
+                  <div className="mx-auto mt-8 grid max-w-3xl gap-3 border-t border-slate-100 pt-6 text-sm font-bold text-slate-700 sm:grid-cols-3">
+                    <div>
+                      <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                        Published
+                      </span>
+                      <span className="mt-1 block">{publishedDate || "Latest"}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                        Reading
+                      </span>
+                      <span className="mt-1 block">{readTime}</span>
+                    </div>
+                    {post.focusKeyword && (
+                      <div>
+                        <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                          Focus
+                        </span>
+                        <span className="mt-1 block">{post.focusKeyword}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </header>
+
+              <div className="mx-auto max-w-4xl">
+                <div className="border border-slate-200 bg-white px-5 py-8 sm:px-8 lg:px-12">
+                  <div
+                    className="prose prose-lg max-w-none prose-headings:text-center prose-headings:font-black prose-headings:leading-relaxed prose-headings:tracking-normal prose-headings:text-[#16242c] prose-a:font-bold prose-a:text-blue-700 prose-p:leading-relaxed prose-p:text-slate-700 prose-li:leading-relaxed prose-li:text-slate-700 prose-img:mx-auto"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                </div>
+              </div>
+
+              {relatedPosts.length > 0 && (
+                <aside className="border border-slate-200 bg-white p-5 sm:p-8">
+                  <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
+                        Keep reading
+                      </span>
+                      <h2 className="mt-2 text-3xl font-black tracking-tight text-[#16242c]">
+                        Related Posts
+                      </h2>
+                    </div>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
+                      {relatedPosts.length} selected
+                    </span>
+                  </div>
+
+                  <div className="grid gap-5 md:grid-cols-2">
                     {relatedPosts.map((relatedPost) => (
                       <Link
                         key={relatedPost.slug}
                         to={`/blog/${relatedPost.slug}`}
-                        className="group block border border-slate-200 bg-white p-5 transition hover:border-blue-200 hover:shadow-sm"
+                        className="group grid overflow-hidden border border-slate-200 bg-white transition hover:border-blue-200 hover:shadow-md sm:grid-cols-[150px_minmax(0,1fr)]"
                       >
-                        <div className="mb-3 flex flex-wrap gap-2">
-                          {relatedPost.category && (
-                            <span className="bg-slate-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-slate-600">
-                              {relatedPost.category}
-                            </span>
-                          )}
-                          {relatedPost.focusKeyword && (
-                            <span className="bg-blue-50 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-blue-700">
-                              {relatedPost.focusKeyword}
-                            </span>
+                        <div className="min-h-[150px] bg-slate-100">
+                          {relatedPost.image ? (
+                            <img
+                              src={relatedPost.image}
+                              alt={relatedPost.title}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-full w-full bg-slate-100" />
                           )}
                         </div>
-                        <h3 className="text-lg font-black leading-snug text-[#1d2d35] transition group-hover:text-blue-700">
-                          {relatedPost.title}
-                        </h3>
-                        {relatedPost.description && (
-                          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                            {relatedPost.description}
-                          </p>
-                        )}
+                        <div className="p-5">
+                          <div className="mb-3 flex flex-wrap gap-2">
+                            {relatedPost.category && (
+                              <span className="border border-slate-200 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-slate-600">
+                                {relatedPost.category}
+                              </span>
+                            )}
+                            {relatedPost.focusKeyword && (
+                              <span className="border border-blue-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-blue-700">
+                                {relatedPost.focusKeyword}
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-lg font-black leading-relaxed text-[#16242c] transition group-hover:text-blue-700">
+                            {getPostTitle(relatedPost)}
+                          </h3>
+                          {relatedPost.description && (
+                            <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+                              {getPostDescription(relatedPost)}
+                            </p>
+                          )}
+                        </div>
                       </Link>
                     ))}
                   </div>

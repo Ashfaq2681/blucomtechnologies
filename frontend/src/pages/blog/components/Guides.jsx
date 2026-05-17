@@ -1,6 +1,6 @@
 const Guides = () => (
   <div>
-    <div className="mb-8 flex items-end justify-between border-b-2 border-black pb-3">
+    <div className="mb-8 flex items-end justify-between border-b-2 border-slate-200 pb-3">
       <h2 className="text-xl font-black tracking-tight">Guides</h2>
       <button className="flex items-center text-xs font-bold text-blue-700 hover:underline">
         View all <span className="ml-1">&rsaquo;</span>
@@ -21,7 +21,7 @@ const Guides = () => (
               Social Listening
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             Implementing a Social Media Newsroom Model [Guide + Template]
           </h3>
         </div>
@@ -40,19 +40,19 @@ const Guides = () => (
               Leadership
             </span>
           </div>
-          <h3 className="text-xs font-bold leading-tight group-hover:text-blue-700">
+          <h3 className="text-xs font-bold leading-relaxed group-hover:text-blue-700">
             The CMO&apos;s Social Media Planning Guide for 2026
           </h3>
         </div>
       </div>
 
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           How to Use Social Data Like a Pro: 40 Strategies for Smarter Marketing
         </h4>
       </div>
       <div className="group cursor-pointer border-t border-gray-100 pt-4">
-        <h4 className="text-sm font-bold leading-snug group-hover:text-blue-700">
+        <h4 className="text-sm font-bold leading-relaxed group-hover:text-blue-700">
           The 2025 generational marketing playbook: How to engage every age group on social
         </h4>
       </div>
