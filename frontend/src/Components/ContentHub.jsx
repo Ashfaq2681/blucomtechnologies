@@ -13,6 +13,16 @@ import { getPostDescription, getPostTitle } from "../utils/postDescriptions";
 import PageSeo from "./PageSeo";
 
 const matchesContentType = (post, contentType) => {
+  if (contentType === "Blog") {
+    const values = [post.category, post.subcategory, post.section, post.tags]
+      .flat()
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return !values.includes("ideas") && !values.includes("news");
+  }
+
   const target = contentType.toLowerCase();
   const values = [post.category, post.subcategory, post.section, post.tags]
     .flat()
@@ -235,7 +245,7 @@ const ContentHub = ({
         {activeTab === "published" && !loading && (
           <>
             {featuredPost && (
-              <Link to={`/blog/${featuredPost.slug}`} className="grid gap-8 border-b border-slate-200 pb-10 lg:grid-cols-[1.15fr_0.85fr]">
+              <Link to={`${path}/${featuredPost.slug}`} className="grid gap-8 border-b border-slate-200 pb-10 lg:grid-cols-[1.15fr_0.85fr]">
                 <div className="min-h-[360px] overflow-hidden bg-slate-100">
                   {featuredPost.image ? (
                     <img src={featuredPost.image} alt={featuredPost.title} className="h-full w-full object-cover" />
@@ -257,7 +267,7 @@ const ContentHub = ({
 
             <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {gridPosts.map((post) => (
-                <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="group block">
+                <Link key={post.id || post.slug} to={`${path}/${post.slug}`} className="group block">
                   <div className="h-56 overflow-hidden bg-slate-100">
                     {post.image ? (
                       <img src={post.image} alt={post.title} className="h-full w-full object-cover transition group-hover:scale-105" />

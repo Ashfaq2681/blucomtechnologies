@@ -1,481 +1,412 @@
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { getPageSeoEntry } from "../api/pageSeo";
+const { query } = require("../config/db");
 
+let initialized = false;
 const SITE_URL = "https://www.blucomtechnologies.com";
-const DEFAULT_IMAGE = `${SITE_URL}/preview.jpg`;
-const DEFAULT_TITLE = "Blucom Technologies | Brand Strategy and Digital Marketing";
-const DEFAULT_DESCRIPTION =
-  "Blucom Technologies builds brand, marketing, and digital systems for companies that need sharper strategy and stronger execution.";
 
-const pageDefaults = {
-  "/": {
+const pageSeoDefaults = [
+  {
+    path: "/",
     title: "Brand Strategy & Digital Marketing Agency | Blucom Technologies",
     description:
       "Blucom Technologies helps brands grow through positioning, digital marketing, UX/UI design, web development, and SEO-driven content.",
   },
-  "/about": {
+  {
+    path: "/about",
     title: "About Blucom Technologies | Brand and Digital Growth Team",
     description:
       "Learn how Blucom Technologies combines brand strategy, creative execution, and digital systems for growth-focused companies.",
   },
-  "/blog": {
-    title: "Blucom Technologies Blog | Marketing and Brand Strategy Insights",
-    description:
-      "Read Blucom Technologies insights on brand strategy, marketing systems, social media, SEO, and digital growth.",
-  },
-  "/ideas": {
-    title: "Ideas | Blucom Technologies",
-    description:
-      "Explore practical ideas, reports, and creative thinking from Blucom Technologies for modern brand and marketing teams.",
-  },
-  "/news": {
-    title: "News | Blucom Technologies",
-    description:
-      "Follow Blucom Technologies news, announcements, and timely updates on marketing, technology, and brand growth.",
-  },
-  "/portfolio": {
-    title: "Portfolio | Blucom Technologies",
-    description:
-      "Review Blucom Technologies work across brand identity, digital experiences, campaigns, and growth-focused creative projects.",
-  },
-  "/portfolio/hyundai": {
-    title: "Hyundai Pakistan Case Study | Blucom Technologies",
-    description:
-      "See how Blucom Technologies supported Hyundai Pakistan with activation, discovery, design, and digital strategy for the Tucson launch.",
-  },
-  "/portfolio/toyota-motors": {
-    title: "Toyota Motors Digital Experience | Blucom Technologies",
-    description:
-      "Explore Blucom Technologies work for Toyota Motors Islamabad across interaction design, automation, and digital customer experience.",
-  },
-  "/portfolio/codility-hub": {
-    title: "Codility Hub Interaction Design | Blucom Technologies",
-    description:
-      "Review Blucom Technologies identity, interface, and interaction design work for Codility Hub Technologies.",
-  },
-  "/portfolio/fantasy-rewind": {
-    title: "Fantasy Rewind Case Study | Blucom Technologies",
-    description:
-      "Explore Blucom Technologies portfolio work for Fantasy Rewind across digital strategy, activation, and design execution.",
-  },
-  "/portfolio/hassan-bukhari": {
-    title: "Hassan Bukhari Portfolio Work | Blucom Technologies",
-    description:
-      "Review Blucom Technologies portfolio work for Hassan Bukhari across activation, discovery, design, and digital brand execution.",
-  },
-  "/contact": {
+  {
+    path: "/contact",
     title: "Contact Blucom Technologies",
     description:
       "Contact Blucom Technologies to discuss brand strategy, digital marketing, web development, UX/UI design, or content growth.",
   },
-  "/notfound": {
-    title: "Page Not Found | Blucom Technologies",
+  {
+    path: "/portfolio",
+    title: "Portfolio | Blucom Technologies",
     description:
-      "The requested Blucom Technologies page could not be found. Return to the main site to explore services, work, insights, and contact options.",
+      "Review Blucom Technologies work across brand identity, digital experiences, campaigns, and growth-focused creative projects.",
   },
-  "/login": {
-    title: "Login | Blucom Technologies",
+  {
+    path: "/portfolio/hyundai",
+    title: "Hyundai Pakistan Case Study | Blucom Technologies",
     description:
-      "Access the Blucom Technologies dashboard for authorized users managing content, leads, SEO, and website operations.",
+      "See how Blucom Technologies supported Hyundai Pakistan with activation, discovery, design, and digital strategy for the Tucson launch.",
   },
-  "/multistepform": {
-    title: "Project Inquiry Form | Blucom Technologies",
+  {
+    path: "/portfolio/toyota-motors",
+    title: "Toyota Motors Digital Experience | Blucom Technologies",
     description:
-      "Share project goals, service needs, timelines, and contact details with Blucom Technologies through the guided inquiry form.",
+      "Explore Blucom Technologies work for Toyota Motors Islamabad across interaction design, automation, and digital customer experience.",
   },
-  "/testpage": {
-    title: "Project Intake Test Page | Blucom Technologies",
+  {
+    path: "/portfolio/codility-hub",
+    title: "Codility Hub Interaction Design | Blucom Technologies",
     description:
-      "Review Blucom Technologies project intake fields, service selections, and form flow for internal testing and validation.",
+      "Review Blucom Technologies identity, interface, and interaction design work for Codility Hub Technologies.",
   },
-  "/admindashboard": {
-    title: "Admin Dashboard | Blucom Technologies",
+  {
+    path: "/portfolio/fantasy-rewind",
+    title: "Fantasy Rewind Case Study | Blucom Technologies",
     description:
-      "Blucom Technologies internal dashboard for reviewing leads, content, SEO, careers, and operational website activity.",
+      "Explore Blucom Technologies portfolio work for Fantasy Rewind across digital strategy, activation, and design execution.",
   },
-  "/admin": {
-    title: "Admin | Blucom Technologies",
+  {
+    path: "/portfolio/hassan-bukhari",
+    title: "Hassan Bukhari Portfolio Work | Blucom Technologies",
     description:
-      "Administrative access for Blucom Technologies website management, content workflows, and internal operational tools.",
+      "Review Blucom Technologies portfolio work for Hassan Bukhari across activation, discovery, design, and digital brand execution.",
   },
-  "/careers": {
+  {
+    path: "/careers",
     title: "Careers | Blucom Technologies",
     description:
       "Explore career opportunities at Blucom Technologies for people interested in brand strategy, marketing, design, development, and digital growth.",
   },
-  "/work": {
-    title: "Work | Blucom Technologies",
+  {
+    path: "/ideas",
+    title: "Ideas | Blucom Technologies",
     description:
-      "Explore Blucom Technologies work across strategy, digital products, creative execution, and measurable marketing outcomes.",
+      "Explore practical ideas, reports, and creative thinking from Blucom Technologies for modern brand and marketing teams.",
   },
-  "/investors": {
-    title: "Investors | Blucom Technologies",
+  {
+    path: "/news",
+    title: "News | Blucom Technologies",
     description:
-      "Review Blucom Technologies investor information, business direction, and growth overview.",
+      "Follow Blucom Technologies news, announcements, and timely updates on marketing, technology, and brand growth.",
   },
-  "/the-shift-towards-commerce-driven-marketing": {
+  {
+    path: "/notfound",
+    title: "Page Not Found | Blucom Technologies",
+    description:
+      "The requested Blucom Technologies page could not be found. Return to the main site to explore services, work, insights, and contact options.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/login",
+    title: "Login | Blucom Technologies",
+    description:
+      "Access the Blucom Technologies dashboard for authorized users managing content, leads, SEO, and website operations.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/multistepform",
+    title: "Project Inquiry Form | Blucom Technologies",
+    description:
+      "Share project goals, service needs, timelines, and contact details with Blucom Technologies through the guided inquiry form.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/testpage",
+    title: "Project Intake Test Page | Blucom Technologies",
+    description:
+      "Review Blucom Technologies project intake fields, service selections, and form flow for internal testing and validation.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/the-shift-towards-commerce-driven-marketing",
     title: "The Shift Towards Commerce Driven Marketing | Blucom Technologies",
     description:
       "Read Blucom Technologies thinking on commerce-driven marketing, customer behavior, and growth strategy.",
   },
-  "/ideas/ideas-single": {
-    title: "Ideas Report | Blucom Technologies",
+  {
+    path: "/work",
+    title: "Work | Blucom Technologies",
     description:
-      "Read a Blucom Technologies ideas report with practical thinking for brand, marketing, and digital growth teams.",
+      "Explore Blucom Technologies work across strategy, digital products, creative execution, and measurable marketing outcomes.",
   },
-  "/blog/blog-single-b": {
+  {
+    path: "/investors",
+    title: "Investors | Blucom Technologies",
+    description:
+      "Review Blucom Technologies investor information, business direction, and growth overview.",
+  },
+  {
+    path: "/admindashboard",
+    title: "Admin Dashboard | Blucom Technologies",
+    description:
+      "Blucom Technologies internal dashboard for reviewing leads, content, SEO, careers, and operational website activity.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/admin",
+    title: "Admin | Blucom Technologies",
+    description:
+      "Administrative access for Blucom Technologies website management, content workflows, and internal operational tools.",
+    robots: "noindex,nofollow",
+  },
+  {
+    path: "/blog",
+    title: "Blucom Technologies Blog | Marketing and Brand Strategy Insights",
+    description:
+      "Read Blucom Technologies insights on brand strategy, marketing systems, social media, SEO, and digital growth.",
+  },
+  {
+    path: "/blog/blog-single-b",
     title: "Marketing Insight | Blucom Technologies Blog",
     description:
       "Read Blucom Technologies marketing insight for practical brand, campaign, and digital growth thinking.",
   },
-  "/blog/blog-single-the-oportunity-code": {
+  {
+    path: "/blog/blog-single-the-oportunity-code",
     title: "The Opportunity Code | Blucom Technologies Blog",
     description:
       "Read The Opportunity Code from Blucom Technologies for insight into brand growth and marketing strategy.",
   },
-};
-
-const serviceDefaults = {
-  "/services/analysis-measurement": {
+  {
+    path: "/ideas/ideas-single",
+    title: "Ideas Report | Blucom Technologies",
+    description:
+      "Read a Blucom Technologies ideas report with practical thinking for brand, marketing, and digital growth teams.",
+  },
+  {
+    path: "/services/analysis-measurement",
     title: "Analysis and Measurement Services | Blucom Technologies",
     description:
       "Turn campaign, channel, and customer data into clear measurement systems that help teams understand performance and improve marketing decisions.",
   },
-  "/services/analytics-implementation": {
+  {
+    path: "/services/analytics-implementation",
     title: "Analytics Implementation Services | Blucom Technologies",
     description:
       "Set up reliable analytics, tracking, dashboards, and reporting foundations so marketing and sales teams can act on trustworthy performance data.",
   },
-  "/services/brand-awareness": {
+  {
+    path: "/services/brand-awareness",
     title: "Brand Awareness Services | Blucom Technologies",
     description:
       "Build stronger brand visibility through audience insight, campaign planning, creative messaging, and media strategies designed for recognition.",
   },
-  "/services/brand-strategy": {
+  {
+    path: "/services/brand-strategy",
     title: "Brand Strategy Services | Blucom Technologies",
     description:
       "Define positioning, messaging, identity direction, and growth strategy so your brand communicates clearly across every customer touchpoint.",
   },
-  "/services/campaign-optimization": {
+  {
+    path: "/services/campaign-optimization",
     title: "Campaign Optimization Services | Blucom Technologies",
     description:
       "Improve marketing campaign performance through audience refinement, creative testing, conversion analysis, and ongoing budget optimization.",
   },
-  "/services/content-marketing": {
+  {
+    path: "/services/content-marketing",
     title: "Content Marketing Services | Blucom Technologies",
     description:
       "Plan and produce content that supports search visibility, brand trust, lead generation, and customer education across digital channels.",
   },
-  "/services/content-strategy": {
+  {
+    path: "/services/content-strategy",
     title: "Content Strategy Services | Blucom Technologies",
     description:
       "Create content systems, topics, formats, and publishing plans that connect brand messaging with measurable business and audience goals.",
   },
-  "/services/customer-journey-mapping": {
+  {
+    path: "/services/customer-journey-mapping",
     title: "Customer Journey Mapping Services | Blucom Technologies",
     description:
       "Map customer touchpoints, pain points, and decision paths to improve user experience, campaign planning, and conversion opportunities.",
   },
-  "/services/data-visualization": {
+  {
+    path: "/services/data-visualization",
     title: "Data Visualization Services | Blucom Technologies",
     description:
       "Convert complex marketing and business data into clear dashboards, reports, and visual systems that support faster decision making.",
   },
-  "/services/identity": {
+  {
+    path: "/services/identity",
     title: "Brand Identity Services | Blucom Technologies",
     description:
       "Develop visual and verbal identity systems including logos, typography, messaging, and design rules that make brands easier to recognize.",
   },
-  "/services/impact-measurement": {
+  {
+    path: "/services/impact-measurement",
     title: "Impact Measurement Services | Blucom Technologies",
     description:
       "Measure marketing impact across channels, campaigns, and customer outcomes with practical frameworks for ROI, growth, and accountability.",
   },
-  "/services/interaction-assets-devs": {
+  {
+    path: "/services/interaction-assets-devs",
     title: "Interaction Assets Development | Blucom Technologies",
     description:
       "Create interactive digital assets, interface elements, and campaign experiences that support clearer engagement across web and marketing channels.",
   },
-  "/services/interaction-design": {
+  {
+    path: "/services/interaction-design",
     title: "Interaction Design Services | Blucom Technologies",
     description:
       "Design user interactions, flows, and digital experiences that make websites, products, and campaigns easier to understand and use.",
   },
-  "/services/lead-gen": {
+  {
+    path: "/services/lead-gen",
     title: "Lead Generation Services | Blucom Technologies",
     description:
       "Build lead generation systems using landing pages, content, paid media, automation, and conversion-focused campaign strategy.",
   },
-  "/services/media-planning-buying": {
+  {
+    path: "/services/media-planning-buying",
     title: "Media Planning and Buying Services | Blucom Technologies",
     description:
       "Plan, buy, and optimize media across digital channels with audience strategy, budget control, and performance measurement built in.",
   },
-  "/services/messaging-positioning": {
+  {
+    path: "/services/messaging-positioning",
     title: "Messaging and Positioning Services | Blucom Technologies",
     description:
       "Shape brand positioning, value propositions, messaging pillars, and communication frameworks that make offers easier to understand and choose.",
   },
-  "/services/nurture-strategies": {
+  {
+    path: "/services/nurture-strategies",
     title: "Nurture Strategy Services | Blucom Technologies",
     description:
       "Develop email, content, retargeting, and automation strategies that move prospects from initial interest to stronger buying readiness.",
   },
-  "/services/omnichannel-campaign-management": {
+  {
+    path: "/services/omnichannel-campaign-management",
     title: "Omnichannel Campaign Management | Blucom Technologies",
     description:
       "Coordinate campaigns across search, social, email, paid media, and content so audiences receive consistent messages across every touchpoint.",
   },
-  "/services/persona-creation": {
+  {
+    path: "/services/persona-creation",
     title: "Persona Creation Services | Blucom Technologies",
     description:
       "Build practical audience personas using research, behavioral signals, market context, and customer needs to guide messaging and campaigns.",
   },
-  "/services/product-mapping": {
+  {
+    path: "/services/product-mapping",
     title: "Product Mapping Services | Blucom Technologies",
     description:
       "Clarify product portfolios, positioning, audience fit, and opportunity areas so teams can market offerings with stronger strategic focus.",
   },
-  "/services/prototyping-and-wireframing": {
+  {
+    path: "/services/prototyping-and-wireframing",
     title: "Prototyping and Wireframing Services | Blucom Technologies",
     description:
       "Create wireframes and prototypes that validate page structure, user flows, content hierarchy, and interface behavior before development.",
   },
-  "/services/reputation-management": {
+  {
+    path: "/services/reputation-management",
     title: "Reputation Management Services | Blucom Technologies",
     description:
       "Protect and improve brand reputation through monitoring, response planning, review strategy, sentiment insight, and communication systems.",
   },
-  "/services/search-marketing": {
+  {
+    path: "/services/search-marketing",
     title: "Search Marketing Services | Blucom Technologies",
     description:
       "Improve search visibility through SEO strategy, keyword planning, content optimization, technical signals, and paid search campaign support.",
   },
-  "/services/strategic-communication": {
+  {
+    path: "/services/strategic-communication",
     title: "Strategic Communication Services | Blucom Technologies",
     description:
       "Plan clear communication strategies for brand launches, campaigns, stakeholders, and market moments that require consistent messaging.",
   },
-  "/services/ui-designing": {
+  {
+    path: "/services/ui-designing",
     title: "UI Design Services | Blucom Technologies",
     description:
       "Design clean, usable interfaces for websites, dashboards, and digital products with clear hierarchy, brand consistency, and conversion focus.",
   },
-  "/services/user-journey-mapping": {
+  {
+    path: "/services/user-journey-mapping",
     title: "User Journey Mapping Services | Blucom Technologies",
     description:
       "Map user behavior, decision points, and experience gaps to improve website structure, campaign journeys, and digital product flows.",
   },
-  "/services/web-development": {
+  {
+    path: "/services/web-development",
     title: "Web Development Services | Blucom Technologies",
     description:
       "Build responsive, performance-focused websites and web experiences that support brand credibility, search visibility, and conversion goals.",
   },
-  "/services/web-maintenance": {
+  {
+    path: "/services/web-maintenance",
     title: "Web Maintenance Services | Blucom Technologies",
     description:
       "Keep websites stable, secure, updated, and performance-ready with ongoing maintenance, monitoring, fixes, and content support.",
   },
-  "/services/new-folder/buying": {
+  {
+    path: "/services/new-folder/buying",
     title: "Media Buying Services | Blucom Technologies",
     description:
       "Plan and manage media buying with budget discipline, audience targeting, channel selection, and performance tracking for growth campaigns.",
   },
-  "/services/new-folder/omnichannel-campaign-management": {
+  {
+    path: "/services/new-folder/omnichannel-campaign-management",
     title: "Omnichannel Campaign Services | Blucom Technologies",
     description:
       "Manage integrated campaigns across digital channels with coordinated messaging, audience planning, optimization, and performance reporting.",
   },
+];
+
+const canonicalForPath = (path) => `${SITE_URL}${path === "/" ? "" : path}`;
+
+const focusKeywordForTitle = (title) =>
+  String(title || "")
+    .replace(/\s*\|\s*Blucom Technologies.*$/i, "")
+    .replace(/\s*Services$/i, "")
+    .trim();
+
+const seedPageSeoRows = async () => {
+  for (const item of pageSeoDefaults) {
+    await query(
+      `INSERT INTO page_seo
+        (path, seo_title, seo_description, focus_keyword, canonical_url, meta_robots, schema_type, twitter_card)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+        seo_title = COALESCE(NULLIF(seo_title, ''), VALUES(seo_title)),
+        seo_description = COALESCE(NULLIF(seo_description, ''), VALUES(seo_description)),
+        focus_keyword = COALESCE(NULLIF(focus_keyword, ''), VALUES(focus_keyword)),
+        canonical_url = COALESCE(NULLIF(canonical_url, ''), VALUES(canonical_url)),
+        meta_robots = COALESCE(NULLIF(meta_robots, ''), VALUES(meta_robots)),
+        schema_type = COALESCE(NULLIF(schema_type, ''), VALUES(schema_type)),
+        twitter_card = COALESCE(NULLIF(twitter_card, ''), VALUES(twitter_card))`,
+      [
+        item.path,
+        item.title,
+        item.description,
+        focusKeywordForTitle(item.title),
+        canonicalForPath(item.path),
+        item.robots || "index,follow",
+        "WebPage",
+        "summary_large_image",
+      ],
+    );
+  }
 };
 
-const normalizePath = (path = "/") => {
-  const normalized = path.toLowerCase().replace(/\/+$/, "");
-  return normalized || "/";
-};
-
-const formatTitleCase = (value = "") =>
-  String(value)
-    .split("-")
-    .filter(Boolean)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-
-export const getPageSeo = (path) => {
-  const normalizedPath = normalizePath(path);
-
-  if (normalizedPath.startsWith("/services/")) {
-    if (serviceDefaults[normalizedPath]) {
-      return serviceDefaults[normalizedPath];
-    }
-
-    const serviceName = formatTitleCase(normalizedPath.replace("/services/", ""));
-
-    return {
-      title: `${serviceName} Services | Blucom Technologies`,
-      description: `Blucom Technologies provides ${serviceName.toLowerCase()} services for brands that need clearer positioning, better digital execution, and measurable growth.`,
-    };
+const ensurePageSeoTable = async () => {
+  if (initialized) {
+    return;
   }
 
-  return pageDefaults[normalizedPath] || {
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
-  };
+  await query(`
+    CREATE TABLE IF NOT EXISTS page_seo (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      path VARCHAR(255) NOT NULL UNIQUE,
+      seo_title VARCHAR(255) DEFAULT NULL,
+      seo_description TEXT DEFAULT NULL,
+      focus_keyword VARCHAR(255) DEFAULT NULL,
+      canonical_url VARCHAR(500) DEFAULT NULL,
+      meta_robots VARCHAR(100) DEFAULT NULL,
+      readability_notes TEXT DEFAULT NULL,
+      social_title VARCHAR(255) DEFAULT NULL,
+      social_description TEXT DEFAULT NULL,
+      social_image VARCHAR(500) DEFAULT NULL,
+      schema_type VARCHAR(100) DEFAULT NULL,
+      schema_json LONGTEXT DEFAULT NULL,
+      twitter_card VARCHAR(100) DEFAULT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )
+  `);
+
+  await seedPageSeoRows();
+
+  initialized = true;
 };
 
-const buildBreadcrumbSchema = (canonicalPath, canonicalUrl) => {
-  const pathParts = canonicalPath === "/" ? [] : canonicalPath.split("/").filter(Boolean);
-  const items = [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: SITE_URL,
-    },
-    ...pathParts.map((part, index) => {
-      const itemPath = `/${pathParts.slice(0, index + 1).join("/")}`;
-
-      return {
-        "@type": "ListItem",
-        position: index + 2,
-        name: formatTitleCase(part),
-        item: `${SITE_URL}${itemPath}`,
-      };
-    }),
-  ];
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items,
-  };
-};
-
-const buildPageSchema = ({ metaTitle, metaDescription, canonicalUrl, image, type }) => ({
-  "@context": "https://schema.org",
-  "@type": type === "article" ? "Article" : "WebPage",
-  name: metaTitle,
-  headline: metaTitle,
-  description: metaDescription,
-  url: canonicalUrl,
-  image,
-  publisher: {
-    "@type": "Organization",
-    name: "Blucom Technologies",
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
-  },
-});
-
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Blucom Technologies",
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  sameAs: [],
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Blucom Technologies",
-  url: SITE_URL,
-};
-
-const PageSeo = ({
-  title,
-  description,
-  path = "/",
-  image = DEFAULT_IMAGE,
-  type = "website",
-  keywords,
-  robots,
-  schema,
-}) => {
-  const canonicalPath = normalizePath(path);
-  const [storedSeo, setStoredSeo] = useState(null);
-  const fallbackSeo = getPageSeo(canonicalPath);
-  const canonicalUrl =
-    storedSeo?.canonicalUrl || `${SITE_URL}${canonicalPath === "/" ? "" : canonicalPath}`;
-  const metaTitle = title || storedSeo?.seoTitle || fallbackSeo.title;
-  const metaDescription =
-    description || storedSeo?.seoDescription || fallbackSeo.description;
-  const metaKeywords = keywords || storedSeo?.seoKeywords;
-  const socialTitle = storedSeo?.socialTitle || metaTitle;
-  const socialDescription = storedSeo?.socialDescription || metaDescription;
-  const socialImage = storedSeo?.socialImage || image;
-  const twitterCard = storedSeo?.twitterCard || "summary_large_image";
-  const storedSchema = storedSeo?.schemaJson
-    ? (() => {
-        try {
-          return JSON.parse(storedSeo.schemaJson);
-        } catch (_error) {
-          return null;
-        }
-      })()
-    : null;
-  const metaRobots =
-    robots ||
-    storedSeo?.metaRobots ||
-    (canonicalPath.startsWith("/dashboard") ||
-    canonicalPath.startsWith("/admin") ||
-    canonicalPath === "/login" ||
-    canonicalPath === "/testpage" ||
-    canonicalPath === "/multistepform"
-      ? "noindex, nofollow"
-      : "index, follow");
-  const schemas = [
-    organizationSchema,
-    websiteSchema,
-    buildPageSchema({ metaTitle, metaDescription, canonicalUrl, image: socialImage, type }),
-    buildBreadcrumbSchema(canonicalPath, canonicalUrl),
-    ...(storedSchema ? [storedSchema] : []),
-    ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
-  ];
-
-  useEffect(() => {
-    let mounted = true;
-
-    const loadStoredSeo = async () => {
-      try {
-        const entry = await getPageSeoEntry(canonicalPath);
-        if (mounted) {
-          setStoredSeo(entry);
-        }
-      } catch (_error) {
-        if (mounted) {
-          setStoredSeo(null);
-        }
-      }
-    };
-
-    loadStoredSeo();
-
-    return () => {
-      mounted = false;
-    };
-  }, [canonicalPath]);
-
-  return (
-    <Helmet>
-      <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
-      {metaKeywords && <meta name="keywords" content={metaKeywords} />}
-      <meta name="robots" content={metaRobots} />
-      <link rel="canonical" href={canonicalUrl} />
-      <meta property="og:title" content={socialTitle} />
-      <meta property="og:description" content={socialDescription} />
-      <meta property="og:type" content={type} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:image" content={socialImage} />
-      <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:title" content={socialTitle} />
-      <meta name="twitter:description" content={socialDescription} />
-      <meta name="twitter:image" content={socialImage} />
-      <script type="application/ld+json">{JSON.stringify(schemas)}</script>
-    </Helmet>
-  );
-};
-
-export default PageSeo;
+module.exports = ensurePageSeoTable;

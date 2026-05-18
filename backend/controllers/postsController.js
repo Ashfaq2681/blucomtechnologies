@@ -2,6 +2,13 @@ const { query } = require("../config/db");
 const ensureBlogTables = require("../utils/ensureBlogTables");
 const slugify = require("../utils/slugify");
 const {
+  POST_TABLES,
+  getPostTableForCategory,
+  parseScopedPostId,
+  scopedPostId,
+  unionPostSelect,
+} = require("../utils/contentTables");
+const {
   computeSeoQuality,
   generateFinalSeo,
   shouldBlockPublishForSeo,
@@ -58,7 +65,9 @@ const mapPost = (req, row) => {
   const seoBreakdown = storedSeoBreakdown || computedSeoQuality;
 
   return {
-    id: row.id,
+    id: row.source_table ? scopedPostId(row.source_table, row.id) : row.id,
+    numericId: row.id,
+    sourceTable: row.source_table || "posts",
     title: row.title,
     slug: row.slug,
     category: row.category,
@@ -101,6 +110,77 @@ const mapPost = (req, row) => {
   };
 };
 
+const findRowsByScopedId = async (identifier) => {
+  const parsed = parseScopedPostId(identifier);
+
+  if (!parsed) {
+    return [];
+  }
+
+  if (parsed.table) {
+    return query(
+      `SELECT '${parsed.table}' AS source_table, ${parsed.table}.* FROM ${parsed.table} WHERE id = ? LIMIT 1`,
+      [parsed.id],
+    );
+  }
+
+  for (const tableName of POST_TABLES) {
+    const rows = await query(
+      `SELECT '${tableName}' AS source_table, ${tableName}.* FROM ${tableName} WHERE id = ? LIMIT 1`,
+      [parsed.id],
+    );
+
+    if (rows.length > 0) {
+      return rows;
+    }
+  }
+
+  return [];
+};
+
+const findTargetByScopedId = async (identifier) => {
+  const rows = await findRowsByScopedId(identifier);
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return {
+    table: rows[0].source_table || getPostTableForCategory(rows[0].category),
+    post: rows[0],
+  };
+};
+
+const findRowsBySlug = async (slug) => {
+  const rows = await query(
+    `SELECT *
+     FROM (${unionPostSelect()}) all_posts
+     WHERE slug = ?
+     LIMIT 1`,
+    [slug],
+  );
+
+  return rows;
+};
+
+const slugExists = async (slug, exclude = null) => {
+  const rows = await query(
+    `SELECT source_table, id
+     FROM (${unionPostSelect()}) all_posts
+     WHERE slug = ?
+     LIMIT 5`,
+    [slug],
+  );
+
+  return rows.some((row) => {
+    if (!exclude) {
+      return true;
+    }
+
+    return row.source_table !== exclude.table || Number(row.id) !== Number(exclude.id);
+  });
+};
+
 const buildSeoPersistence = (post) => {
   const finalSeo = generateFinalSeo(post);
   const seoQuality = computeSeoQuality(post, { finalSeo });
@@ -128,13 +208,13 @@ const buildSeoPersistence = (post) => {
   };
 };
 
-const findDuplicateSeoWarnings = async ({ postId = null, seoTitle, seoDescription, canonicalUrl }) => {
+const findDuplicateSeoWarnings = async ({ postId = null, postTable = null, seoTitle, seoDescription, canonicalUrl }) => {
   const warnings = [];
-  const params = [];
-  const idClause = postId ? " AND id <> ?" : "";
+  const params = [postTable || "", postId || 0];
+  const idClause = postId ? " AND NOT (source_table = ? AND id = ?)" : "";
 
-  if (postId) {
-    params.push(postId);
+  if (!postId) {
+    params.length = 0;
   }
 
   const runDuplicateQuery = async (field, value, label) => {
@@ -143,7 +223,10 @@ const findDuplicateSeoWarnings = async ({ postId = null, seoTitle, seoDescriptio
     }
 
     const rows = await query(
-      `SELECT id, title, slug FROM posts WHERE ${field} = ?${idClause} LIMIT 5`,
+      `SELECT source_table, id, title, slug
+       FROM (${unionPostSelect()}) all_posts
+       WHERE ${field} = ?${idClause}
+       LIMIT 5`,
       [value, ...params],
     );
 
@@ -268,17 +351,13 @@ const createPost = async (req, res) => {
       });
     }
 
-    const duplicateRows = await query(
-      "SELECT id FROM posts WHERE slug = ? LIMIT 1",
-      [normalizedSlug],
-    );
-
-    if (duplicateRows.length > 0) {
+    if (await slugExists(normalizedSlug)) {
       return res.status(409).json({ message: "A post with this slug already exists." });
     }
 
+    const targetTable = getPostTableForCategory(normalizedCategory);
     const result = await query(
-      `INSERT INTO posts
+      `INSERT INTO ${targetTable}
         (title, slug, category, subcategory, content, image, tags, status, featured, section, seo_title, seo_description, seo_keywords, focus_keyword, canonical_url, meta_robots, readability_notes, seo_score, seo_status, seo_breakdown, auto_generated, social_title, social_description, social_image, schema_type, schema_json)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -311,7 +390,10 @@ const createPost = async (req, res) => {
       ],
     );
 
-    const rows = await query("SELECT * FROM posts WHERE id = ?", [result.insertId]);
+    const rows = await query(
+      `SELECT '${targetTable}' AS source_table, ${targetTable}.* FROM ${targetTable} WHERE id = ?`,
+      [result.insertId],
+    );
 
     return res.status(201).json(mapPost(req, rows[0]));
   } catch (error) {
@@ -326,7 +408,7 @@ const getPublishedPosts = async (req, res) => {
 
     const rows = await query(
       `SELECT *
-       FROM posts
+       FROM (${unionPostSelect()}) all_posts
        WHERE status = 'published'
        ORDER BY featured DESC, created_at DESC`,
     );
@@ -343,24 +425,15 @@ const getPostByIdentifier = async (req, res) => {
     await ensureBlogTables();
 
     const { identifier } = req.params;
-    const isNumericId = /^\d+$/.test(identifier);
-
-    const rows = isNumericId
-      ? await query(
-          "SELECT * FROM posts WHERE id = ? LIMIT 1",
-          [Number(identifier)],
-        )
-      : await query(
-          "SELECT * FROM posts WHERE slug = ? LIMIT 1",
-          [identifier],
-        );
+    const scopedId = parseScopedPostId(identifier);
+    const rows = scopedId ? await findRowsByScopedId(identifier) : await findRowsBySlug(identifier);
 
     if (rows.length === 0) {
       return res.status(404).json({ message: "Post not found." });
     }
 
     const post = rows[0];
-    if (post.status !== "published" && !isNumericId) {
+    if (post.status !== "published" && !scopedId) {
       return res.status(404).json({ message: "Post not found." });
     }
 
@@ -376,7 +449,7 @@ const getDashboardPosts = async (req, res) => {
     await ensureBlogTables();
 
     const rows = await query(
-      "SELECT * FROM posts ORDER BY created_at DESC",
+      `SELECT * FROM (${unionPostSelect()}) all_posts ORDER BY created_at DESC`,
     );
 
     return res.json(rows.map((row) => mapPost(req, row)));
@@ -390,20 +463,25 @@ const getPostSeo = async (req, res) => {
   try {
     await ensureBlogTables();
 
-    const postId = Number(req.params.id);
-    if (!Number.isInteger(postId) || postId <= 0) {
-      return res.status(400).json({ message: "Invalid post id." });
-    }
-
-    const rows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
-    if (rows.length === 0) {
+    const target = await findTargetByScopedId(req.params.id);
+    if (!target) {
+      const parsed = parseScopedPostId(req.params.id);
+      if (!parsed) {
+        return res.status(400).json({ message: "Invalid post id." });
+      }
       return res.status(404).json({ message: "Post not found." });
     }
 
-    const finalSeo = generateFinalSeo(rows[0]);
-    const seoQuality = computeSeoQuality(rows[0], { finalSeo });
+    const postId = target.post.id;
+    if (!Number.isInteger(Number(postId)) || Number(postId) <= 0) {
+      return res.status(400).json({ message: "Invalid post id." });
+    }
+
+    const finalSeo = generateFinalSeo(target.post);
+    const seoQuality = computeSeoQuality(target.post, { finalSeo });
     const duplicateWarnings = await findDuplicateSeoWarnings({
       postId,
+      postTable: target.table,
       seoTitle: finalSeo.seoTitle,
       seoDescription: finalSeo.seoDescription,
       canonicalUrl: finalSeo.canonicalUrl,
@@ -430,19 +508,23 @@ const recalculatePostSeo = async (req, res) => {
   try {
     await ensureBlogTables();
 
-    const postId = Number(req.params.id);
+    const target = await findTargetByScopedId(req.params.id);
+    if (!target) {
+      const parsed = parseScopedPostId(req.params.id);
+      if (!parsed) {
+        return res.status(400).json({ message: "Invalid post id." });
+      }
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    const postId = Number(target.post.id);
     if (!Number.isInteger(postId) || postId <= 0) {
       return res.status(400).json({ message: "Invalid post id." });
     }
 
-    const rows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-
-    const seoPersistence = buildSeoPersistence(rows[0]);
+    const seoPersistence = buildSeoPersistence(target.post);
     await query(
-      `UPDATE posts
+      `UPDATE ${target.table}
        SET seo_title = ?, seo_description = ?, focus_keyword = ?, canonical_url = ?, meta_robots = ?, readability_notes = ?, seo_score = ?, seo_status = ?, seo_breakdown = ?, auto_generated = ?, social_title = ?, social_description = ?, social_image = ?, schema_type = ?, schema_json = ?
        WHERE id = ?`,
       [
@@ -465,7 +547,10 @@ const recalculatePostSeo = async (req, res) => {
       ],
     );
 
-    const updatedRows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
+    const updatedRows = await query(
+      `SELECT '${target.table}' AS source_table, ${target.table}.* FROM ${target.table} WHERE id = ? LIMIT 1`,
+      [postId],
+    );
     return res.json(mapPost(req, updatedRows[0]));
   } catch (error) {
     console.error("[posts][seo-recalculate]", error);
@@ -480,11 +565,11 @@ const getDuplicateSeo = async (_req, res) => {
     const duplicateRows = await query(
       `SELECT duplicate_type, duplicate_value, COUNT(*) AS count
        FROM (
-         SELECT 'title' AS duplicate_type, seo_title AS duplicate_value FROM posts WHERE seo_title IS NOT NULL AND seo_title <> ''
+         SELECT 'title' AS duplicate_type, seo_title AS duplicate_value FROM (${unionPostSelect()}) all_posts WHERE seo_title IS NOT NULL AND seo_title <> ''
          UNION ALL
-         SELECT 'description' AS duplicate_type, seo_description AS duplicate_value FROM posts WHERE seo_description IS NOT NULL AND seo_description <> ''
+         SELECT 'description' AS duplicate_type, seo_description AS duplicate_value FROM (${unionPostSelect()}) all_posts WHERE seo_description IS NOT NULL AND seo_description <> ''
          UNION ALL
-         SELECT 'canonical' AS duplicate_type, canonical_url AS duplicate_value FROM posts WHERE canonical_url IS NOT NULL AND canonical_url <> ''
+         SELECT 'canonical' AS duplicate_type, canonical_url AS duplicate_value FROM (${unionPostSelect()}) all_posts WHERE canonical_url IS NOT NULL AND canonical_url <> ''
        ) duplicates
        GROUP BY duplicate_type, duplicate_value
        HAVING COUNT(*) > 1
@@ -502,17 +587,21 @@ const updatePost = async (req, res) => {
   try {
     await ensureBlogTables();
 
-    const postId = Number(req.params.id);
+    const target = await findTargetByScopedId(req.params.id);
+    if (!target) {
+      const parsed = parseScopedPostId(req.params.id);
+      if (!parsed) {
+        return res.status(400).json({ message: "Invalid post id." });
+      }
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    const postId = Number(target.post.id);
     if (!Number.isInteger(postId) || postId <= 0) {
       return res.status(400).json({ message: "Invalid post id." });
     }
 
-    const existingRows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
-    if (existingRows.length === 0) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-
-    const existingPost = existingRows[0];
+    const existingPost = target.post;
     const {
       title,
       slug,
@@ -644,6 +733,7 @@ const updatePost = async (req, res) => {
     const seoQuality = seoPersistence.seoQuality;
     const duplicateSeoWarnings = await findDuplicateSeoWarnings({
       postId,
+      postTable: target.table,
       seoTitle: seoPersistence.values.seoTitle,
       seoDescription: seoPersistence.values.seoDescription,
       canonicalUrl: seoPersistence.values.canonicalUrl,
@@ -665,12 +755,7 @@ const updatePost = async (req, res) => {
       });
     }
 
-    const duplicateRows = await query(
-      "SELECT id FROM posts WHERE slug = ? AND id <> ? LIMIT 1",
-      [normalizedSlug, postId],
-    );
-
-    if (duplicateRows.length > 0) {
+    if (await slugExists(normalizedSlug, { table: target.table, id: postId })) {
       return res.status(409).json({ message: "A post with this slug already exists." });
     }
 
@@ -683,8 +768,9 @@ const updatePost = async (req, res) => {
       }
     }
 
+    const nextTable = getPostTableForCategory(normalizedCategory);
     await query(
-      `UPDATE posts
+      `UPDATE ${target.table}
        SET title = ?, slug = ?, category = ?, subcategory = ?, content = ?, image = ?, tags = ?, status = ?, featured = ?, section = ?, seo_title = ?, seo_description = ?, seo_keywords = ?, focus_keyword = ?, canonical_url = ?, meta_robots = ?, readability_notes = ?, seo_score = ?, seo_status = ?, seo_breakdown = ?, auto_generated = ?, social_title = ?, social_description = ?, social_image = ?, schema_type = ?, schema_json = ?
        WHERE id = ?`,
       [
@@ -718,7 +804,66 @@ const updatePost = async (req, res) => {
       ],
     );
 
-    const rows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
+    if (nextTable !== target.table) {
+      const movedRows = await query(
+        `SELECT * FROM ${target.table} WHERE id = ? LIMIT 1`,
+        [postId],
+      );
+      const movedPost = movedRows[0];
+      const duplicateInTarget = await query(
+        `SELECT id FROM ${nextTable} WHERE slug = ? LIMIT 1`,
+        [movedPost.slug],
+      );
+
+      if (duplicateInTarget.length === 0) {
+        const insertResult = await query(
+          `INSERT INTO ${nextTable}
+            (title, slug, category, subcategory, content, image, tags, status, featured, section, seo_title, seo_description, seo_keywords, focus_keyword, canonical_url, meta_robots, readability_notes, seo_score, seo_status, seo_breakdown, auto_generated, social_title, social_description, social_image, schema_type, schema_json, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            movedPost.title,
+            movedPost.slug,
+            movedPost.category,
+            movedPost.subcategory,
+            movedPost.content,
+            movedPost.image,
+            movedPost.tags,
+            movedPost.status,
+            movedPost.featured,
+            movedPost.section,
+            movedPost.seo_title,
+            movedPost.seo_description,
+            movedPost.seo_keywords,
+            movedPost.focus_keyword,
+            movedPost.canonical_url,
+            movedPost.meta_robots,
+            movedPost.readability_notes,
+            movedPost.seo_score,
+            movedPost.seo_status,
+            movedPost.seo_breakdown,
+            movedPost.auto_generated,
+            movedPost.social_title,
+            movedPost.social_description,
+            movedPost.social_image,
+            movedPost.schema_type,
+            movedPost.schema_json,
+            movedPost.created_at,
+            movedPost.updated_at || movedPost.created_at,
+          ],
+        );
+        await query(`DELETE FROM ${target.table} WHERE id = ?`, [postId]);
+        const rows = await query(
+          `SELECT '${nextTable}' AS source_table, ${nextTable}.* FROM ${nextTable} WHERE id = ? LIMIT 1`,
+          [insertResult.insertId],
+        );
+        return res.json(mapPost(req, rows[0]));
+      }
+    }
+
+    const rows = await query(
+      `SELECT '${target.table}' AS source_table, ${target.table}.* FROM ${target.table} WHERE id = ? LIMIT 1`,
+      [postId],
+    );
     return res.json(mapPost(req, rows[0]));
   } catch (error) {
     console.error("[posts][update]", error);
@@ -730,18 +875,22 @@ const deletePost = async (req, res) => {
   try {
     await ensureBlogTables();
 
-    const postId = Number(req.params.id);
+    const target = await findTargetByScopedId(req.params.id);
+    if (!target) {
+      const parsed = parseScopedPostId(req.params.id);
+      if (!parsed) {
+        return res.status(400).json({ message: "Invalid post id." });
+      }
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    const postId = Number(target.post.id);
     if (!Number.isInteger(postId) || postId <= 0) {
       return res.status(400).json({ message: "Invalid post id." });
     }
 
-    const existingRows = await query("SELECT * FROM posts WHERE id = ? LIMIT 1", [postId]);
-    if (existingRows.length === 0) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-
-    const existingPost = existingRows[0];
-    await query("DELETE FROM posts WHERE id = ?", [postId]);
+    const existingPost = target.post;
+    await query(`DELETE FROM ${target.table} WHERE id = ?`, [postId]);
 
     if (existingPost.image) {
       const absoluteImagePath = path.join(__dirname, "..", existingPost.image.replace(/^\/+/, ""));

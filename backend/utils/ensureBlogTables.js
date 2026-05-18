@@ -1,4 +1,5 @@
 const { query } = require("../config/db");
+const { POST_TABLES, getPostTableForCategory } = require("./contentTables");
 
 let initialized = false;
 const SECTION_VALUES = [
@@ -102,6 +103,12 @@ const ensureBlogTables = async () => {
     )
   `);
 
+  for (const tableName of POST_TABLES) {
+    await query(`
+      CREATE TABLE IF NOT EXISTS ${tableName} LIKE posts
+    `);
+  }
+
   const postColumns = await query("SHOW COLUMNS FROM posts LIKE 'section'");
   if (postColumns.length === 0) {
     await query("ALTER TABLE posts ADD COLUMN section VARCHAR(50) DEFAULT NULL AFTER featured");
@@ -192,34 +199,97 @@ const ensureBlogTables = async () => {
     await query("ALTER TABLE posts ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at");
   }
 
-  const publishedRows = await query(
-    `SELECT id, section
-     FROM posts
+  for (const tableName of POST_TABLES) {
+    const columns = await query(`SHOW COLUMNS FROM ${tableName}`);
+    const columnNames = new Set(columns.map((column) => column.Field));
+
+    const sourceColumns = await query("SHOW COLUMNS FROM posts");
+    for (const sourceColumn of sourceColumns) {
+      if (!columnNames.has(sourceColumn.Field)) {
+        await query(`ALTER TABLE ${tableName} ADD COLUMN ${sourceColumn.Field} ${sourceColumn.Type}`);
+      }
+    }
+  }
+
+  const legacyRows = await query("SELECT * FROM posts ORDER BY id ASC");
+  for (const row of legacyRows) {
+    const targetTable = getPostTableForCategory(row.category);
+    const existingRows = await query(
+      `SELECT id FROM ${targetTable} WHERE slug = ? LIMIT 1`,
+      [row.slug],
+    );
+
+    if (existingRows.length > 0) {
+      continue;
+    }
+
+    await query(
+      `INSERT INTO ${targetTable}
+        (title, slug, category, subcategory, content, image, tags, status, featured, section, seo_title, seo_description, seo_keywords, focus_keyword, canonical_url, meta_robots, readability_notes, seo_score, seo_status, seo_breakdown, auto_generated, social_title, social_description, social_image, schema_type, schema_json, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        row.title,
+        row.slug,
+        row.category,
+        row.subcategory,
+        row.content,
+        row.image,
+        row.tags,
+        row.status,
+        row.featured,
+        row.section,
+        row.seo_title,
+        row.seo_description,
+        row.seo_keywords,
+        row.focus_keyword,
+        row.canonical_url,
+        row.meta_robots,
+        row.readability_notes,
+        row.seo_score,
+        row.seo_status,
+        row.seo_breakdown,
+        row.auto_generated,
+        row.social_title,
+        row.social_description,
+        row.social_image,
+        row.schema_type,
+        row.schema_json,
+        row.created_at,
+        row.updated_at || row.created_at,
+      ],
+    );
+  }
+
+  for (const tableName of POST_TABLES) {
+    const publishedRows = await query(
+      `SELECT id, section
+     FROM ${tableName}
      WHERE status = 'published'
      ORDER BY featured DESC, created_at DESC, id DESC`,
-  );
+    );
 
-  for (let index = 0; index < publishedRows.length; index += 1) {
-    const row = publishedRows[index];
-    const fallbackSection =
-      index === 0
-        ? "featured"
-        : index <= 3
-        ? "editor"
-        : index <= 11
-        ? "latest"
-        : index <= 15
-        ? "analytics"
-        : index <= 19
-        ? "guides"
-        : index <= 23
-        ? "reports"
-        : index <= 27
-        ? "insights"
-        : "archive";
+    for (let index = 0; index < publishedRows.length; index += 1) {
+      const row = publishedRows[index];
+      const fallbackSection =
+        index === 0
+          ? "featured"
+          : index <= 3
+          ? "editor"
+          : index <= 11
+          ? "latest"
+          : index <= 15
+          ? "analytics"
+          : index <= 19
+          ? "guides"
+          : index <= 23
+          ? "reports"
+          : index <= 27
+          ? "insights"
+          : "archive";
 
-    if (!SECTION_VALUES.includes(row.section)) {
-      await query("UPDATE posts SET section = ? WHERE id = ?", [fallbackSection, row.id]);
+      if (!SECTION_VALUES.includes(row.section)) {
+        await query(`UPDATE ${tableName} SET section = ? WHERE id = ?`, [fallbackSection, row.id]);
+      }
     }
   }
 

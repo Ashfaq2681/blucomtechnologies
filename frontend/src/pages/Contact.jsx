@@ -22,7 +22,7 @@ const ContactFormPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center py-16 bg-gray-50">
+    <div className="flex justify-center items-center py-16">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-10 w-full max-w-[1300px] px-10"

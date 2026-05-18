@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { FALLBACK_BLOG_POSTS, getPostBySlug } from "../../api/blogs";
 import { getPostDescription, getPostTitle } from "../../utils/postDescriptions";
 import { estimateReadTime, formatDate } from "./utils";
@@ -54,6 +54,12 @@ const getSchemaJson = (post, schemaType, description, image) => {
 
 const SingleBlog = () => {
   const { slug } = useParams();
+  const location = useLocation();
+  const contentBasePath = location.pathname.startsWith("/ideas")
+    ? "/ideas"
+    : location.pathname.startsWith("/news")
+    ? "/news"
+    : "/blog";
   const prerenderedPost = getPrerenderedBlogPost(slug);
   const [post, setPost] = useState(prerenderedPost);
   const [loading, setLoading] = useState(!prerenderedPost);
@@ -75,7 +81,7 @@ const SingleBlog = () => {
   const socialImage = useValue(post?.socialImage, useValue(post?.image));
   const canonicalUrl = useValue(
     post?.canonicalUrl,
-    slug ? `https://www.blucomtechnologies.com/blog/${slug}` : "",
+    slug ? `https://www.blucomtechnologies.com${contentBasePath}/${slug}` : "",
   );
   const metaRobots = useValue(post?.metaRobots, "index, follow");
   const relatedPosts = Array.isArray(post?.relatedPosts)

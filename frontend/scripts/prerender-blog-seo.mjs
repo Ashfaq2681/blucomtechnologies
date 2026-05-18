@@ -26,6 +26,7 @@ const siteUrl = trimTrailingSlash(
 const require = createRequire(import.meta.url);
 const { query, pool } = require(path.join(projectRoot, "backend/config/db.js"));
 const ensureBlogTables = require(path.join(projectRoot, "backend/utils/ensureBlogTables.js"));
+const ensurePageSeoTable = require(path.join(projectRoot, "backend/utils/ensurePageSeoTable.js"));
 const { computeSeoQuality, generateFinalSeo } = require(path.join(projectRoot, "backend/utils/seoQuality.js"));
 
 const hasValue = (value) => typeof value === "string" && value.trim().length > 0;
@@ -37,6 +38,7 @@ const requiredSeoFields = [
   "canonical_url",
   "meta_robots",
 ];
+const excludedPagePrefixes = ["/blog", "/news", "/ideas"];
 
 const stripHtml = (value = "") =>
   String(value).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -137,16 +139,7 @@ function intersectCount(leftSet, rightSet) {
 }
 
 function collectMissingSeoFields(post) {
-  const finalSeo = generateFinalSeo(post);
-  const resolvedFields = {
-    seo_title: finalSeo.seoTitle,
-    seo_description: finalSeo.seoDescription,
-    focus_keyword: finalSeo.focusKeyword,
-    canonical_url: finalSeo.canonicalUrl,
-    meta_robots: finalSeo.metaRobots,
-  };
-
-  return requiredSeoFields.filter((field) => !hasValue(resolvedFields[field]));
+  return requiredSeoFields.filter((field) => !hasValue(post[field]));
 }
 
 function assertRequiredSeo(post) {
@@ -158,7 +151,7 @@ function assertRequiredSeo(post) {
 
   if (missingFields.length > 0) {
     throw new Error(
-      `[prerender] Missing required SEO field(s) for slug "${post.slug}": ${missingFields.join(", ")}`,
+      `[prerender] Missing required SEO field(s) for slug "${post.slug || post.path}": ${missingFields.join(", ")}`,
     );
   }
 }
@@ -255,13 +248,13 @@ function buildBlogSeo(post) {
     );
   }
 
-  const canonical = absoluteUrl(finalSeo.canonicalUrl, `/blog/${post.slug}/`);
+  const canonical = absoluteUrl(post.canonical_url);
   const image = absoluteUrl(finalSeo.ogImage, absoluteUrl(post.image));
-  const title = useValue(finalSeo.seoTitle, post.title);
-  const description = useValue(finalSeo.seoDescription, truncate(stripHtml(post.content), 160));
-  const robots = useValue(finalSeo.metaRobots, "index, follow");
-  const ogTitle = useValue(finalSeo.ogTitle, title);
-  const ogDescription = useValue(finalSeo.ogDescription, description);
+  const title = post.seo_title.trim();
+  const description = post.seo_description.trim();
+  const robots = post.meta_robots.trim();
+  const ogTitle = useValue(post.social_title, title);
+  const ogDescription = useValue(post.social_description, description);
   const keywords = useValue(
     post.seo_keywords,
     useValue(finalSeo.focusKeyword, useValue(post.tags)),
@@ -277,6 +270,105 @@ function buildBlogSeo(post) {
     image,
     keywords,
     schemaJson: finalSeo.schemaJson || buildSchemaJson(post, { title, description, canonical, image }),
+  };
+}
+
+function normalizeRoutePath(value = "/") {
+  const normalized = String(value || "/").trim().toLowerCase().replace(/\/+$/, "");
+  return normalized || "/";
+}
+
+function isExcludedPagePath(routePath) {
+  const normalizedPath = normalizeRoutePath(routePath);
+  return excludedPagePrefixes.some(
+    (prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`),
+  );
+}
+
+export async function fetchPrerenderPageRows() {
+  await ensurePageSeoTable();
+
+  const rows = await query(
+    `SELECT
+       id,
+       path,
+       seo_title,
+       seo_description,
+       focus_keyword,
+       canonical_url,
+       meta_robots,
+       readability_notes,
+       social_title,
+       social_description,
+       social_image,
+       schema_type,
+       schema_json,
+       twitter_card,
+       updated_at
+     FROM page_seo
+     WHERE path IS NOT NULL
+       AND path <> ''
+     ORDER BY path ASC`,
+  );
+
+  return rows
+    .map((row) => ({ ...row, path: normalizeRoutePath(row.path) }))
+    .filter((row) => !isExcludedPagePath(row.path));
+}
+
+function buildPageSchemaJson(page, seo) {
+  if (hasValue(page.schema_json)) {
+    try {
+      return JSON.stringify(JSON.parse(page.schema_json));
+    } catch (_error) {
+      console.warn(`[prerender] Ignoring invalid schema_json for page "${page.path}".`);
+    }
+  }
+
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": hasValue(page.schema_type) ? page.schema_type.trim() : "WebPage",
+    name: seo.title,
+    headline: seo.title,
+    description: seo.description,
+    url: seo.canonical,
+    image: seo.image || undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "Blucom Technologies",
+      url: siteUrl,
+      logo: `${siteUrl}/logo.png`,
+    },
+  });
+}
+
+function buildPageSeo(page) {
+  assertRequiredSeo({ ...page, slug: page.path });
+
+  const title = page.seo_title.trim();
+  const description = page.seo_description.trim();
+  const robots = page.meta_robots.trim();
+  const canonical = absoluteUrl(page.canonical_url);
+  const image = absoluteUrl(page.social_image);
+  const ogTitle = useValue(page.social_title, title);
+  const ogDescription = useValue(page.social_description, description);
+
+  return {
+    title,
+    description,
+    robots,
+    canonical,
+    ogTitle,
+    ogDescription,
+    image,
+    keywords: page.focus_keyword.trim(),
+    twitterCard: useValue(page.twitter_card, image ? "summary_large_image" : "summary"),
+    schemaJson: buildPageSchemaJson(page, {
+      title,
+      description,
+      canonical,
+      image,
+    }),
   };
 }
 
@@ -634,7 +726,7 @@ function buildHeadTags(seo) {
     `<meta property="og:description" content="${escapeHtml(seo.ogDescription)}" />`,
     `<meta property="og:type" content="article" />`,
     `<meta property="og:url" content="${escapeHtml(seo.canonical)}" />`,
-    `<meta name="twitter:card" content="${seo.image ? "summary_large_image" : "summary"}" />`,
+    `<meta name="twitter:card" content="${escapeHtml(seo.twitterCard || (seo.image ? "summary_large_image" : "summary"))}" />`,
     `<meta name="twitter:title" content="${escapeHtml(seo.ogTitle)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(seo.ogDescription)}" />`,
   ];
@@ -752,6 +844,20 @@ function validateGeneratedHtml(html, seo, outputPath) {
   }
 }
 
+function outputPathForRoute(routePath) {
+  const normalizedPath = normalizeRoutePath(routePath);
+
+  if (normalizedPath === "/") {
+    return distIndexPath;
+  }
+
+  return path.join(
+    distRoot,
+    ...normalizedPath.split("/").filter(Boolean).map(normalizePathSegment),
+    "index.html",
+  );
+}
+
 async function writeBlogHtml(templateHtml, post, allPosts, publishedSlugSet) {
   const slug = normalizePathSegment(post.slug);
   const seo = buildBlogSeo(post);
@@ -787,6 +893,30 @@ async function writeBlogHtml(templateHtml, post, allPosts, publishedSlugSet) {
   );
 }
 
+async function writePageHtml(templateHtml, page) {
+  const routePath = normalizeRoutePath(page.path);
+  const seo = buildPageSeo(page);
+  const html = injectSeoIntoHtml(templateHtml, seo);
+  const outputPath = outputPathForRoute(routePath);
+  const outputDir = path.dirname(outputPath);
+
+  await fs.mkdir(outputDir, { recursive: true });
+  await fs.writeFile(outputPath, html, "utf8");
+  validateGeneratedHtml(html, seo, outputPath);
+
+  console.log(
+    [
+      `[prerender:page] slug="${routePath}"`,
+      `seo_title="${seo.title}"`,
+      `seo_description="${seo.description}"`,
+      `focus_keyword="${seo.keywords}"`,
+      `canonical="${seo.canonical}"`,
+      `robots="${seo.robots}"`,
+      `file="${path.relative(projectRoot, outputPath)}"`,
+    ].join(" "),
+  );
+}
+
 async function processInBatches(items, worker, concurrency) {
   const safeConcurrency = Math.max(1, Math.min(Number(concurrency) || 1, items.length || 1));
   let nextIndex = 0;
@@ -809,16 +939,23 @@ async function prerenderBlogSeo() {
   }
 
   const templateHtml = await fs.readFile(distIndexPath, "utf8");
+  const pageRows = await fetchPrerenderPageRows();
   const slugs = await fetchPublishedBlogSlugs();
   const allPosts = await fetchPublishedBlogsForInternalLinks();
   const publishedSlugSet = new Set(allPosts.map((post) => normalizePathSegment(post.slug)));
 
+  console.log(`[prerender] Found ${pageRows.length} MySQL page route(s), excluding blog/news/ideas.`);
   console.log(`[prerender] Found ${slugs.length} published blog post(s).`);
   console.log(`[prerender] Loaded ${allPosts.length} post(s) for internal linking.`);
   console.log(`[prerender] Related posts: ${disableRelatedPosts ? "disabled" : "enabled"}.`);
   console.log(`[prerender] Auto link injection: ${disableAutoLinkInjection ? "disabled" : "enabled"}.`);
   console.log(`[prerender] Strict SEO validation: ${strictSeo ? "enabled" : "disabled"}.`);
   console.log(`[prerender] SEO quality gate: ${enforceBuildSeo ? "enabled" : "monitoring only"}.`);
+
+  await processInBatches(pageRows, async (page) => {
+    console.log(`[prerender:page] Processing slug="${page.path}"`);
+    await writePageHtml(templateHtml, page);
+  }, processingConcurrency);
 
   await processInBatches(slugs, async (slug) => {
     console.log(`[prerender] Processing slug="${slug}"`);

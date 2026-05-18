@@ -8,9 +8,11 @@ const { pool, query, initializeDatabase } = require("./config/db");
 const postRoutes = require("./routes/postRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const careerRoutes = require("./routes/careerRoutes");
+const pageSeoRoutes = require("./routes/pageSeoRoutes");
 const createBlogsRouter = require("./routes/blogs");
 const createPublicBlogsRouter = require("./routes/publicBlogs");
 const ensureBlogTables = require("./utils/ensureBlogTables");
+const ensurePagesTable = require("./utils/ensurePagesTable");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,7 +34,7 @@ app.get("/api/user/getarticles", async (req, res) => {
 
     const rows = await query(
       `SELECT title, image, content
-       FROM posts
+       FROM blogposts
        WHERE status = 'published'
        ORDER BY created_at DESC`,
     );
@@ -54,12 +56,14 @@ app.get("/api/user/getarticles", async (req, res) => {
 app.use("/api", postRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", careerRoutes);
+app.use("/api", pageSeoRoutes);
 app.use("/api/blogs", createBlogsRouter({ queryAsync: query }));
 app.use("/blogs", createPublicBlogsRouter({ queryAsync: query }));
 
 const startServer = async () => {
   await initializeDatabase();
   await pool.query("SELECT 1");
+  await ensurePagesTable();
   console.log("MySQL connected successfully.");
 
   app.listen(PORT, () => {

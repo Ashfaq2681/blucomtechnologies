@@ -15,53 +15,28 @@ const siteUrl = trimTrailingSlash(
     process.env.VITE_SITE_URL ||
     "https://www.blucomtechnologies.com",
 );
-const staticPublicRoutes = [
-  { routePath: "/", changefreq: "weekly", priority: "1.0" },
-  { routePath: "/about", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/contact", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/portfolio", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/careers", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/ideas", changefreq: "daily", priority: "0.8" },
-  { routePath: "/news", changefreq: "daily", priority: "0.8" },
-  { routePath: "/work", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/blog", changefreq: "daily", priority: "0.9" },
-  { routePath: "/the-shift-towards-commerce-driven-marketing", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/analysis-measurement", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/analytics-implementation", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/brand-awareness", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/brand-strategy", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/campaign-optimization", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/content-marketing", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/content-strategy", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/customer-journey-mapping", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/data-visualization", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/identity", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/impact-measurement", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/interaction-assets-devs", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/interaction-design", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/lead-gen", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/media-planning-buying", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/messaging-positioning", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/nurture-strategies", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/omnichannel-campaign-management", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/persona-creation", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/product-mapping", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/prototyping-and-wireframing", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/reputation-management", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/search-marketing", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/strategic-communication", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/ui-designing", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/user-journey-mapping", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/web-development", changefreq: "weekly", priority: "0.8" },
-  { routePath: "/services/web-maintenance", changefreq: "weekly", priority: "0.8" },
-];
+const pagesTable = process.env.SITEMAP_PAGES_TABLE || "pages";
+const pageSlugColumn = process.env.SITEMAP_PAGE_SLUG_COLUMN || "slug";
+const pageUpdatedAtColumn = process.env.SITEMAP_PAGE_UPDATED_AT_COLUMN || "updated_at";
+const pageStatusColumn = process.env.SITEMAP_PAGE_STATUS_COLUMN || "status";
+const pagePublishedValue = process.env.SITEMAP_PAGE_PUBLISHED_VALUE || "published";
+const pageListingPath = process.env.SITEMAP_PAGE_LISTING_PATH || "";
+const pageDetailBasePath = process.env.SITEMAP_PAGE_DETAIL_BASE_PATH || "";
+const excludedPrefixes = ["/blog", "/news", "/ideas"];
 
 const require = createRequire(import.meta.url);
 const { query, pool } = require(path.join(projectRoot, "backend/config/db.js"));
-const ensureBlogTables = require(path.join(projectRoot, "backend/utils/ensureBlogTables.js"));
+const ensurePageSeoTable = require(path.join(projectRoot, "backend/utils/ensurePageSeoTable.js"));
+const ensurePagesTable = require(path.join(projectRoot, "backend/utils/ensurePagesTable.js"));
 
 function trimTrailingSlash(value) {
   return String(value || "").replace(/\/+$/, "");
+}
+
+function normalizeRoutePath(value = "/") {
+  const withoutQuery = String(value || "/").trim().split(/[?#]/)[0] || "/";
+  const normalized = `/${withoutQuery.replace(/^\/+|\/+$/g, "")}`.replace(/\/{2,}/g, "/");
+  return normalized === "/" ? "/" : normalized.toLowerCase();
 }
 
 function normalizePathSegment(slug) {
@@ -72,12 +47,22 @@ function normalizePathSegment(slug) {
     .replace(/[\\?#]+/g, "-");
 }
 
-function absoluteUrl(routePath) {
-  const normalizedPath = String(routePath || "/").startsWith("/")
-    ? routePath
-    : `/${routePath}`;
+function normalizeDetailPath(slug) {
+  const normalizedSlug = normalizePathSegment(slug);
+  const normalizedBase = normalizePathSegment(pageDetailBasePath);
+  return normalizeRoutePath(normalizedBase ? `/${normalizedBase}/${normalizedSlug}` : `/${normalizedSlug}`);
+}
 
-  return `${siteUrl}${normalizedPath}`;
+function isExcludedPath(routePath) {
+  const normalizedPath = normalizeRoutePath(routePath);
+  return excludedPrefixes.some(
+    (prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`),
+  );
+}
+
+function absoluteUrl(routePath) {
+  const normalizedPath = normalizeRoutePath(routePath);
+  return `${siteUrl}${normalizedPath === "/" ? "" : normalizedPath}`;
 }
 
 function escapeXml(value = "") {
@@ -113,34 +98,121 @@ function assertLastmod(value, context) {
   return lastmod;
 }
 
-export async function fetchPublishedBlogSitemapRows() {
-  await ensureBlogTables();
+function quoteIdentifier(identifier) {
+  if (!/^[A-Za-z0-9_]+$/.test(identifier)) {
+    throw new Error(`[sitemap] Invalid MySQL identifier: ${identifier}`);
+  }
+
+  return `\`${identifier}\``;
+}
+
+async function tableExists(tableName) {
+  const rows = await query(
+    `SELECT COUNT(*) AS count
+     FROM information_schema.tables
+     WHERE table_schema = DATABASE()
+       AND table_name = ?`,
+    [tableName],
+  );
+
+  return Number(rows[0]?.count || 0) > 0;
+}
+
+async function columnExists(tableName, columnName) {
+  const rows = await query(
+    `SELECT COUNT(*) AS count
+     FROM information_schema.columns
+     WHERE table_schema = DATABASE()
+       AND table_name = ?
+       AND column_name = ?`,
+    [tableName, columnName],
+  );
+
+  return Number(rows[0]?.count || 0) > 0;
+}
+
+export async function fetchPublishedPageRows() {
+  await ensurePagesTable();
+
+  if (!(await tableExists(pagesTable))) {
+    console.warn(
+      `[sitemap] Table "${pagesTable}" was not found. Set SITEMAP_PAGES_TABLE or create the pages table to include detail pages.`,
+    );
+    return [];
+  }
+
+  const hasSlugColumn = await columnExists(pagesTable, pageSlugColumn);
+  const hasUpdatedAtColumn = await columnExists(pagesTable, pageUpdatedAtColumn);
+  const hasStatusColumn = await columnExists(pagesTable, pageStatusColumn);
+
+  if (!hasSlugColumn) {
+    throw new Error(`[sitemap] Missing required column "${pageSlugColumn}" on table "${pagesTable}".`);
+  }
+
+  if (!hasUpdatedAtColumn) {
+    throw new Error(`[sitemap] Missing required column "${pageUpdatedAtColumn}" on table "${pagesTable}".`);
+  }
+
+  const table = quoteIdentifier(pagesTable);
+  const slug = quoteIdentifier(pageSlugColumn);
+  const updatedAt = quoteIdentifier(pageUpdatedAtColumn);
+  const whereClauses = [`${slug} IS NOT NULL`, `${slug} <> ''`];
+  const params = [];
+
+  if (hasStatusColumn) {
+    whereClauses.push(`${quoteIdentifier(pageStatusColumn)} = ?`);
+    params.push(pagePublishedValue);
+  } else {
+    console.warn(
+      `[sitemap] Column "${pageStatusColumn}" was not found on "${pagesTable}". Including all rows with a slug.`,
+    );
+  }
 
   const rows = await query(
-    `SELECT slug, updated_at
-     FROM posts
-     WHERE status = 'published'
-       AND slug IS NOT NULL
-       AND slug <> ''
-     ORDER BY updated_at DESC, created_at DESC, id DESC`,
+    `SELECT ${slug} AS slug, ${updatedAt} AS updated_at
+     FROM ${table}
+     WHERE ${whereClauses.join(" AND ")}
+     ORDER BY ${updatedAt} DESC`,
+    params,
   );
 
   return rows
     .map((row) => ({
-      slug: normalizePathSegment(row.slug),
+      routePath: normalizeDetailPath(row.slug),
       updatedAt: row.updated_at,
     }))
-    .filter((row) => row.slug);
+    .filter((row) => row.routePath !== "/" && !isExcludedPath(row.routePath));
 }
 
-function buildSitemapEntries(blogRows) {
-  const latestBlogLastmod =
-    blogRows.length > 0
-      ? assertLastmod(blogRows[0].updatedAt, `latest blog "${blogRows[0].slug}"`)
-      : new Date().toISOString();
+export async function fetchPageListingRows() {
+  await ensurePageSeoTable();
+
+  const rows = await query(
+    `SELECT path, updated_at
+     FROM page_seo
+     WHERE path IS NOT NULL
+       AND path <> ''
+       AND COALESCE(meta_robots, 'index,follow') NOT LIKE '%noindex%'
+     ORDER BY updated_at DESC, path ASC`,
+  );
+
+  return rows
+    .map((row) => ({
+      routePath: normalizeRoutePath(row.path),
+      updatedAt: row.updated_at,
+    }))
+    .filter((row) => !isExcludedPath(row.routePath));
+}
+
+function buildSitemapEntries(pageRows, listingRows) {
+  const now = new Date().toISOString();
   const entries = new Map();
 
-  const addEntry = ({ routePath, lastmod, changefreq, priority }) => {
+  const addEntry = ({ routePath, lastmod, changefreq = "weekly", priority = "0.8" }) => {
+    if (isExcludedPath(routePath)) {
+      return;
+    }
+
     const loc = absoluteUrl(routePath);
 
     if (entries.has(loc)) {
@@ -149,25 +221,41 @@ function buildSitemapEntries(blogRows) {
 
     entries.set(loc, {
       loc,
-      lastmod,
+      lastmod: assertLastmod(lastmod, `page "${routePath}"`),
       changefreq,
       priority,
     });
   };
 
-  for (const route of staticPublicRoutes) {
+  addEntry({
+    routePath: "/",
+    lastmod:
+      listingRows.find((row) => row.routePath === "/")?.updatedAt ||
+      pageRows[0]?.updatedAt ||
+      now,
+  });
+
+  if (pageListingPath) {
     addEntry({
-      ...route,
-      lastmod: latestBlogLastmod,
+      routePath: pageListingPath,
+      lastmod:
+        listingRows.find((row) => row.routePath === normalizeRoutePath(pageListingPath))?.updatedAt ||
+        pageRows[0]?.updatedAt ||
+        now,
     });
   }
 
-  for (const row of blogRows) {
+  for (const row of listingRows) {
     addEntry({
-      routePath: `/blog/${row.slug}`,
-      lastmod: assertLastmod(row.updatedAt, `blog "${row.slug}"`),
-      changefreq: "weekly",
-      priority: "0.8",
+      routePath: row.routePath,
+      lastmod: row.updatedAt,
+    });
+  }
+
+  for (const row of pageRows) {
+    addEntry({
+      routePath: row.routePath,
+      lastmod: row.updatedAt,
     });
   }
 
@@ -206,14 +294,27 @@ async function writeIfDirectoryExists(filePath, contents) {
   return true;
 }
 
+async function removeGeneratedFiles() {
+  for (const filePath of [publicSitemapPath, distSitemapPath]) {
+    try {
+      await fs.rm(filePath, { force: true });
+    } catch (_error) {
+      // Best effort cleanup keeps a failed build from leaving a partial sitemap.
+    }
+  }
+}
+
 async function generateSitemap() {
   if (skipSitemap) {
     console.log("[sitemap] Skipped because SKIP_SITEMAP=true.");
     return;
   }
 
-  const blogRows = await fetchPublishedBlogSitemapRows();
-  const entries = buildSitemapEntries(blogRows);
+  const [pageRows, listingRows] = await Promise.all([
+    fetchPublishedPageRows(),
+    fetchPageListingRows(),
+  ]);
+  const entries = buildSitemapEntries(pageRows, listingRows);
   const sitemapXml = renderSitemap(entries);
 
   await fs.mkdir(path.dirname(publicSitemapPath), { recursive: true });
@@ -221,7 +322,8 @@ async function generateSitemap() {
 
   const wroteDist = await writeIfDirectoryExists(distSitemapPath, sitemapXml);
 
-  console.log(`[sitemap] Found ${blogRows.length} published blog post(s).`);
+  console.log(`[sitemap] Found ${pageRows.length} published page detail row(s).`);
+  console.log(`[sitemap] Found ${listingRows.length} indexable page listing row(s).`);
   console.log(`[sitemap] Generated ${entries.length} unique URL(s).`);
   console.log(`[sitemap] Wrote ${path.relative(projectRoot, publicSitemapPath)}.`);
 
@@ -231,9 +333,10 @@ async function generateSitemap() {
 }
 
 generateSitemap()
-  .catch((error) => {
+  .catch(async (error) => {
     console.error("[sitemap] Failed to generate sitemap.xml.");
     console.error(error);
+    await removeGeneratedFiles();
     process.exitCode = 1;
   })
   .finally(async () => {

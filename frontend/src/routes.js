@@ -5,6 +5,11 @@ import Contact from "./pages/Contact.jsx";
 import AdminDashboard from "./pages/Dashboard.jsx";
 import Admin from "./pages/Admin.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
+import PortfolioHyundai from "./pages/portfolio/portfolio-hyundai.jsx";
+import PortfolioToyotaMotors from "./pages/portfolio/portfolio-toyotamotors.jsx";
+import PortfolioCodilityHub from "./pages/portfolio/portfolio-codilityhub.jsx";
+import PortfolioFantasyRewind from "./pages/portfolio/portfolio-fantasyrewind.jsx";
+import PortfolioHassanBukhari from "./pages/portfolio/portfolio-hassanbuklhari.jsx";
 import Careers from "./pages/Careers.jsx";
 import Ideas from "./pages/ideas/Ideas.jsx";
 import News from "./pages/news/News.jsx"
@@ -63,6 +68,11 @@ export const routes = [
   { path: "/about", component: About, changefreq: "weekly", priority: 0.8 },
   { path: "/contact", component: Contact, changefreq: "weekly", priority: 0.8 },
   { path: "/portfolio", component: Portfolio, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/hyundai", component: PortfolioHyundai, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/toyota-motors", component: PortfolioToyotaMotors, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/codility-hub", component: PortfolioCodilityHub, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/fantasy-rewind", component: PortfolioFantasyRewind, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/hassan-bukhari", component: PortfolioHassanBukhari, changefreq: "weekly", priority: 0.8 },
   { path: "/careers", component: Careers, changefreq: "weekly", priority: 0.8 },
   { path: "/ideas", component: Ideas, changefreq: "daily", priority: 0.8 },
   { path: "/news", component: News, changefreq: "daily", priority: 0.8 },

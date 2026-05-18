@@ -2,19 +2,24 @@
 git status
 git add .
 git commit -m "dashboard layout,blog ideas,news, seo changes"
-git commit -m "blog frontend"
+git commit -m "blog page seo,landing page frontend"
 git push
 git push -origin main (or)
 git push --force origin main
 
-seo,lading page frontend
+fix subscription issues contact form integration improve multi step form frontend
+      
+› content image and title to be centered dont use right alignmet suggest another option with centered content
+› in blog single page  content image and title to be centered dont use right alignmet suggest another option with centered content
 
 › add all the page into content-level checks for seo edits, with caterories
 landing page issues
-headig to be colord as emerald-500, display only two blogs in the blog posts section, same as display two ideas post to ideas sectio,
+h
 
--do following fixes in home/landing page, heading to be colored as emerald-500, display only two blogs in the blog posts section, same as display
-two ideas post to ideas section.
+
+
+remove the View Blog
+
 ----------------------------
   
   emerald-500
@@ -23,15 +28,17 @@ two ideas post to ideas section.
   - 1 commit labeled commit: blog changes
 
   1-  ashfaq2681      v 
-  2-  electricpoles   v   <    
-  2-  blucommw        v     
+  2-  electricpoles   v   <
+  3-  adezigs37       v   
+  4-  bctvm           v 
+  2-  blucommw        v  
+  5-  sleepy          v   
   3-  bctvm           v    
-  4-  curatedgallery  v   
-  2-  
-  3-  bluedots        
-  4-  mrtom           
-  5-  meadpost        
-  6-  adagepk          
+  4-  curatedgallery  v
+  3-  bluedots        v
+  4-  mrtom           v
+  5-  meadpost        v
+  6-  adagepk         v
 
 
   -Move (Blog List,Write Blog) feature to blog page without removing existing data keeping single page for all blog features.

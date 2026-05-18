@@ -59,7 +59,7 @@ export default function ContentDashboard({
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [busyPostId, setBusyPostId] = useState<number | null>(null);
+  const [busyPostId, setBusyPostId] = useState<string | number | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -112,7 +112,7 @@ export default function ContentDashboard({
     );
   }, [posts]);
 
-  const handleDelete = async (postId: number) => {
+  const handleDelete = async (postId: string | number) => {
     const confirmed = window.confirm(`Delete this ${contentType.toLowerCase()} post?`);
 
     if (!confirmed) {
@@ -131,7 +131,7 @@ export default function ContentDashboard({
     }
   };
 
-  const handleRecalculateSeo = async (postId: number) => {
+  const handleRecalculateSeo = async (postId: string | number) => {
     try {
       setBusyPostId(postId);
       const updatedPost = await recalculatePostSeo(postId);

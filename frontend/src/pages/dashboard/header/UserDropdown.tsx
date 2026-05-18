@@ -2,10 +2,11 @@ import { useState } from "react";
 import { dashboardAssets } from "../assets";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -14,6 +15,16 @@ export default function UserDropdown() {
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  function handleSignOut() {
+    closeDropdown();
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+    sessionStorage.clear();
+    navigate("/Dashboard/signin", { replace: true });
+  }
+
   return (
     <div className="relative">
       <button
@@ -136,8 +147,9 @@ export default function UserDropdown() {
             </DropdownItem>
           </li>
         </ul>
-        <Link
-          to="/Dashboard/signin"
+        <button
+          type="button"
+          onClick={handleSignOut}
           className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
         >
           <svg
@@ -156,7 +168,7 @@ export default function UserDropdown() {
             />
           </svg>
           Sign out
-        </Link>
+        </button>
       </Dropdown>
     </div>
   );

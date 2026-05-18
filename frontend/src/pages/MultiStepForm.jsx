@@ -16,7 +16,8 @@ const InteractiveForm = () => {
     { id: 3, title: "Pick your services", subtitle: "Select up to 4 services" },
     { id: 4, title: "Our main goal is...", subtitle: "Select goals per service" },
     { id: 5, title: "The investment is...", subtitle: "Slide to set your budget" },
-    { id: 6, title: "Final Details", subtitle: "Contact information" }
+    { id: 6, title: "Final Details", subtitle: "Contact information" },
+    { id: 7, title: "Review Request", subtitle: "Confirm your details" }
   ];
 
   const paginate = (newDirection) => {
@@ -101,6 +102,11 @@ const InteractiveForm = () => {
     });
   };
 
+  const formatGoals = (service) => {
+    const goals = formData.goals[service] || [];
+    return goals.length ? goals.join(', ') : 'No goals selected';
+  };
+
   const handleSubmit = () => {
     const savedRequests = JSON.parse(localStorage.getItem('projectRequests') || '[]');
     const newRequest = {
@@ -127,7 +133,7 @@ const InteractiveForm = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-200 via-emerald-300 to-emerald-400 blur-[150px]  -full -z-10" />
 
         <AnimatePresence mode="wait" custom={direction}>
@@ -139,17 +145,23 @@ const InteractiveForm = () => {
             animate="center"
             exit="exit"
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-5xl text-center"
+            className="w-full max-w-5xl text-center rounded-[8px] border border-emerald-200 bg-white/95 px-4 py-8 shadow-xl shadow-emerald-950/10 backdrop-blur sm:px-6 md:px-10 lg:px-12"
           >
             {/* Step Header */}
-            <div className="mb-12">
+            <div className="mb-8 md:mb-12">
+              <motion.span
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                className="hidden"
+              >
+                Step 0{step} / 06 — {steps[step-1].subtitle}
+              </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="text-emerald-600 font-mono tracking-wide uppercase text-sm mb-2 block"
               >
-                Step 0{step} / 06 — {steps[step-1].subtitle}
+                Step {String(step).padStart(2, '0')} / {String(steps.length).padStart(2, '0')} - {steps[step-1].subtitle}
               </motion.span>
-              <h2 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-emerald-900">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-emerald-900">
                 {steps[step-1].title}
               </h2>
             </div>
@@ -302,6 +314,51 @@ const InteractiveForm = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                   />
+                </motion.div>
+              )}
+
+              {/* Step 7: Review */}
+              {step === 7 && (
+                <motion.div className="space-y-5 text-left">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <ReviewItem label="Project Name" value={formData.projectName || 'Not provided'} />
+                    <ReviewItem label="Company Name" value={formData.companyName || 'Not provided'} />
+                    <ReviewItem label="Position" value={formData.position || 'Not provided'} />
+                    <ReviewItem label="Category" value={formData.category || 'Not selected'} />
+                    <ReviewItem label="Budget" value={`$${formData.budget}k`} />
+                    <ReviewItem label="Contact Number" value={formData.contactNumber || 'Not provided'} />
+                    <ReviewItem label="Email" value={formData.email || 'Not provided'} />
+                  </div>
+
+                  <div className="rounded-[8px] border border-emerald-200 bg-emerald-50 p-4">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-600">Selected Services</p>
+                    {formData.services.length ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {formData.services.map((service) => (
+                          <span key={service} className="rounded-full bg-white px-3 py-1 text-sm font-semibold text-emerald-900 ring-1 ring-emerald-200">
+                            {service}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-3 text-sm font-medium text-emerald-800">No services selected.</p>
+                    )}
+                  </div>
+
+                  <div className="rounded-[8px] border border-emerald-200 bg-white p-4">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-600">Goals</p>
+                    <div className="mt-3 grid gap-3">
+                      {formData.services.length ? formData.services.map((service) => (
+                        <div key={service} className="border-b border-emerald-100 pb-3 last:border-b-0 last:pb-0">
+                          <p className="font-semibold text-emerald-950">{service}</p>
+                          <p className="mt-1 text-sm leading-6 text-emerald-700">{formatGoals(service)}</p>
+                        </div>
+                      )) : (
+                        <p className="text-sm font-medium text-emerald-800">No service goals selected.</p>
+                      )}
+                    </div>
+                  </div>
+
                   {submitted && (
                     <p className="rounded-lg border border-emerald-300 bg-emerald-100 p-4 text-sm font-semibold text-emerald-800">
                       Request saved. You can view it in the dashboard.
@@ -313,7 +370,7 @@ const InteractiveForm = () => {
             </div>
 
             {/* Navigation */}
-            <div className="mt-12 flex justify-center items-center gap-6">
+            <div className="mt-10 flex flex-wrap justify-center items-center gap-4 md:mt-12 md:gap-6">
               {step > 1 && (
                 <button onClick={() => paginate(-1)} className="p-4  -full border-2 border-emerald-200 hover:border-emerald-400 text-emerald-600 transition-colors shadow-sm hover:shadow-md">
                   <ArrowLeft size={24} />
@@ -353,6 +410,13 @@ const OptionCard = ({ label, icon, onClick, active }) => (
     <span className="font-semibold text-center">{label}</span>
     {active && <Check size={14} className="text-emerald-950 mt-1" />}
   </motion.button>
+);
+
+const ReviewItem = ({ label, value }) => (
+  <div className="rounded-[8px] border border-emerald-200 bg-emerald-50 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-600">{label}</p>
+    <p className="mt-2 break-words text-base font-semibold text-emerald-950">{value}</p>
+  </div>
 );
 
 export default InteractiveForm;

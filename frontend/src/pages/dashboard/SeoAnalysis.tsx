@@ -4,6 +4,7 @@ import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
 import PageMeta from "./common/PageMeta";
 import { getDashboardPosts, updatePost } from "../../api/blogs";
+import { getPageSeoEntries, updatePageSeoEntry } from "../../api/pageSeo";
 import { getPageSeo } from "../../Components/PageSeo";
 
 type RouteCheck = {
@@ -26,7 +27,7 @@ type ContentCheck = {
   findings: string[];
 };
 
-type ContentFilter = "all" | "page" | "blog" | "ideas" | "news";
+type ContentFilter = "all" | "main" | "services" | "portfolio" | "page" | "blog" | "ideas" | "news";
 
 type EditableSeoItem = {
   id: string;
@@ -63,6 +64,11 @@ const manualPublicPaths = [
   "/about",
   "/contact",
   "/portfolio",
+  "/portfolio/hyundai",
+  "/portfolio/toyota-motors",
+  "/portfolio/codility-hub",
+  "/portfolio/fantasy-rewind",
+  "/portfolio/hassan-bukhari",
   "/careers",
   "/ideas",
   "/news",
@@ -144,8 +150,10 @@ const formatRouteLabel = (path: string) => {
 const getPageCategory = (path: string) => {
   const normalizedPath = path.toLowerCase();
 
-  if (normalizedPath === "/") return "Core Pages";
+  if (normalizedPath === "/") return "Main Pages";
   if (normalizedPath.startsWith("/services/")) return "Services";
+  if (normalizedPath.startsWith("/portfolio/")) return "Portfolio Pages";
+  if (normalizedPath === "/portfolio") return "Main Pages";
   if (normalizedPath.startsWith("/blog")) return "Blog";
   if (normalizedPath.startsWith("/ideas")) return "Ideas";
   if (normalizedPath.startsWith("/news")) return "News";
@@ -159,36 +167,65 @@ const getPageCategory = (path: string) => {
     return "System";
   }
 
-  return "Core Pages";
+  return "Main Pages";
 };
 
-const buildPageSeoItems = (): EditableSeoItem[] =>
+const getPageContentType = (path: string): ContentFilter => {
+  const normalizedPath = path.toLowerCase();
+
+  if (normalizedPath.startsWith("/services/")) return "services";
+  if (normalizedPath.startsWith("/portfolio/")) return "portfolio";
+
+  return "main";
+};
+
+const buildPageSeoItems = (storedEntries: any[] = []): EditableSeoItem[] => {
+  const storedByPath = new Map(
+    storedEntries.map((entry) => [String(entry.path || "").toLowerCase(), entry]),
+  );
+
+  return (
   allSeoPaths.map((path) => {
     const routeSeo = getRouteSeo(path);
     const normalizedPath = path.toLowerCase();
     const slug = path === "/" ? "home" : path.split("/").filter(Boolean).pop() || path;
+    const storedSeo = storedByPath.get(normalizedPath) || {};
 
     return {
       id: `page-${normalizedPath === "/" ? "home" : normalizedPath.replace(/[^a-z0-9]+/g, "-")}`,
       numericId: 0,
       source: "page",
-      type: "page",
+      type: getPageContentType(path),
       title: routeSeo.title || formatRouteLabel(path),
       slug,
       path,
       category: getPageCategory(path),
-      subcategory: normalizedPath.startsWith("/services/") ? "Service Page" : "",
+      subcategory: normalizedPath.startsWith("/services/")
+        ? "Service Page"
+        : normalizedPath.startsWith("/portfolio/")
+        ? "Portfolio Single Page"
+        : "Main Page",
       content: routeSeo.description || "",
-      tags: [getPageCategory(path), "page"],
+      tags: [getPageCategory(path), getPageContentType(path), "page"],
       status: getPageCategory(path) === "System" ? "noindex" : "published",
-      seoTitle: routeSeo.title,
-      seoDescription: routeSeo.description,
-      canonicalUrl: `https://www.blucomtechnologies.com${path === "/" ? "" : path}`,
-      metaRobots: getPageCategory(path) === "System" ? "noindex,nofollow" : "index,follow",
-      schemaType: "WebPage",
-      twitterCard: "summary_large_image",
+      seoTitle: storedSeo.seoTitle || routeSeo.title,
+      seoDescription: storedSeo.seoDescription || routeSeo.description,
+      focusKeyword: storedSeo.focusKeyword || "",
+      canonicalUrl:
+        storedSeo.canonicalUrl || `https://www.blucomtechnologies.com${path === "/" ? "" : path}`,
+      metaRobots:
+        storedSeo.metaRobots || (getPageCategory(path) === "System" ? "noindex,nofollow" : "index,follow"),
+      readabilityNotes: storedSeo.readabilityNotes || "",
+      schemaType: storedSeo.schemaType || "WebPage",
+      schemaJson: storedSeo.schemaJson || "",
+      socialTitle: storedSeo.socialTitle || "",
+      socialDescription: storedSeo.socialDescription || "",
+      socialImage: storedSeo.socialImage || "",
+      twitterCard: storedSeo.twitterCard || "summary_large_image",
     };
-  });
+  })
+  );
+};
 
 const getRouteSeo = (path: string) => getPageSeo(path);
 
@@ -345,7 +382,10 @@ const SeoAnalysis = () => {
     const load = async () => {
       try {
         setLoading(true);
-        const posts = await getDashboardPosts();
+        const [posts, pageSeoEntries] = await Promise.all([
+          getDashboardPosts(),
+          getPageSeoEntries(),
+        ]);
 
         if (!mounted) {
           return;
@@ -356,7 +396,7 @@ const SeoAnalysis = () => {
           source: "post",
           type: getContentType(item),
         })) as EditableSeoItem[];
-        const pageItems = buildPageSeoItems();
+        const pageItems = buildPageSeoItems(pageSeoEntries);
         const editable = [...pageItems, ...postItems];
 
         setContentChecks(editable.map((item) => scoreContent(item, item.type)));
@@ -445,8 +485,38 @@ const SeoAnalysis = () => {
       setErrorMessage("");
 
       if (!selectedItemIsEditable) {
-        setSaveMessage("");
-        setErrorMessage("Static page metadata is managed in the page SEO registry, not the posts API.");
+        const updatedSeo = await updatePageSeoEntry({
+          path: selectedItem.path,
+          seoTitle: editorForm.seoTitle,
+          seoDescription: editorForm.seoDescription,
+          focusKeyword: editorForm.focusKeyword,
+          canonicalUrl: editorForm.canonicalUrl,
+          metaRobots: editorForm.metaRobots,
+          readabilityNotes: editorForm.readabilityNotes,
+          schemaType: editorForm.schemaType,
+          schemaJson: editorForm.schemaJson,
+          socialTitle: editorForm.socialTitle,
+          socialDescription: editorForm.socialDescription,
+          socialImage: editorForm.socialImage,
+          twitterCard: editorForm.twitterCard,
+        });
+        const updatedItem = {
+          ...selectedItem,
+          ...updatedSeo,
+          content: updatedSeo.seoDescription || editorForm.seoDescription,
+        };
+
+        setEditableItems((current) =>
+          current.map((item) => (item.id === selectedItem.id ? updatedItem : item))
+        );
+        setContentChecks((current) =>
+          current.map((item) =>
+            item.id === `${selectedItem.type}-${selectedItem.id}`
+              ? scoreContent(updatedItem, updatedItem.type)
+              : item
+          )
+        );
+        setSaveMessage("Page metadata updated successfully.");
         return;
       }
 
@@ -525,7 +595,11 @@ const SeoAnalysis = () => {
     const sortedItems = [...contentChecks].sort((first, second) => first.score - second.score);
 
     return sortedItems.filter((item) => {
-      const matchesType = contentFilter === "all" || item.type === contentFilter;
+      const isStaticPage = ["main", "services", "portfolio"].includes(item.type);
+      const matchesType =
+        contentFilter === "all" ||
+        item.type === contentFilter ||
+        (contentFilter === "page" && isStaticPage);
       const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
 
       return matchesType && matchesCategory;
@@ -761,7 +835,7 @@ const SeoAnalysis = () => {
                   Editing <span className="font-semibold text-slate-900">{selectedItem.title}</span> as a{" "}
                   <span className="capitalize">{selectedItem.type}</span> item in{" "}
                   <span className="font-semibold text-slate-900">{selectedItem.category || "Uncategorized"}</span>.
-                  {selectedItemIsEditable ? "" : " Static page metadata is read from the page SEO registry."}
+                  {selectedItemIsEditable ? "" : " Static page metadata can be reviewed and adjusted in this dashboard view."}
                 </div>
               ) : null}
 
@@ -781,10 +855,10 @@ const SeoAnalysis = () => {
                 <button
                   type="button"
                   onClick={handleSave}
-                  disabled={saving || !selectedItem || !selectedItemIsEditable}
+                  disabled={saving || !selectedItem}
                   className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {saving ? "Saving..." : selectedItemIsEditable ? "Save SEO Fields" : "Static Page Metadata"}
+                  {saving ? "Saving..." : selectedItemIsEditable ? "Save SEO Fields" : "Update Static Metadata"}
                 </button>
               </div>
             </div>
@@ -837,7 +911,7 @@ const SeoAnalysis = () => {
           ) : (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
-                {(["all", "page", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
+                {(["all", "main", "services", "portfolio", "page", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
                   <button
                     key={filterValue}
                     type="button"
@@ -848,7 +922,15 @@ const SeoAnalysis = () => {
                         : "border border-slate-300 bg-white text-slate-700 hover:border-slate-400 hover:text-slate-950"
                     }`}
                   >
-                    {filterValue === "all" ? "All content" : `${filterValue.charAt(0).toUpperCase()}${filterValue.slice(1)}`}
+                    {filterValue === "all"
+                      ? "All content"
+                      : filterValue === "main"
+                      ? "Main pages"
+                      : filterValue === "services"
+                      ? "Services pages"
+                      : filterValue === "portfolio"
+                      ? "Portfolio pages"
+                      : `${filterValue.charAt(0).toUpperCase()}${filterValue.slice(1)}`}
                   </button>
                 ))}
               </div>

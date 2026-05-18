@@ -13,9 +13,15 @@ const News = lazy(() => import("./pages/News.jsx"));
 const Ideas = lazy(() => import("./pages/Ideas.jsx"));
 const Careers = lazy(() => import("./pages/Careers.jsx"));
 const Portfolio = lazy(() => import("./pages/Portfolio.jsx"));
+const Work = lazy(() => import("./pages/Work.jsx"));
 const Blog = lazy(() => import("./pages/blog/Blog.jsx"));
 const SingleBlog = lazy(() => import("./pages/blog/SingleBlog.jsx"));
 const InvestorsOverview = lazy(() => import("./pages/InvestorsOverview.jsx"));
+const PortfolioHyundai = lazy(() => import("./pages/portfolio/portfolio-hyundai.jsx"));
+const PortfolioToyotaMotors = lazy(() => import("./pages/portfolio/portfolio-toyotamotors.jsx"));
+const PortfolioCodilityHub = lazy(() => import("./pages/portfolio/portfolio-codilityhub.jsx"));
+const PortfolioFantasyRewind = lazy(() => import("./pages/portfolio/portfolio-fantasyrewind.jsx"));
+const PortfolioHassanBukhari = lazy(() => import("./pages/portfolio/portfolio-hassanbuklhari.jsx"));
 const BlogSingle = lazy(() => import("./pages/BlogSingle.jsx"));
 const OverviewSingle = lazy(() => import("./pages/InvestorOverviewSingle.jsx"));
 const MultiStepForm = lazy(() => import("./pages/MultiStepForm.jsx"));
@@ -78,6 +84,8 @@ const UIDesigning = lazy(() => import("./pages/services/ui-designing.jsx"));
 const UserJourneyMapping = lazy(() => import("./pages/services/user-journey-mapping.jsx"));
 const WebDevelopment = lazy(() => import("./pages/services/web-development.jsx"));
 const WebMaintenance = lazy(() => import("./pages/services/web-maintenance.jsx"));
+const Buying = lazy(() => import("./pages/services/New folder/Buying.jsx"));
+const OmniCampaign = lazy(() => import("./pages/services/New folder/omnichannel-campaign-management.jsx"));
 const ContactFormEnd = lazy(() => import("./Components/landing/ContactForm.jsx"));
 
 const PageEndContactForm = () => {
@@ -120,9 +128,17 @@ const AppContent = () => {
               <Route path="/news" element={<News />} />
               <Route path="/ideas" element={<Ideas />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/work" element={<Work />} />
+              <Route path="/portfolio/hyundai" element={<PortfolioHyundai />} />
+              <Route path="/portfolio/toyota-motors" element={<PortfolioToyotaMotors />} />
+              <Route path="/portfolio/codility-hub" element={<PortfolioCodilityHub />} />
+              <Route path="/portfolio/fantasy-rewind" element={<PortfolioFantasyRewind />} />
+              <Route path="/portfolio/hassan-bukhari" element={<PortfolioHassanBukhari />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/Blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<SingleBlog />} />
+              <Route path="/ideas/:slug" element={<SingleBlog />} />
+              <Route path="/news/:slug" element={<SingleBlog />} />
               <Route path="/blogsingle" element={<BlogSingle />} />
               <Route path="/overviewsingle" element={<OverviewSingle />} />
               <Route path="/dashboard" element={<DashboardShell />}>
@@ -234,6 +250,8 @@ const AppContent = () => {
               <Route path="/services/user-journey-mapping" element={<UserJourneyMapping />} />
               <Route path="/services/web-development" element={<WebDevelopment />} />
               <Route path="/services/web-maintenance" element={<WebMaintenance />} />
+              <Route path="/services/new-folder/buying" element={<Buying />} />
+              <Route path="/services/new-folder/omnichannel-campaign-management" element={<OmniCampaign />} />
             </Routes>
             <PageEndContactForm />
           </Suspense>

@@ -43,7 +43,7 @@ const createPublicBlogsRouter = ({ queryAsync }) => {
     try {
       const rows = await queryAsync(
         `SELECT id, title, slug, category, content, image, status, section, created_at
-         FROM posts
+         FROM blogposts
          WHERE status = 'published'
          ORDER BY
            CASE section
