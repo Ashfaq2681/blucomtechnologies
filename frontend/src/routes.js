@@ -5,6 +5,7 @@ import Contact from "./pages/Contact.jsx";
 import AdminDashboard from "./pages/Dashboard.jsx";
 import Admin from "./pages/Admin.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
+import PortfolioSingle from "./pages/portfolio/PortfolioSingle.jsx";
 import PortfolioHyundai from "./pages/portfolio/portfolio-hyundai.jsx";
 import PortfolioToyotaMotors from "./pages/portfolio/portfolio-toyotamotors.jsx";
 import PortfolioCodilityHub from "./pages/portfolio/portfolio-codilityhub.jsx";
@@ -68,6 +69,7 @@ export const routes = [
   { path: "/about", component: About, changefreq: "weekly", priority: 0.8 },
   { path: "/contact", component: Contact, changefreq: "weekly", priority: 0.8 },
   { path: "/portfolio", component: Portfolio, changefreq: "weekly", priority: 0.8 },
+  { path: "/portfolio/single", component: PortfolioSingle, changefreq: "weekly", priority: 0.8 },
   { path: "/portfolio/hyundai", component: PortfolioHyundai, changefreq: "weekly", priority: 0.8 },
   { path: "/portfolio/toyota-motors", component: PortfolioToyotaMotors, changefreq: "weekly", priority: 0.8 },
   { path: "/portfolio/codility-hub", component: PortfolioCodilityHub, changefreq: "weekly", priority: 0.8 },
