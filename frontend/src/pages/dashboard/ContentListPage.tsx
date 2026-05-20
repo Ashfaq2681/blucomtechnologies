@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ComponentCard from "./common/ComponentCard";
 import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
@@ -14,6 +15,7 @@ type Props = {
 
 export default function ContentListPage({ type }: Props) {
   const config = getContentConfig(type);
+  const navigate = useNavigate();
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -83,6 +85,18 @@ export default function ContentListPage({ type }: Props) {
           desc={`A compact table for draft, scheduled, and published ${config.plural.toLowerCase()}.`}
           className="overflow-hidden"
         >
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3 px-1">
+            <p className="text-sm font-medium text-slate-500">
+              Create, preview, edit, or remove {config.plural.toLowerCase()} from one place.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate(config.dashboardCreatePath)}
+              className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              Add {config.singular}
+            </button>
+          </div>
           {loading ? <div className="px-4 py-10 text-sm font-medium text-slate-500">Loading {config.plural.toLowerCase()}...</div> : null}
           {!loading && error ? <div className="px-4 py-10 text-sm font-medium text-red-600">{error}</div> : null}
           {!loading && !error ? (

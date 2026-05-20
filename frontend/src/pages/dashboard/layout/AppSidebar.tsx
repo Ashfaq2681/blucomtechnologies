@@ -80,6 +80,14 @@ const navItems: NavItem[] = [
     path: "/Dashboard/news",
   },
   {
+    name: "Portfolio",
+    icon: <PageIcon />,
+    subItems: [
+      { name: "Portfolio Pages", path: "/Dashboard/portfolio", pro: false },
+      { name: "Publish Portfolio", path: "/Dashboard/write-portfolio", pro: false },
+    ],
+  },
+  {
     name: "SEO Analysis",
     icon: <PageIcon />,
     path: "/Dashboard/seo-analysis",

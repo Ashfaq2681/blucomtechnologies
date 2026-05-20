@@ -9,6 +9,8 @@ import { createContent, getContentByIdentifier, updateContent } from "../../api/
 import { getCategories } from "../../api/blogs";
 import { getContentConfig } from "../../utils/contentConfig";
 import { dedupeCategories, getDefaultCategoriesByType } from "../../utils/contentCategories";
+import { computeSeoQuality } from "../../utils/seoQuality";
+import SeoEditorPanel from "./components/SeoEditorPanel";
 
 const generateSlug = (value = "") =>
   value
@@ -30,7 +32,7 @@ const sharedSections = [
 ];
 
 const metaRobotsOptions = ["index,follow", "noindex,follow", "index,nofollow", "noindex,nofollow"];
-const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "FAQPage"];
+const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "CreativeWork", "FAQPage"];
 const twitterCardOptions = ["summary", "summary_large_image"];
 
 const ContentEditor = ({ type }) => {
@@ -65,7 +67,7 @@ const ContentEditor = ({ type }) => {
     canonicalUrl: "",
     metaRobots: "index,follow",
     readabilityNotes: "",
-    schemaType: "Article",
+    schemaType: type === "portfolio" ? "CreativeWork" : "Article",
     schemaJson: "",
     socialTitle: "",
     socialDescription: "",
@@ -148,7 +150,7 @@ const ContentEditor = ({ type }) => {
             canonicalUrl: data.canonicalUrl || "",
             metaRobots: data.metaRobots || "index,follow",
             readabilityNotes: data.readabilityNotes || "",
-            schemaType: data.schemaType || "Article",
+            schemaType: data.schemaType || (type === "portfolio" ? "CreativeWork" : "Article"),
             schemaJson: data.schemaJson || "",
             socialTitle: data.socialTitle || "",
             socialDescription: data.socialDescription || "",
@@ -179,6 +181,7 @@ const ContentEditor = ({ type }) => {
     () => categories.find((category) => category.name === form.category) || null,
     [categories, form.category]
   );
+  const seoQuality = useMemo(() => computeSeoQuality(form), [form]);
 
   const handleChange = (event) => {
     const { name, value, type: fieldType, checked, files } = event.target;
@@ -252,7 +255,25 @@ const ContentEditor = ({ type }) => {
           eyebrow="Editor"
           title={isEditMode ? `Update an existing ${config.singular.toLowerCase()}` : `Create a CMS-ready ${config.singular.toLowerCase()}`}
           description="Capture the publishing fields once and send the item directly to the typed content API with image upload, rich text, and category mapping."
-        />
+        />            
+
+        {isEditMode && form.slug ? (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">
+            <div>
+              <p className="text-sm font-semibold text-slate-900">Public page</p>
+              <p className="mt-1 text-sm text-slate-500">
+                {config.publicBasePath}/{form.slug}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => window.open(`${config.publicBasePath}/${form.slug}`, "_blank", "noopener,noreferrer")}
+              className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              View Single Page
+            </button>
+          </div>
+        ) : null}
 
         <ComponentCard
           title={isEditMode ? `Edit ${config.singular}` : `Add ${config.singular}`}
@@ -261,6 +282,7 @@ const ContentEditor = ({ type }) => {
           {loadingItem ? (
             <div className="px-4 py-10 text-sm font-medium text-slate-500">Loading content...</div>
           ) : (
+            <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
             <form className="grid gap-5 lg:grid-cols-2" onSubmit={handleSubmit}>
               <div className="lg:col-span-2">
                 <label className="mb-2 block text-sm font-medium text-slate-700">Title</label>
@@ -438,9 +460,26 @@ const ContentEditor = ({ type }) => {
               </div>
               <div className="lg:col-span-2 rounded-[6px] border border-slate-200 bg-slate-50 p-5">
                 <div className="mb-5">
-                  <h3 className="text-base font-semibold text-slate-900">SEO Section</h3>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-900">SEO Section</h3>
+                      <p className="mt-1 text-sm text-slate-500">
+                        Store dedicated search metadata, readability notes, schema markup, and social preview content.
+                      </p>
+                    </div>
+                    <div
+                      className={`min-w-[140px] rounded-2xl px-4 py-3 text-center ring-1 ${
+                        seoQuality.passed
+                          ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+                          : "bg-amber-50 text-amber-700 ring-amber-200"
+                      }`}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em]">SEO Score</p>
+                      <p className="mt-1 text-3xl font-semibold">{seoQuality.score}</p>
+                    </div>
+                  </div>
                   <p className="mt-1 text-sm text-slate-500">
-                    Store dedicated search metadata, readability notes, schema markup, and social preview content.
+                    Publish threshold: {seoQuality.threshold}. Drafts can be saved below the threshold.
                   </p>
                 </div>
                 <div className="grid gap-5 lg:grid-cols-2">
@@ -627,6 +666,8 @@ const ContentEditor = ({ type }) => {
                 </button>
               </div>
             </form>
+            <SeoEditorPanel form={form} seoQuality={seoQuality} />
+            </div>
           )}
         </ComponentCard>
       </div>

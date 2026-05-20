@@ -9,6 +9,7 @@ const postRoutes = require("./routes/postRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const pageSeoRoutes = require("./routes/pageSeoRoutes");
+const contentRoutes = require("./routes/contentRoutes");
 const createBlogsRouter = require("./routes/blogs");
 const createPublicBlogsRouter = require("./routes/publicBlogs");
 const ensureBlogTables = require("./utils/ensureBlogTables");
@@ -57,6 +58,7 @@ app.use("/api", postRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", careerRoutes);
 app.use("/api", pageSeoRoutes);
+app.use("/api", contentRoutes);
 app.use("/api/blogs", createBlogsRouter({ queryAsync: query }));
 app.use("/blogs", createPublicBlogsRouter({ queryAsync: query }));
 

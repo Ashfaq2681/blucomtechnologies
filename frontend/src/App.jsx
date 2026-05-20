@@ -14,6 +14,7 @@ const Ideas = lazy(() => import("./pages/Ideas.jsx"));
 const Careers = lazy(() => import("./pages/Careers.jsx"));
 const Portfolio = lazy(() => import("./pages/Portfolio.jsx"));
 const PortfolioSingle = lazy(() => import("./pages/portfolio/PortfolioSingle.jsx"));
+const DynamicPortfolio = lazy(() => import("./pages/portfolio/DynamicPortfolio.jsx"));
 const Work = lazy(() => import("./pages/Work.jsx"));
 const Blog = lazy(() => import("./pages/blog/Blog.jsx"));
 const SingleBlog = lazy(() => import("./pages/blog/SingleBlog.jsx"));
@@ -46,9 +47,11 @@ const DashboardBarChart = lazy(() => import("./pages/dashboard/charts/bar/BarCha
 const DashboardBlogs = lazy(() => import("./pages/dashboard/Blogs.tsx"));
 const DashboardIdeas = lazy(() => import("./pages/dashboard/Ideas.tsx"));
 const DashboardNews = lazy(() => import("./pages/dashboard/News.tsx"));
+const DashboardPortfolioPages = lazy(() => import("./pages/dashboard/PortfolioPages.tsx"));
 const DashboardCreateBlog = lazy(() => import("./pages/dashboard/CreateBlog.jsx"));
 const DashboardWriteIdeas = lazy(() => import("./pages/dashboard/WriteIdeas.jsx"));
 const DashboardWriteNews = lazy(() => import("./pages/dashboard/WriteNews.jsx"));
+const DashboardWritePortfolio = lazy(() => import("./pages/dashboard/WritePortfolio.jsx"));
 const DashboardLeads = lazy(() => import("./pages/dashboard/LeadsDashboard.jsx"));
 const DashboardSeoAnalysis = lazy(() => import("./pages/dashboard/SeoAnalysis.tsx"));
 const DashboardOpenJobs = lazy(() => import("./pages/dashboard/OpenJobs.tsx"));
@@ -136,6 +139,7 @@ const AppContent = () => {
               <Route path="/portfolio/codility-hub" element={<PortfolioCodilityHub />} />
               <Route path="/portfolio/fantasy-rewind" element={<PortfolioFantasyRewind />} />
               <Route path="/portfolio/hassan-bukhari" element={<PortfolioHassanBukhari />} />
+              <Route path="/portfolio/:slug" element={<DynamicPortfolio />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/Blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<SingleBlog />} />
@@ -162,6 +166,7 @@ const AppContent = () => {
                 <Route path="blog" element={<DashboardBlogs />} />
                 <Route path="ideas" element={<DashboardIdeas />} />
                 <Route path="news" element={<DashboardNews />} />
+                <Route path="portfolio" element={<DashboardPortfolioPages />} />
                 <Route path="blogs" element={<Navigate to="/Dashboard/blog" replace />} />
                 <Route path="blog-list" element={<Navigate to="/Dashboard/blog" replace />} />
                 <Route path="write-blog" element={<DashboardCreateBlog />} />
@@ -170,6 +175,8 @@ const AppContent = () => {
                 <Route path="edit-ideas/:id" element={<DashboardWriteIdeas />} />
                 <Route path="write-news" element={<DashboardWriteNews />} />
                 <Route path="edit-news/:id" element={<DashboardWriteNews />} />
+                <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
+                <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
                 <Route path="leads" element={<DashboardLeads />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />
@@ -198,6 +205,7 @@ const AppContent = () => {
                 <Route path="blog" element={<DashboardBlogs />} />
                 <Route path="ideas" element={<DashboardIdeas />} />
                 <Route path="news" element={<DashboardNews />} />
+                <Route path="portfolio" element={<DashboardPortfolioPages />} />
                 <Route path="blogs" element={<Navigate to="/Dashboard/blog" replace />} />
                 <Route path="blog-list" element={<Navigate to="/Dashboard/blog" replace />} />
                 <Route path="write-blog" element={<DashboardCreateBlog />} />
@@ -206,6 +214,8 @@ const AppContent = () => {
                 <Route path="edit-ideas/:id" element={<DashboardWriteIdeas />} />
                 <Route path="write-news" element={<DashboardWriteNews />} />
                 <Route path="edit-news/:id" element={<DashboardWriteNews />} />
+                <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
+                <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
                 <Route path="leads" element={<DashboardLeads />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />

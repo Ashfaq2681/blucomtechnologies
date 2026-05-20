@@ -82,6 +82,13 @@ export default function ContentTable({ type, items, deletingId, onDelete }: Prop
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
+                    onClick={() => window.open(`${config.publicBasePath}/${item.slug}`, "_blank", "noopener,noreferrer")}
+                    className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    View
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => navigate(config.dashboardEditPath(item.id))}
                     disabled={Boolean(item.isDummy)}
                     className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-70"
