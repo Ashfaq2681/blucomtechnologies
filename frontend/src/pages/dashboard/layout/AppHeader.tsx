@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { dashboardAssets } from "../assets";
 import { ThemeToggleButton } from "../common/ThemeToggleButton";
 import { useSidebar } from "../context/SidebarContext";
 import NotificationDropdown from "../header/NotificationDropdown";
@@ -73,8 +72,11 @@ const AppHeader: React.FC = () => {
             )}
           </button>
 
-          <Link to="/Dashboard" className="lg:hidden">
-            <img src={dashboardAssets.logo} alt="Logo" />
+          <Link
+            to="/Dashboard"
+            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-950 lg:hidden"
+          >
+            Blucom
           </Link>
 
           <div className="hidden min-w-0 flex-1 lg:block">
@@ -82,7 +84,7 @@ const AppHeader: React.FC = () => {
               Blucom Dashboard
             </p>
             <h1 className="mt-1 truncate text-2xl font-semibold tracking-tight text-slate-900">
-              Overview
+              Dashboard
             </h1>
           </div>
 

@@ -1,16 +1,8 @@
-CREATE DATABASE IF NOT EXISTS `blucdagn_contact_form`
+CREATE DATABASE IF NOT EXISTS `blucom_dashboard`
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-CREATE USER IF NOT EXISTS 'blucdagn_admin'@'localhost'
-  IDENTIFIED BY ')&]x;#^F,ND7';
-
-GRANT ALL PRIVILEGES ON `blucdagn_contact_form`.*
-  TO 'blucdagn_admin'@'localhost';
-
-FLUSH PRIVILEGES;
-
-USE `blucdagn_contact_form`;
+USE `blucom_dashboard`;
 
 CREATE TABLE IF NOT EXISTS `contacts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,

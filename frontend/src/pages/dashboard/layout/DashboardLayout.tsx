@@ -1,8 +1,14 @@
+import { useEffect, useState } from "react";
 import { SidebarProvider, useSidebar } from "../context/SidebarContext";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
+import {
+  clearDashboardSession,
+  getDashboardAdmin,
+  getDashboardToken,
+} from "../../../api/auth";
 
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -28,6 +34,60 @@ const LayoutContent: React.FC = () => {
 };
 
 const AppLayout: React.FC = () => {
+  const [authStatus, setAuthStatus] = useState<"checking" | "allowed" | "denied">(
+    () => (getDashboardToken() ? "checking" : "denied"),
+  );
+  const location = useLocation();
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function verifyAdminSession() {
+      const token = getDashboardToken();
+      if (!token) {
+        setAuthStatus("denied");
+        return;
+      }
+
+      try {
+        await getDashboardAdmin();
+        if (mounted) {
+          setAuthStatus("allowed");
+        }
+      } catch (error) {
+        clearDashboardSession();
+        if (mounted) {
+          setAuthStatus("denied");
+        }
+      }
+    }
+
+    setAuthStatus(getDashboardToken() ? "checking" : "denied");
+    void verifyAdminSession();
+
+    return () => {
+      mounted = false;
+    };
+  }, [location.pathname]);
+
+  if (authStatus === "checking") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm font-medium text-slate-600">
+        Checking admin access...
+      </div>
+    );
+  }
+
+  if (authStatus === "denied") {
+    return (
+      <Navigate
+        to="/Dashboard/signin"
+        replace
+        state={{ from: `${location.pathname}${location.search}` }}
+      />
+    );
+  }
+
   return (
     <SidebarProvider>
       <LayoutContent />

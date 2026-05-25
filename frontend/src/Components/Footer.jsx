@@ -1,5 +1,7 @@
 import footerLogo from "../assets/logofooter.svg";
+import { useState } from "react";
 import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin, FaPinterest, FaBehance, FaDribbble, FaTiktok } from "react-icons/fa";
+import { subscribeToNewsletter } from "../api/leads";
 
 const footerLinks = [
 
@@ -13,6 +15,33 @@ const footerLinks = [
 const social_icons = ["whatsapp", "facebook", "twitter", "ball", "pinterest", "linkedin", "bing", "tictok"];
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+      return;
+    }
+
+    try {
+      setError("");
+      setStatus("");
+      setIsSubmitting(true);
+      await subscribeToNewsletter({ email: normalizedEmail, source: "site_footer" });
+      setEmail("");
+      setStatus("Subscribed. Thanks for joining.");
+    } catch (submitError) {
+      console.error("[newsletter][footer]", submitError);
+      setError("Unable to subscribe right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <footer className="bg-[#1E2832] text-[#727277] text-sm sm:text-base">
@@ -58,15 +87,35 @@ const Footer = () => {
                 <p className="mt-2 text-sm text-gray-500">
                   Get the latest updates, tips, and product news delivered straight to your inbox.
                 </p>
-                <form className="mt-4 sm:flex sm:max-w-md">
+                <form onSubmit={handleSubscribe} className="mt-4 sm:flex sm:max-w-md" aria-label="Footer newsletter subscription form">
                   <label htmlFor="email-address" className="sr-only">Email address</label>
-                  <input type="email" name="email-address" id="email-address" autoComplete="email" required className="appearance-none min-w-0 w-full bg-transparent border border-gray-300  shadow-sm py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring--emerald-500 focus:border-emerald-500 focus:placeholder-gray-400" placeholder="Enter your email" />
+                  <input
+                    type="email"
+                    name="email"
+                    id="email-address"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    autoComplete="email"
+                    required
+                    className="appearance-none min-w-0 w-full bg-transparent border border-gray-300  shadow-sm py-2 px-4 text-base text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:placeholder-gray-400"
+                    placeholder="Enter your email"
+                  />
                   <div className="mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                    <button type="submit" className="w-full bg-emerald-500 border border-transparent  py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring--emerald-500">
-                      Subscribe
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-emerald-500 border border-transparent  py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                      {isSubmitting ? "Subscribing..." : "Subscribe"}
                     </button>
                   </div>
                 </form>
+                {status && (
+                  <p className="mt-3 text-sm font-medium text-emerald-400" role="status">
+                    {status}
+                  </p>
+                )}
+                {error && (
+                  <p className="mt-3 text-sm font-medium text-rose-400" role="alert">
+                    {error}
+                  </p>
+                )}
                 <p className="mt-3 text-xs text-gray-500">
                   By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
                 </p>

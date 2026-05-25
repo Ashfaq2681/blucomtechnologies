@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { dashboardAssets } from "../assets";
 
 // Assume these icons are imported from an icon library
 import {
@@ -17,7 +16,6 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -29,40 +27,13 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/Dashboard", pro: false }],
+    name: "Ecommerce",
+    path: "/Dashboard/ecommerce",
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/Dashboard/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/Dashboard/profile",
-  },
-  {
-    name: "Forms",
     icon: <ListIcon />,
-    subItems: [
-      { name: "Form Elements", path: "/Dashboard/form-elements", pro: false },
-    ],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [
-      { name: "Basic Tables", path: "/Dashboard/basic-tables", pro: false },
-    ],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/Dashboard/blank", pro: false },
-      { name: "404 Error", path: "/Dashboard/error-404", pro: false },
-    ],
+    name: "Leads",
+    path: "/Dashboard/leads",
   },
   {
     name: "Blog",
@@ -95,21 +66,50 @@ const navItems: NavItem[] = [
   {
     name: "Careers",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Open Jobs", path: "/Dashboard/career/open-jobs", pro: false },
-      { name: "Post a Job", path: "/Dashboard/career/post-job", pro: false },
-      { name: "Applicants", path: "/Dashboard/career/applicants", pro: false },
-    ],
+    path: "/Dashboard/career",
+  },
+  {
+    icon: <CalenderIcon />,
+    name: "Calendar",
+    path: "/Dashboard/calendar",
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "User Profile",
+    path: "/Dashboard/profile",
   },
 ];
 
 const othersItems: NavItem[] = [
+  {
+    icon: <ListIcon />,
+    name: "Forms",
+    subItems: [
+      { name: "Form Elements", path: "/Dashboard/form-elements", pro: false },
+      { name: "Leads Form", path: "/Dashboard/leadsform", pro: false },
+    ],
+  },
+  {
+    icon: <TableIcon />,
+    name: "Tables",
+    subItems: [
+      { name: "Basic Tables", path: "/Dashboard/basic-tables", pro: false },
+    ],
+  },
   {
     icon: <PieChartIcon />,
     name: "Charts",
     subItems: [
       { name: "Line Chart", path: "/Dashboard/line-chart", pro: false },
       { name: "Bar Chart", path: "/Dashboard/bar-chart", pro: false },
+    ],
+  },
+  {
+    icon: <PageIcon />,
+    name: "Pages",
+    subItems: [
+      { name: "Blank Page", path: "/Dashboard/blank", pro: false },
+      { name: "404 Error", path: "/Dashboard/error-404", pro: false },
     ],
   },
   {
@@ -236,7 +236,7 @@ const AppSidebar: React.FC = () => {
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
+                      ? "rotate-180 text-emerald-700"
                       : ""
                   }`}
                 />
@@ -348,21 +348,13 @@ const AppSidebar: React.FC = () => {
         <Link to="/Dashboard">
           {isExpanded || isHovered || isMobileOpen ? (
             <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <img
-                src={dashboardAssets.logo}
-                alt="Logo"
-                width={150}
-                height={40}
-              />
+              <span className="text-sm font-semibold tracking-tight text-slate-950">
+                Blucom Dashboard
+              </span>
             </div>
           ) : (
-            <div className="rounded-2xl border border-slate-200 bg-white p-3">
-              <img
-                src={dashboardAssets.logoIcon}
-                alt="Logo"
-                width={32}
-                height={32}
-              />
+            <div className="flex size-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-950">
+              B
             </div>
           )}
         </Link>
@@ -404,7 +396,6 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

@@ -4,11 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// MySQL credentials
-$servername = "localhost";
-$username = "blucdagn_admin";
-$password = ")&]x;#^F,ND7";
-$dbname = "blucdagn_contact_form";
+require_once __DIR__ . "/config.php";
 
 // Get JSON input
 $data = json_decode(file_get_contents("php://input"), true);
@@ -23,14 +19,6 @@ $message = trim($data['message'] ?? '');
 
 if (!$name || !$email || !$message) {
     echo json_encode(["error" => "All required fields must be filled"]);
-    exit;
-}
-
-// Connect to MySQL
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    echo json_encode(["error" => "Database connection failed: " . $conn->connect_error]);
     exit;
 }
 

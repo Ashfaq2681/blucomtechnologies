@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { HelmetProvider } from "react-helmet-async"; // Import HelmetProvider
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import SubscriptionBanner from "./Components/SubscriptionBanner";
 import PageSeo, { getPageSeo } from "./Components/PageSeo";
 import { ThemeProvider as DashboardThemeProvider } from "./pages/dashboard/context/ThemeContext";
 import "./pages/dashboard/dashboard-styling.css";
@@ -53,6 +54,7 @@ const DashboardWriteIdeas = lazy(() => import("./pages/dashboard/WriteIdeas.jsx"
 const DashboardWriteNews = lazy(() => import("./pages/dashboard/WriteNews.jsx"));
 const DashboardWritePortfolio = lazy(() => import("./pages/dashboard/WritePortfolio.jsx"));
 const DashboardLeads = lazy(() => import("./pages/dashboard/LeadsDashboard.jsx"));
+const DashboardLeadsForm = lazy(() => import("./pages/dashboard/LeadsForm.jsx"));
 const DashboardSeoAnalysis = lazy(() => import("./pages/dashboard/SeoAnalysis.tsx"));
 const DashboardOpenJobs = lazy(() => import("./pages/dashboard/OpenJobs.tsx"));
 const DashboardPostJob = lazy(() => import("./pages/dashboard/PostJob.tsx"));
@@ -107,6 +109,12 @@ const PageEndContactForm = () => {
 const DashboardShell = () => (
   <DashboardThemeProvider>
     <DashboardLayout />
+  </DashboardThemeProvider>
+);
+
+const DashboardAuthShell = ({ children }) => (
+  <DashboardThemeProvider>
+    {children}
   </DashboardThemeProvider>
 );
 
@@ -178,7 +186,9 @@ const AppContent = () => {
                 <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
                 <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
                 <Route path="leads" element={<DashboardLeads />} />
+                <Route path="leadsform" element={<DashboardLeadsForm />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
+                <Route path="career" element={<DashboardOpenJobs />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />
                 <Route path="career/post-job" element={<DashboardPostJob />} />
                 <Route path="career/edit-job/:id" element={<DashboardPostJob />} />
@@ -217,7 +227,9 @@ const AppContent = () => {
                 <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
                 <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
                 <Route path="leads" element={<DashboardLeads />} />
+                <Route path="leadsform" element={<DashboardLeadsForm />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
+                <Route path="career" element={<DashboardOpenJobs />} />
                 <Route path="career/open-jobs" element={<DashboardOpenJobs />} />
                 <Route path="career/post-job" element={<DashboardPostJob />} />
                 <Route path="career/edit-job/:id" element={<DashboardPostJob />} />
@@ -225,10 +237,10 @@ const AppContent = () => {
                 <Route path="error-404" element={<DashboardNotFound />} />
                 <Route path="*" element={<DashboardNotFound />} />
               </Route>
-              <Route path="/dashboard/signin" element={<DashboardSignIn />} />
-              <Route path="/dashboard/signup" element={<DashboardSignUp />} />
-              <Route path="/Dashboard/signin" element={<DashboardSignIn />} />
-              <Route path="/Dashboard/signup" element={<DashboardSignUp />} />
+              <Route path="/dashboard/signin" element={<DashboardAuthShell><DashboardSignIn /></DashboardAuthShell>} />
+              <Route path="/dashboard/signup" element={<DashboardAuthShell><DashboardSignUp /></DashboardAuthShell>} />
+              <Route path="/Dashboard/signin" element={<DashboardAuthShell><DashboardSignIn /></DashboardAuthShell>} />
+              <Route path="/Dashboard/signup" element={<DashboardAuthShell><DashboardSignUp /></DashboardAuthShell>} />
               <Route path="/admindashboard" element={<DashboardShell />}>
                 <Route index element={<DashboardHome />} />
               </Route>
@@ -267,6 +279,7 @@ const AppContent = () => {
             </Routes>
             <PageEndContactForm />
           </Suspense>
+          {!isDashboardPath && <SubscriptionBanner />}
           {!isDashboardPath && <Footer />}
     </>
   );

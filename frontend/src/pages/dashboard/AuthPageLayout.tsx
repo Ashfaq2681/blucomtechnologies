@@ -1,5 +1,5 @@
 import React from "react";
-import { dashboardAssets } from "./assets";
+import headerLogo from "../../assets/logo-min.png";
 import GridShape from "./common/GridShape";
 import { Link } from "react-router-dom";
 import ThemeTogglerTwo from "./common/ThemeTogglerTwo";
@@ -13,20 +13,22 @@ export default function AuthLayout({
     <div className="relative z-1 bg-slate-50 p-4 sm:p-0">
       <div className="relative flex min-h-screen w-full flex-col justify-center lg:flex-row sm:p-0">
         {children}
-        <div className="hidden w-full items-center bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 lg:grid lg:w-1/2">
+        <div className="hidden w-full items-center border-l border-emerald-100 bg-gradient-to-br from-white via-emerald-50 to-slate-100 lg:grid lg:w-1/2">
           <div className="relative z-1 flex items-center justify-center px-10">
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
-            <GridShape />
+           
             <div className="flex max-w-sm flex-col items-center">
-              <Link to="/Dashboard" className="block mb-4">
+              <Link to="/Dashboard" className="mb-6 block rounded-2xl border border-emerald-100 bg-white/90 px-7 py-5 shadow-sm">
                 <img
-                  width={231}
-                  height={48}
-                  src={dashboardAssets.authLogo}
-                  alt="Logo"
+                  width={260}
+                  height={83}
+                  src={headerLogo}
+                  alt="Blucom Technologies"
+                  className="h-auto w-[260px]"
                 />
               </Link>
-              <p className="text-center text-sm leading-6 text-slate-300">
+              <div className="mb-5 h-1 w-16 rounded-full bg-[#04b891]" />
+              <p className="text-center text-sm leading-6 text-slate-600">
                 A cleaner light-first dashboard experience for authentication,
                 account access, and onboarding.
               </p>

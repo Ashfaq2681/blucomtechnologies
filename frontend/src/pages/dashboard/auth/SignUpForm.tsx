@@ -22,7 +22,7 @@ export default function SignUpForm() {
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
-            <span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">
+            <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#04b891]">
               Create Account
             </span>
             <h1 className="mb-2 mt-4 text-title-sm font-semibold tracking-tight text-slate-900 sm:text-title-md">
@@ -32,7 +32,7 @@ export default function SignUpForm() {
               Enter your email and password to sign up!
             </p>
           </div>
-          <div className="rounded-[30px] border border-slate-200 bg-white p-6">
+          <div className="rounded-[30px] border border-emerald-100 bg-white p-6 shadow-sm">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
               <button className="inline-flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-slate-300 hover:bg-white">
                 <svg
@@ -167,7 +167,7 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex w-full items-center justify-center rounded-2xl bg-brand-500 px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600">
+                  <button className="flex w-full items-center justify-center rounded-2xl bg-[#04b891] px-4 py-3 text-sm font-medium text-white transition hover:bg-[#039f7e]">
                     Sign Up
                   </button>
                 </div>
@@ -179,7 +179,7 @@ export default function SignUpForm() {
                 Already have an account? {""}
                 <Link
                   to="/Dashboard/signin"
-                  className="text-brand-500 hover:text-brand-600"
+                  className="text-[#04b891] hover:text-[#039f7e]"
                 >
                   Sign In
                 </Link>

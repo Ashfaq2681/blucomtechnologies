@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../Components/Button"
+import { createContactLead } from "../api/leads";
 
 const ContactFormPage = () => {
   // State for form inputs
@@ -9,16 +10,30 @@ const ContactFormPage = () => {
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // You can integrate API call here
-    alert("Form submitted successfully!");
+
+    try {
+      setStatus("");
+      setError("");
+      setIsSubmitting(true);
+      await createContactLead({ ...formData, source: "contact_page" });
+      setFormData({ name: "", email: "", message: "" });
+      setStatus("Your message has been received.");
+    } catch (submitError) {
+      console.error("[contact][submit]", submitError);
+      setError("Unable to submit your message right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -100,10 +115,12 @@ const ContactFormPage = () => {
 
             {/* Submit Button */}
             <div className="w-full flex justify-start">
-              <Button type="submit" variant="emerald">
-                Contact Us
+              <Button type="submit" variant="emerald" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Contact Us"}
               </Button>
             </div>
+            {status && <p className="text-sm font-semibold text-emerald-600">{status}</p>}
+            {error && <p className="text-sm font-semibold text-rose-600">{error}</p>}
           </div>
         </div>
       </form>

@@ -91,7 +91,11 @@ function GoalsList({ services, goals }) {
   );
 }
 
-export default function LeadsDashboard() {
+export default function LeadsDashboard({
+  breadcrumbTitle = "Leads",
+  introTitle = "Multistep form and email leads in one place",
+  metaTitle = "Leads Dashboard | BluCom Dashboard",
+} = {}) {
   const [data, setData] = useState({
     leadRequests: [],
     contactLeads: [],
@@ -137,15 +141,15 @@ export default function LeadsDashboard() {
   return (
     <>
       <PageMeta
-        title="Leads Dashboard | BluCom Dashboard"
+        title={metaTitle}
         description="Lead submissions, contact emails, and newsletter subscribers."
       />
-      <PageBreadcrumb pageTitle="Leads" />
+      <PageBreadcrumb pageTitle={breadcrumbTitle} />
 
       <div className="space-y-6">
         <PageIntro
           eyebrow="Lead Management"
-          title="Multistep form and email leads in one place"
+          title={introTitle}
           description="Review submissions from the get started multistep form, contact form emails, and newsletter signups from the dashboard."
           actions={
             <button

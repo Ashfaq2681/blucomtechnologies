@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, Sparkles, Rocket, Zap, Target } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import { createLeadRequest } from '../api/leads';
 
 const InteractiveForm = () => {
   const [searchParams] = useSearchParams();
@@ -71,6 +72,8 @@ const InteractiveForm = () => {
     email: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const goalsByService = {
     Identity: ["Build a strong brand","Create a clear visual identity","Craft messaging that connects","Define brand personality","Stand out in the market"],
@@ -107,16 +110,19 @@ const InteractiveForm = () => {
     return goals.length ? goals.join(', ') : 'No goals selected';
   };
 
-  const handleSubmit = () => {
-    const savedRequests = JSON.parse(localStorage.getItem('projectRequests') || '[]');
-    const newRequest = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString(),
-    };
-
-    localStorage.setItem('projectRequests', JSON.stringify([newRequest, ...savedRequests]));
-    setSubmitted(true);
+  const handleSubmit = async () => {
+    try {
+      setSubmitError('');
+      setSubmitted(false);
+      setIsSubmitting(true);
+      await createLeadRequest(formData);
+      setSubmitted(true);
+    } catch (error) {
+      console.error('[multistep-form][submit]', error);
+      setSubmitError('Unable to save your request right now. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -364,6 +370,11 @@ const InteractiveForm = () => {
                       Request saved. You can view it in the dashboard.
                     </p>
                   )}
+                  {submitError && (
+                    <p className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm font-semibold text-rose-700">
+                      {submitError}
+                    </p>
+                  )}
                 </motion.div>
               )}
 
@@ -382,8 +393,8 @@ const InteractiveForm = () => {
                 </motion.button>
               )}
               {step === steps.length && (
-                <motion.button onClick={handleSubmit} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-8 py-4 bg-emerald-950 font-black  -full shadow-md hover:shadow-lg transition-all uppercase text-white ">
-                  Launch Request
+                <motion.button onClick={handleSubmit} disabled={isSubmitting} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-8 py-4 bg-emerald-950 font-black  -full shadow-md hover:shadow-lg transition-all uppercase text-white disabled:cursor-not-allowed disabled:opacity-70">
+                  {isSubmitting ? 'Launching...' : 'Launch Request'}
                 </motion.button>
               )}
             </div>

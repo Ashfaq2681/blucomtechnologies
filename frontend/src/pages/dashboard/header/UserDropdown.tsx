@@ -3,6 +3,7 @@ import { dashboardAssets } from "../assets";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link, useNavigate } from "react-router-dom";
+import { clearDashboardSession } from "../../../api/auth";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,9 +19,7 @@ export default function UserDropdown() {
 
   function handleSignOut() {
     closeDropdown();
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("token");
-    localStorage.removeItem("authToken");
+    clearDashboardSession();
     sessionStorage.clear();
     navigate("/Dashboard/signin", { replace: true });
   }
@@ -35,7 +34,7 @@ export default function UserDropdown() {
           <img src={dashboardAssets.ownerImage} alt="User" />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
+        <span className="block mr-1 font-medium text-theme-sm">Admin</span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -63,10 +62,10 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+            Full Admin
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+            blucommw@gmail.com
           </span>
         </div>
 
