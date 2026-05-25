@@ -1,18 +1,14 @@
 import footerLogo from "../assets/logofooter.svg";
 import { useState } from "react";
-import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin, FaPinterest, FaBehance, FaDribbble, FaTiktok } from "react-icons/fa";
+import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { subscribeToNewsletter } from "../api/leads";
 
-const footerLinks = [
-
-  { title: "Expertise", Link: "/expertise" },
-  { title: "Insights", Link: "/insights" },
-  { title: "News", Link: "/news" },
-  { title: "Careers", Link: "/careers" },
-  { title: "Investors", Link: "/investors" },
+const socialLinks = [
+  { label: "Whatsapp", href: "https://wa.me/923035907230", Icon: FaWhatsapp },
+  { label: "Facebook", href: "https://www.facebook.com/", Icon: FaFacebook },
+  { label: "Twitter", href: "https://twitter.com/", Icon: FaTwitter },
+  { label: "LinkedIn", href: "https://www.linkedin.com/", Icon: FaLinkedin },
 ];
-
-const social_icons = ["whatsapp", "facebook", "twitter", "ball", "pinterest", "linkedin", "bing", "tictok"];
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -60,26 +56,20 @@ const Footer = () => {
                 </p>
 
 
-                <div className="mt-6 flex space-x-6">
-                  < a href="#" className="text-gray-400 hover:text-gray-500" aria-label="Whatsapp">
-                    <  span className="sr-only">Whatsapp</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                  <a href="#" className="text-gray-400 hover:text-gray-500" aria-label="Twitter">
-                    <span className="sr-only">Twitter</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                  <a href="#" className="text-gray-400 hover:text-gray-500" aria-label="LinkedIn">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {socialLinks.map(({ label, href, Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition hover:border-emerald-400/50 hover:bg-emerald-500 hover:text-white"
+                      aria-label={label}
+                    >
+                      <span className="sr-only">{label}</span>
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </a>
+                  ))}
                 </div>
               </div>
               <div className="lg:col-span-5 lg:col-start-8">
@@ -128,32 +118,32 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="./About" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200 ">
+                    <a href="/about" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       About
                     </a>
                   </li>
                   <li>
-                    <a href="./Work" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/work" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Expertise
                     </a>
                   </li>
                   <li>
-                    <a href="./ideas" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/ideas" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Insights
                     </a>
                   </li>
                   <li>
-                    <a href="./news " className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/news" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       News
                     </a>
                   </li>
                   <li>
-                    <a href="./careers " className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/careers" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Careers
                     </a>
                   </li>
                   <li>
-                    <a href="./investors" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/investors" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Investors
                     </a>
                   </li>
@@ -165,27 +155,27 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/for-startups" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       For Startups
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/for-small-business" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       For Small Business
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/for-agencies" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       For Agencies
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/for-ecommerce" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       For E-commerce
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/enterprise" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Enterprise
                     </a>
                   </li>
@@ -197,27 +187,27 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/documentation" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Documentation
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/guides" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Guides
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/api-reference" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       API Reference
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/blog" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Blog
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/community" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Community
                     </a>
                   </li>
@@ -229,27 +219,27 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/about" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       About Us
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/careers" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Careers
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/press" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Press
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/partners" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Partners
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/contact" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Contact
                     </a>
                   </li>
@@ -261,27 +251,27 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/privacy-policy" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Privacy Policy
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/terms-of-service" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Terms of Service
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/cookie-policy" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Cookie Policy
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/gdpr-compliance" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       GDPR Compliance
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                    <a href="/security" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Security
                     </a>
                   </li>

@@ -20,6 +20,22 @@ const Work = lazy(() => import("./pages/Work.jsx"));
 const Blog = lazy(() => import("./pages/blog/Blog.jsx"));
 const SingleBlog = lazy(() => import("./pages/blog/SingleBlog.jsx"));
 const InvestorsOverview = lazy(() => import("./pages/InvestorsOverview.jsx"));
+const ForStartups = lazy(() => import("./pages/solutions/ForStartups.jsx"));
+const ForSmallBusiness = lazy(() => import("./pages/solutions/ForSmallBusiness.jsx"));
+const ForAgencies = lazy(() => import("./pages/solutions/ForAgencies.jsx"));
+const ForEcommerce = lazy(() => import("./pages/solutions/ForEcommerce.jsx"));
+const Enterprise = lazy(() => import("./pages/solutions/Enterprise.jsx"));
+const Documentation = lazy(() => import("./pages/footer/Documentation.jsx"));
+const Guides = lazy(() => import("./pages/footer/Guides.jsx"));
+const ApiReference = lazy(() => import("./pages/footer/ApiReference.jsx"));
+const Community = lazy(() => import("./pages/footer/Community.jsx"));
+const Press = lazy(() => import("./pages/footer/Press.jsx"));
+const Partners = lazy(() => import("./pages/footer/Partners.jsx"));
+const PrivacyPolicy = lazy(() => import("./pages/footer/PrivacyPolicy.jsx"));
+const TermsOfService = lazy(() => import("./pages/footer/TermsOfService.jsx"));
+const CookiePolicy = lazy(() => import("./pages/footer/CookiePolicy.jsx"));
+const GdprCompliance = lazy(() => import("./pages/footer/GdprCompliance.jsx"));
+const Security = lazy(() => import("./pages/footer/Security.jsx"));
 const PortfolioHyundai = lazy(() => import("./pages/portfolio/portfolio-hyundai.jsx"));
 const PortfolioToyotaMotors = lazy(() => import("./pages/portfolio/portfolio-toyotamotors.jsx"));
 const PortfolioCodilityHub = lazy(() => import("./pages/portfolio/portfolio-codilityhub.jsx"));
@@ -137,6 +153,22 @@ const AppContent = () => {
               <Route path="/about" element={<About />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/investors" element={<InvestorsOverview />} />
+              <Route path="/for-startups" element={<ForStartups />} />
+              <Route path="/for-small-business" element={<ForSmallBusiness />} />
+              <Route path="/for-agencies" element={<ForAgencies />} />
+              <Route path="/for-ecommerce" element={<ForEcommerce />} />
+              <Route path="/enterprise" element={<Enterprise />} />
+              <Route path="/documentation" element={<Documentation />} />
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/api-reference" element={<ApiReference />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/press" element={<Press />} />
+              <Route path="/partners" element={<Partners />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/gdpr-compliance" element={<GdprCompliance />} />
+              <Route path="/security" element={<Security />} />
               <Route path="/news" element={<News />} />
               <Route path="/ideas" element={<Ideas />} />
               <Route path="/portfolio" element={<Portfolio />} />
