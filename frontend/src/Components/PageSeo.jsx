@@ -114,6 +114,96 @@ const pageDefaults = {
     description:
       "Review Blucom Technologies investor information, business direction, and growth overview.",
   },
+  "/for-startups": {
+    title: "For Startups | Blucom Technologies",
+    description:
+      "Explore Blucom Technologies services for startups that need focused brand strategy, launch planning, digital execution, and growth foundations.",
+  },
+  "/for-small-business": {
+    title: "For Small Business | Blucom Technologies",
+    description:
+      "Explore practical branding, marketing, web, and digital growth services from Blucom Technologies for small business teams.",
+  },
+  "/for-agencies": {
+    title: "For Agencies | Blucom Technologies",
+    description:
+      "Partner with Blucom Technologies for agency support across strategy, design, development, content, campaigns, and digital delivery.",
+  },
+  "/for-ecommerce": {
+    title: "For Ecommerce | Blucom Technologies",
+    description:
+      "Build stronger ecommerce growth systems with Blucom Technologies through positioning, content, performance marketing, and digital experience design.",
+  },
+  "/enterprise": {
+    title: "Enterprise Solutions | Blucom Technologies",
+    description:
+      "Explore enterprise-ready brand, digital marketing, content, analytics, and web solutions from Blucom Technologies.",
+  },
+  "/documentation": {
+    title: "Documentation | Blucom Technologies",
+    description:
+      "Read Blucom Technologies documentation for platform information, workflows, service references, and implementation guidance.",
+  },
+  "/guides": {
+    title: "Guides | Blucom Technologies",
+    description:
+      "Explore Blucom Technologies guides covering brand strategy, marketing execution, digital systems, content planning, and growth workflows.",
+  },
+  "/api-reference": {
+    title: "API Reference | Blucom Technologies",
+    description:
+      "Review Blucom Technologies API reference information for integrations, technical workflows, and implementation details.",
+  },
+  "/community": {
+    title: "Community | Blucom Technologies",
+    description:
+      "Learn about Blucom Technologies community initiatives, collaboration opportunities, mentorship, and digital ecosystem support.",
+  },
+  "/press": {
+    title: "Press | Blucom Technologies",
+    description:
+      "Find Blucom Technologies press information, company background, announcements, and media resources.",
+  },
+  "/partners": {
+    title: "Partners | Blucom Technologies",
+    description:
+      "Explore partnership opportunities with Blucom Technologies across brand strategy, digital marketing, technology, and creative delivery.",
+  },
+  "/privacy-policy": {
+    title: "Privacy Policy | Blucom Technologies",
+    description:
+      "Read the Blucom Technologies privacy policy covering data handling, website usage, communications, and user privacy rights.",
+  },
+  "/terms-of-service": {
+    title: "Terms of Service | Blucom Technologies",
+    description:
+      "Review Blucom Technologies terms of service for website usage, service conditions, responsibilities, and legal information.",
+  },
+  "/cookie-policy": {
+    title: "Cookie Policy | Blucom Technologies",
+    description:
+      "Read the Blucom Technologies cookie policy covering website cookies, tracking technologies, preferences, and analytics usage.",
+  },
+  "/gdpr-compliance": {
+    title: "GDPR Compliance | Blucom Technologies",
+    description:
+      "Review Blucom Technologies GDPR compliance information, privacy rights, data processing practices, and user request options.",
+  },
+  "/security": {
+    title: "Security | Blucom Technologies",
+    description:
+      "Learn about Blucom Technologies security practices for website operations, data protection, access control, and platform reliability.",
+  },
+  "/blogsingle": {
+    title: "Blog Detail | Blucom Technologies",
+    description:
+      "Read Blucom Technologies blog detail content with practical thinking for brand strategy, marketing execution, and digital growth.",
+  },
+  "/overviewsingle": {
+    title: "Investor Overview Detail | Blucom Technologies",
+    description:
+      "Review Blucom Technologies investor overview details, company context, and business information.",
+  },
   "/the-shift-towards-commerce-driven-marketing": {
     title: "The Shift Towards Commerce Driven Marketing | Blucom Technologies",
     description:
@@ -398,9 +488,9 @@ const PageSeo = ({
   const fallbackSeo = getPageSeo(canonicalPath);
   const canonicalUrl =
     storedSeo?.canonicalUrl || `${SITE_URL}${canonicalPath === "/" ? "" : canonicalPath}`;
-  const metaTitle = title || storedSeo?.seoTitle || fallbackSeo.title;
+  const metaTitle = storedSeo?.seoTitle || title || fallbackSeo.title;
   const metaDescription =
-    description || storedSeo?.seoDescription || fallbackSeo.description;
+    storedSeo?.seoDescription || description || fallbackSeo.description;
   const metaKeywords = keywords || storedSeo?.seoKeywords;
   const socialTitle = storedSeo?.socialTitle || metaTitle;
   const socialDescription = storedSeo?.socialDescription || metaDescription;

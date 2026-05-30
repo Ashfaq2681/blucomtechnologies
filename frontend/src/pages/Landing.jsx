@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import landingImg from "/landing/heroimage.svg";
 import Button from "../Components/Button";
 import { getPublishedPosts } from "../api/blogs";
+import { getContents } from "../api/content";
 import { getPostDescription, getPostTitle } from "../utils/postDescriptions";
 
 const postMatchesType = (post, contentType) => {
@@ -18,6 +19,40 @@ const postMatchesType = (post, contentType) => {
 };
 
 const PREVIEW_POST_LIMIT = 2;
+const PORTFOLIO_PREVIEW_LIMIT = 3;
+
+const fallbackPortfolioItems = [
+  {
+    title: "TUSCON 2020",
+    slug: "hyundai",
+    name: "Hyundai Pakistan",
+    category: "Automotive",
+    image: "./landing/tucson.png",
+    tags: ["#Activation", "#Discovery", "#Design"],
+    excerpt:
+      "Hyundai Pakistan launched a newly launched Hyundai Tuscon is a new revolution in the mini SUV Category. Our part was to enable the user to discover the new product, activate the product, and create a digital strategy with design collaterals.",
+  },
+  {
+    title: "Digital Experience",
+    slug: "toyota-motors",
+    name: "Toyota Motors Islamabad",
+    category: "Automotive",
+    image: "./landing/toyota.png",
+    tags: ["#Automation", "#Interaction", "#Digital Experience"],
+    excerpt:
+      "Toyota Motors Islamabad partnered with us to enhance their digital presence and create a seamless brand experience for modern car buyers. Our role was to design engaging digital interactions that allow customers to explore Toyota vehicles, discover features, and connect with the brand effortlessly.",
+  },
+  {
+    title: "Interaction Design",
+    slug: "codility-hub",
+    name: "Codility Hub Technologies",
+    category: "Technology",
+    image: "./landing/interactive_design.png",
+    tags: ["#Identity", "#Interaction", "#Interface"],
+    excerpt:
+      "Codility Hub came to us with just a name but an amazing proposition. A well-defined brand in the tech sector focused on core development with fast turnaround. We were asked to bring this idea to life through identity and interaction.",
+  },
+];
 
 const Discovery = [
   <div>
@@ -85,6 +120,7 @@ const Interaction = [
 
   const [dropDownOpen, setDropDownOpen] = useState(true)
   const [landingPosts, setLandingPosts] = useState([]);
+  const [portfolioPreviewItems, setPortfolioPreviewItems] = useState(fallbackPortfolioItems);
 
   const toggleDropDown = () => {
     setDropDownOpen(!dropDownOpen)
@@ -94,21 +130,34 @@ const Interaction = [
   useEffect(() => {
     let mounted = true;
 
-    const loadPosts = async () => {
+    const loadHomeContent = async () => {
       try {
-        const posts = await getPublishedPosts();
+        const [postsResult, portfolioResult] = await Promise.allSettled([
+          getPublishedPosts(),
+          getContents({ type: "portfolio" }),
+        ]);
+        const posts = postsResult.status === "fulfilled" ? postsResult.value : [];
+        const portfolioItems = portfolioResult.status === "fulfilled" ? portfolioResult.value : [];
 
         if (mounted) {
           setLandingPosts(posts);
+          const publishedPortfolioItems = portfolioItems
+            .filter((item) => item.slug && item.title)
+            .slice(0, PORTFOLIO_PREVIEW_LIMIT);
+
+          setPortfolioPreviewItems(
+            publishedPortfolioItems.length > 0 ? publishedPortfolioItems : fallbackPortfolioItems
+          );
         }
       } catch (_error) {
         if (mounted) {
           setLandingPosts([]);
+          setPortfolioPreviewItems(fallbackPortfolioItems);
         }
       }
     };
 
-    loadPosts();
+    loadHomeContent();
 
     return () => {
       mounted = false;
@@ -269,98 +318,67 @@ const Interaction = [
         {/* Call-to-Action Button */}
 
         <section className="Portfolio w-full bg-white">
-          {/* Hyundai Pakistan */}
-          <div className="flex flex-col md:flex-row w-full items-center">
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/tucson.png"
-                alt="tucson"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
-              <span className="text-2xl text-gray-500">Hyundai Pakistan</span>
-              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                TUSCON 2020
-              </span>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-                <span>#Activation</span>
-                <span>#Discovery</span>
-                <span>#Design</span>
-              </div>
-              <span className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Hyundai Pakistan launched a newly launched Hyundai Tuscon is a new
-                revolution in the mini SUV Category. Our part was to enable the user to
-                discover the new product, activate the product, and create a digital
-                strategy with design collaterals.
-              </span>
-            </div>
-          </div>
+          {portfolioPreviewItems.slice(0, PORTFOLIO_PREVIEW_LIMIT).map((item, index) => {
+            const isReversed = index % 2 === 1;
+            const tags = (item.tags?.length ? item.tags : item.services || [item.category || "Portfolio"])
+              .filter(Boolean)
+              .slice(0, 3);
+            const image = item.image || item.socialImage || fallbackPortfolioItems[index]?.image || "./landing/tucson.png";
+            const eyebrow = item.name || item.client || item.category || "Portfolio";
+            const description = item.excerpt || "Explore this Blucom Technologies portfolio case study.";
 
-          {/* Codility Hub */}
-          <div className="flex flex-col-reverse md:flex-row w-full items-center">
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-end p-6 md:p-12">
-              <span className="text-2xl text-gray-500">Toyota Motors Islamabad</span>
-              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                Digital Experience
-              </span>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
-                <span>#Automation</span>
-                <span>#Interaction</span>
-                <span>#Digital Experience</span>
+            const textPanel = (
+              <div className={`w-full md:w-1/2 flex flex-col justify-center items-center ${isReversed ? "md:items-end" : "md:items-start"} p-6 md:p-12`}>
+                <span className="text-2xl text-gray-500">{eyebrow}</span>
+                <Link
+                  to={`/portfolio/${item.slug}`}
+                  className={`text-5xl sm:text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300 transition hover:text-emerald-600 ${isReversed ? "md:text-right" : "md:text-left"}`}
+                >
+                  {item.title}
+                </Link>
+                <div className={`text-2xl text-gray-500 flex flex-wrap gap-2 mt-5 ${isReversed ? "md:justify-end" : ""}`}>
+                  {tags.map((tag) => (
+                    <span key={tag}>{String(tag).startsWith("#") ? tag : `#${tag}`}</span>
+                  ))}
+                </div>
+                <span className={`text-lg text-gray-500 mt-10 leading-normal text-left ${isReversed ? "md:text-right" : "md:text-left"}`}>
+                  {description}
+                </span>
+                <Link to={`/portfolio/${item.slug}`} className="mt-8">
+                  <Button variant="gray">View Case Study</Button>
+                </Link>
               </div>
-              <span className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Toyota Motors Islamabad partnered with us to enhance their digital presence and
-                create a seamless brand experience for modern car buyers. Our role was to design
-                engaging digital interactions that allow customers to explore Toyota vehicles,
-                discover features, and connect with the brand effortlessly. Through thoughtful
-                design and strategic user experience, we helped translate Toyota’s legacy of
-                reliability and innovation into a modern digital journey.
-              </span>
-            </div>
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/toyota.png"
-                alt="toyota"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          </div>
+            );
 
-          {/* Interactive Design */}
-          <div className="flex flex-col md:flex-row w-full items-center">
-            {/* Image Section */}
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src="./landing/interactive_design.png"
-                alt="interactive_design"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-            {/* Text Section */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start p-6 md:p-12">
-              <span className="text-2xl text-gray-500">Codility Hub Technologies</span>
-              <span className="text-6xl text-emerald-500 underline decoration-gray-500 decoration-emerald-300">
-                Interaction Design
-              </span>
-              <div className="text-2xl text-gray-500 flex flex-wrap gap-2 mt-5">
+            const imagePanel = (
+              <Link to={`/portfolio/${item.slug}`} className="group w-full md:w-1/2 flex justify-center overflow-hidden">
+                <img
+                  src={image}
+                  alt={item.title}
+                  className="w-full h-auto object-cover transition duration-500 group-hover:scale-105"
+                />
+              </Link>
+            );
 
-                <span>#Identity</span>
-                <span>#Interaction</span>
-                <span>#Interface</span>
+            return (
+              <div
+                key={item.slug || item.title}
+                className={`${isReversed ? "flex flex-col-reverse md:flex-row" : "flex flex-col md:flex-row"} w-full items-center`}
+              >
+                {isReversed ? (
+                  <>
+                    {textPanel}
+                    {imagePanel}
+                  </>
+                ) : (
+                  <>
+                    {imagePanel}
+                    {textPanel}
+                  </>
+                )}
               </div>
-              <span className="text-lg text-gray-500 mt-10 leading-normal text-left md:text-left">
-                Codility Hub came to us with just a name but an amazing proposition. A
-                well-defined brand in the tech sector focused on core development with
-                fast turnaround. We were asked to bring this idea to life through identity
-                and interaction.
-              </span>
-            </div>
-          </div>
+            );
+          })}
         </section>
 
         <div className="flex flex-col items-center justify-center py-20 px-5 sm:px-10 md:px-0">

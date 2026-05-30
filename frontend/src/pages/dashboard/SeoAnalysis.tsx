@@ -4,6 +4,7 @@ import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
 import PageMeta from "./common/PageMeta";
 import { getDashboardPosts, updatePost } from "../../api/blogs";
+import { getContents, updateContent } from "../../api/content";
 import { getPageSeoEntries, updatePageSeoEntry } from "../../api/pageSeo";
 import { getPageSeo } from "../../Components/PageSeo";
 
@@ -32,7 +33,7 @@ type ContentFilter = "all" | "main" | "services" | "portfolio" | "page" | "blog"
 type EditableSeoItem = {
   id: string;
   numericId: number;
-  source: "post" | "page";
+  source: "post" | "page" | "content";
   type: string;
   title: string;
   slug: string;
@@ -83,6 +84,25 @@ const manualPublicPaths = [
   "/work",
   "/admindashboard",
   "/admin",
+  "/investors",
+  "/for-startups",
+  "/for-small-business",
+  "/for-agencies",
+  "/for-ecommerce",
+  "/enterprise",
+  "/documentation",
+  "/guides",
+  "/api-reference",
+  "/community",
+  "/press",
+  "/partners",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/cookie-policy",
+  "/gdpr-compliance",
+  "/security",
+  "/blogsingle",
+  "/overviewsingle",
   "/the-shift-towards-commerce-driven-marketing",
   "/services/analysis-measurement",
   "/services/analytics-implementation",
@@ -120,7 +140,10 @@ const metaRobotsOptions = ["index,follow", "noindex,follow", "index,nofollow", "
 const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "FAQPage"];
 const twitterCardOptions = ["summary", "summary_large_image"];
 
-const allSeoPaths = Array.from(new Set(manualPublicPaths));
+const allSeoPaths = Array.from(new Set(manualPublicPaths))
+  .map((path) => (path === "/" ? "/" : path.toLowerCase().replace(/\/+$/, "")))
+  .filter(Boolean)
+  .sort((first, second) => first.localeCompare(second));
 
 const getContentType = (item: any): "blog" | "ideas" | "news" => {
   const values = [item.category, item.subcategory, item.section, item.tags]
@@ -196,7 +219,7 @@ const buildPageSeoItems = (storedEntries: any[] = []): EditableSeoItem[] => {
       numericId: 0,
       source: "page",
       type: getPageContentType(path),
-      title: routeSeo.title || formatRouteLabel(path),
+      title: storedSeo.seoTitle || routeSeo.title || formatRouteLabel(path),
       slug,
       path,
       category: getPageCategory(path),
@@ -205,7 +228,7 @@ const buildPageSeoItems = (storedEntries: any[] = []): EditableSeoItem[] => {
         : normalizedPath.startsWith("/portfolio/")
         ? "Portfolio Single Page"
         : "Main Page",
-      content: routeSeo.description || "",
+      content: storedSeo.seoDescription || routeSeo.description || "",
       tags: [getPageCategory(path), getPageContentType(path), "page"],
       status: getPageCategory(path) === "System" ? "noindex" : "published",
       seoTitle: storedSeo.seoTitle || routeSeo.title,
@@ -382,9 +405,10 @@ const SeoAnalysis = () => {
     const load = async () => {
       try {
         setLoading(true);
-        const [posts, pageSeoEntries] = await Promise.all([
+        const [posts, pageSeoEntries, portfolioItems] = await Promise.all([
           getDashboardPosts(),
           getPageSeoEntries(),
+          getContents({ type: "portfolio", includeDrafts: true }),
         ]);
 
         if (!mounted) {
@@ -396,8 +420,14 @@ const SeoAnalysis = () => {
           source: "post",
           type: getContentType(item),
         })) as EditableSeoItem[];
+        const portfolioSeoItems = portfolioItems.map((item) => ({
+          ...item,
+          source: "content",
+          type: "portfolio",
+          path: item.slug ? `/portfolio/${item.slug}` : undefined,
+        })) as EditableSeoItem[];
         const pageItems = buildPageSeoItems(pageSeoEntries);
-        const editable = [...pageItems, ...postItems];
+        const editable = [...pageItems, ...portfolioSeoItems, ...postItems];
 
         setContentChecks(editable.map((item) => scoreContent(item, item.type)));
         setEditableItems(editable);
@@ -441,7 +471,18 @@ const SeoAnalysis = () => {
     () => editableItems.find((item) => `${item.type}-${item.id}` === selectedItemId) || null,
     [editableItems, selectedItemId]
   );
-  const selectedItemIsEditable = selectedItem?.source === "post";
+  const selectedItemEditLabel =
+    selectedItem?.source === "page"
+      ? "Static page metadata can be reviewed and adjusted in this dashboard view."
+      : selectedItem?.source === "content"
+      ? "Portfolio SEO fields can be edited through the same content metadata workflow."
+      : "SEO fields can be edited through the same blog, ideas, and news metadata workflow.";
+  const selectedItemSaveLabel =
+    selectedItem?.source === "page"
+      ? "Update Static Metadata"
+      : selectedItem?.source === "content"
+      ? "Save Portfolio SEO Fields"
+      : "Save SEO Fields";
 
   const handleSelectChange = (value: string) => {
     setSelectedItemId(value);
@@ -484,7 +525,7 @@ const SeoAnalysis = () => {
       setSaveMessage("");
       setErrorMessage("");
 
-      if (!selectedItemIsEditable) {
+      if (selectedItem.source === "page") {
         const updatedSeo = await updatePageSeoEntry({
           path: selectedItem.path,
           seoTitle: editorForm.seoTitle,
@@ -537,6 +578,33 @@ const SeoAnalysis = () => {
         socialImage: editorForm.socialImage,
         twitterCard: editorForm.twitterCard,
       };
+
+      if (selectedItem.source === "content") {
+        const updated = await updateContent(selectedItem.numericId, {
+          ...payload,
+          type: "portfolio",
+        });
+
+        setEditableItems((current) =>
+          current.map((item) =>
+            item.numericId === selectedItem.numericId && item.source === "content"
+              ? { ...item, ...updated, source: "content", type: "portfolio", path: `/portfolio/${updated.slug}` }
+              : item
+          )
+        );
+        setContentChecks((current) =>
+          current.map((item) =>
+            item.id === `${selectedItem.type}-${selectedItem.id}`
+              ? scoreContent(
+                  { ...selectedItem, ...updated, source: "content", type: "portfolio", path: `/portfolio/${updated.slug}` },
+                  "portfolio"
+                )
+              : item
+          )
+        );
+        setSaveMessage("Portfolio SEO fields updated successfully.");
+        return;
+      }
 
       const updated = await updatePost(selectedItem.numericId, payload);
 
@@ -835,7 +903,7 @@ const SeoAnalysis = () => {
                   Editing <span className="font-semibold text-slate-900">{selectedItem.title}</span> as a{" "}
                   <span className="capitalize">{selectedItem.type}</span> item in{" "}
                   <span className="font-semibold text-slate-900">{selectedItem.category || "Uncategorized"}</span>.
-                  {selectedItemIsEditable ? "" : " Static page metadata can be reviewed and adjusted in this dashboard view."}
+                  {" "}{selectedItemEditLabel}
                 </div>
               ) : null}
 
@@ -858,7 +926,7 @@ const SeoAnalysis = () => {
                   disabled={saving || !selectedItem}
                   className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {saving ? "Saving..." : selectedItemIsEditable ? "Save SEO Fields" : "Update Static Metadata"}
+                  {saving ? "Saving..." : selectedItemSaveLabel}
                 </button>
               </div>
             </div>

@@ -8,6 +8,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    @apply bg-gray-100;
+}
+
 .landingInput{
     @apply outline-none border-b-2 border-gray-900 text-gray-900 text-[24px]
 }

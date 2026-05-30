@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async"; // Import HelmetProvider
 import Header from "./Components/Header";
@@ -122,6 +122,16 @@ const PageEndContactForm = () => {
   return <ContactFormEnd />;
 };
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+
+  return null;
+};
+
 const DashboardShell = () => (
   <DashboardThemeProvider>
     <DashboardLayout />
@@ -141,6 +151,7 @@ const AppContent = () => {
 
   return (
     <>
+          <ScrollToTop />
           <PageSeo
             path={pathname}
             title={getPageSeo(pathname).title}

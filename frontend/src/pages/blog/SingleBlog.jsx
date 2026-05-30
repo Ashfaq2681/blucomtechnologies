@@ -1,12 +1,65 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { ArrowUpRight, CalendarDays, Clock3, Sparkles, Tag } from "lucide-react";
 import { FALLBACK_BLOG_POSTS, getPostBySlug } from "../../api/blogs";
 import { getPostDescription, getPostTitle } from "../../utils/postDescriptions";
 import { estimateReadTime, formatDate } from "./utils";
 
 const stripHtml = (value = "") =>
   value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+const slugifyText = (value = "") =>
+  stripHtml(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 64);
+
+const getArticleSections = (html = "") => {
+  if (!hasValue(html)) {
+    return [];
+  }
+
+  const headingPattern = /<h([2-3])[^>]*>([\s\S]*?)<\/h\1>/gi;
+  const matches = [...html.matchAll(headingPattern)];
+
+  if (matches.length === 0) {
+    return [
+      {
+        id: "article",
+        heading: "Article",
+        body: html,
+      },
+    ];
+  }
+
+  const sections = [];
+  const intro = html.slice(0, matches[0].index).trim();
+
+  if (stripHtml(intro)) {
+    sections.push({
+      id: "overview",
+      heading: "Overview",
+      body: intro,
+    });
+  }
+
+  matches.forEach((match, index) => {
+    const heading = stripHtml(match[2]) || `Section ${index + 1}`;
+    const start = match.index + match[0].length;
+    const end = matches[index + 1]?.index ?? html.length;
+    const body = html.slice(start, end).trim();
+
+    sections.push({
+      id: `${slugifyText(heading) || "section"}-${index + 1}`,
+      heading,
+      body,
+    });
+  });
+
+  return sections.filter((section) => stripHtml(section.body) || section.heading);
+};
 
 const hasValue = (value) => typeof value === "string" && value.trim().length > 0;
 const useValue = (value, fallback = "") => (hasValue(value) ? value.trim() : fallback);
@@ -96,6 +149,7 @@ const SingleBlog = () => {
   const postDescription = post ? getPostDescription(post) : "";
   const readTime = post?.content ? estimateReadTime(post.content) : "";
   const publishedDate = post ? formatDate(post.createdAt) : "";
+  const articleSections = post?.content ? getArticleSections(post.content) : [];
 
   useEffect(() => {
     let isMounted = true;
@@ -170,154 +224,202 @@ const SingleBlog = () => {
         )}
       </Helmet>
 
-      <div className="min-h-screen bg-[#e9f1f8] text-slate-900">
-        <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-100 text-slate-950">
+        <main>
           {loading && (
-            <div className="py-24 text-center text-sm font-semibold text-gray-900">
+            <div className="mx-auto max-w-7xl px-6 py-24 text-center text-sm font-semibold text-slate-700 lg:px-8">
               Loading post...
             </div>
           )}
 
           {!loading && post && (
-            <article className="space-y-10">
-              <div className="mx-auto max-w-5xl overflow-hidden">
-                {post.image ? (
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="max-h-[560px] min-h-[320px] w-full object-cover"
-                  />
-                ) : (
-                  <div className="min-h-[320px] border border-slate-200 bg-slate-100" />
-                )}
-              </div>
-
+            <article>
               {usingFallbackPost && (
-                <div className="border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+                <div className="mx-auto mt-8 max-w-7xl rounded-lg border border-emerald-200 bg-emerald-50 px-6 py-3 text-sm font-semibold text-emerald-900 lg:px-8">
                   Live blog content is unavailable, so a preview post is shown.
                 </div>
               )}
 
-              <header className="text-center">
-                <div className="mx-auto max-w-4xl">
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {post.category && (
-                      <span className="border border-blue-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-blue-700">
-                        {post.category}
-                      </span>
-                    )}
-                    {post.subcategory && (
-                      <span className="border border-slate-200 px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-slate-700">
-                        {post.subcategory}
-                      </span>
-                    )}
-                  </div>
-
-                  <h1 className="mx-auto mt-7 max-w-4xl text-4xl font-black leading-relaxed tracking-normal text-[#16242c] sm:text-5xl lg:text-6xl">
-                    {post.title}
-                  </h1>
-
-                  {postDescription && (
-                    <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-                      {postDescription}
-                    </p>
+              <section className="relative overflow-hidden bg-gray-100">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-700 via-emerald-500 to-emerald-300" />
+                <div className="mx-auto max-w-5xl px-6 py-20 sm:py-24 lg:px-8 lg:py-28">
+                  {post.image && (
+                    <div className="overflow-hidden rounded-lg border border-emerald-100 bg-white shadow-xl shadow-slate-950/10">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="max-h-[560px] min-h-[320px] w-full object-cover"
+                      />
+                    </div>
                   )}
 
-                  <div className="mx-auto mt-8 grid max-w-3xl gap-3 border-t border-slate-100 pt-6 text-sm font-bold text-slate-700 sm:grid-cols-3">
-                    <div>
-                      <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                        Published
+                  <header className="mt-10 max-w-4xl">
+                    <div className="mb-6 flex flex-wrap gap-3">
+                      <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-200">
+                        <Sparkles className="h-4 w-4" />
+                        {post.category || "Blog"}
                       </span>
-                      <span className="mt-1 block">{publishedDate || "Latest"}</span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                        Reading
-                      </span>
-                      <span className="mt-1 block">{readTime}</span>
-                    </div>
-                    {post.focusKeyword && (
-                      <div>
-                        <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                          Focus
+                      {post.subcategory && (
+                        <span className="inline-flex rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200">
+                          {post.subcategory}
                         </span>
-                        <span className="mt-1 block">{post.focusKeyword}</span>
+                      )}
+                    </div>
+
+                    <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl lg:text-6xl">
+                      {post.title}
+                    </h1>
+
+                    {postDescription && (
+                      <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-600">
+                        {postDescription}
+                      </p>
+                    )}
+
+                    <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                      <div className="flex min-h-32 flex-col items-start gap-3 rounded-lg bg-white p-4 text-sm leading-6 text-slate-700 ring-1 ring-emerald-100">
+                        <CalendarDays className="h-5 w-5 text-emerald-700" />
+                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Published</span>
+                        <span className="font-semibold">{publishedDate || "Latest"}</span>
                       </div>
+                      <div className="flex min-h-32 flex-col items-start gap-3 rounded-lg bg-white p-4 text-sm leading-6 text-slate-700 ring-1 ring-emerald-100">
+                        <Clock3 className="h-5 w-5 text-emerald-700" />
+                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Reading</span>
+                        <span className="font-semibold">{readTime}</span>
+                      </div>
+                      <div className="flex min-h-32 flex-col items-start gap-3 rounded-lg bg-white p-4 text-sm leading-6 text-slate-700 ring-1 ring-emerald-100">
+                        <Tag className="h-5 w-5 text-emerald-700" />
+                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Focus</span>
+                        <span className="font-semibold">{post.focusKeyword || post.category || "Blucom insight"}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <a
+                        href="#article-content"
+                        className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-600"
+                      >
+                        Read article
+                        <ArrowUpRight className="h-4 w-4" />
+                      </a>
+                      <Link
+                        to={contentBasePath}
+                        className="inline-flex items-center rounded-lg bg-white px-6 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 transition hover:text-emerald-700 hover:ring-emerald-200"
+                      >
+                        Back to listing
+                      </Link>
+                    </div>
+                  </header>
+                </div>
+              </section>
+
+              <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+                <div className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)]">
+                  <aside className="lg:sticky lg:top-24 lg:self-start">
+                    <div className="border-l-4 border-emerald-500 pl-5">
+                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">In this page</p>
+                      <nav className="mt-5 grid gap-3 text-sm font-semibold text-emerald-700">
+                        {articleSections.map((section) => (
+                          <a key={section.id} href={`#${section.id}`} className="transition hover:underline">
+                            {section.heading}
+                          </a>
+                        ))}
+                        {relatedPosts.length > 0 && (
+                          <a href="#related-posts" className="transition hover:underline">Related posts</a>
+                        )}
+                      </nav>
+                    </div>
+                  </aside>
+
+                  <div className="grid gap-12">
+                    <div id="article-content" className="grid gap-12">
+                      {articleSections.map((section, index) => (
+                        <section
+                          id={section.id}
+                          key={section.id}
+                          className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10"
+                        >
+                          <span className="inline-flex rounded-lg bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-200">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <h2 className="mt-5 text-3xl font-semibold leading-tight text-slate-950">
+                            {section.heading}
+                          </h2>
+                          <div
+                            className="prose prose-lg mt-6 max-w-none prose-headings:font-semibold prose-headings:leading-tight prose-headings:text-slate-950 prose-a:font-semibold prose-a:text-emerald-700 prose-p:leading-8 prose-p:text-slate-700 prose-li:leading-8 prose-li:text-slate-700 prose-img:rounded-lg"
+                            dangerouslySetInnerHTML={{ __html: section.body }}
+                          />
+                        </section>
+                      ))}
+                    </div>
+
+                    {relatedPosts.length > 0 && (
+                      <aside id="related-posts" className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                        <span className="inline-flex rounded-lg bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-200">
+                          02
+                        </span>
+                        <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                          <div>
+                            <h2 className="text-3xl font-semibold tracking-tight text-slate-950">
+                              Related Posts
+                            </h2>
+                            <p className="mt-3 text-base leading-8 text-slate-600">
+                              Continue with selected ideas connected to this topic.
+                            </p>
+                          </div>
+                          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                            {relatedPosts.length} selected
+                          </span>
+                        </div>
+
+                        <div className="mt-8 grid gap-5 md:grid-cols-2">
+                          {relatedPosts.map((relatedPost) => (
+                            <Link
+                              key={relatedPost.slug}
+                              to={`/blog/${relatedPost.slug}`}
+                              className="group grid overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:border-emerald-200 hover:shadow-md sm:grid-cols-[150px_minmax(0,1fr)]"
+                            >
+                              <div className="min-h-[150px] bg-slate-100">
+                                {relatedPost.image ? (
+                                  <img
+                                    src={relatedPost.image}
+                                    alt={relatedPost.title}
+                                    className="h-full w-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="h-full w-full bg-slate-100" />
+                                )}
+                              </div>
+                              <div className="p-5">
+                                <div className="mb-3 flex flex-wrap gap-2">
+                                  {relatedPost.category && (
+                                    <span className="rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-slate-600">
+                                      {relatedPost.category}
+                                    </span>
+                                  )}
+                                  {relatedPost.focusKeyword && (
+                                    <span className="rounded-lg bg-emerald-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-700 ring-1 ring-emerald-200">
+                                      {relatedPost.focusKeyword}
+                                    </span>
+                                  )}
+                                </div>
+                                <h3 className="text-lg font-semibold leading-7 text-slate-950 transition group-hover:text-emerald-700">
+                                  {getPostTitle(relatedPost)}
+                                </h3>
+                                {relatedPost.description && (
+                                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+                                    {getPostDescription(relatedPost)}
+                                  </p>
+                                )}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </aside>
                     )}
                   </div>
                 </div>
-              </header>
-
-              <div className="mx-auto max-w-4xl">
-                <div className="border border-slate-200 bg-white px-5 py-8 sm:px-8 lg:px-12">
-                  <div
-                    className="prose prose-lg max-w-none prose-headings:text-center prose-headings:font-black prose-headings:leading-relaxed prose-headings:tracking-normal prose-headings:text-[#16242c] prose-a:font-bold prose-a:text-blue-700 prose-p:leading-relaxed prose-p:text-slate-700 prose-li:leading-relaxed prose-li:text-slate-700 prose-img:mx-auto"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
-                </div>
-              </div>
-
-              {relatedPosts.length > 0 && (
-                <aside className="border border-slate-200 bg-white p-5 sm:p-8">
-                  <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                      <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
-                        Keep reading
-                      </span>
-                      <h2 className="mt-2 text-3xl font-black tracking-tight text-[#16242c]">
-                        Related Posts
-                      </h2>
-                    </div>
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
-                      {relatedPosts.length} selected
-                    </span>
-                  </div>
-
-                  <div className="grid gap-5 md:grid-cols-2">
-                    {relatedPosts.map((relatedPost) => (
-                      <Link
-                        key={relatedPost.slug}
-                        to={`/blog/${relatedPost.slug}`}
-                        className="group grid overflow-hidden border border-slate-200 bg-white transition hover:border-blue-200 hover:shadow-md sm:grid-cols-[150px_minmax(0,1fr)]"
-                      >
-                        <div className="min-h-[150px] bg-slate-100">
-                          {relatedPost.image ? (
-                            <img
-                              src={relatedPost.image}
-                              alt={relatedPost.title}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-slate-100" />
-                          )}
-                        </div>
-                        <div className="p-5">
-                          <div className="mb-3 flex flex-wrap gap-2">
-                            {relatedPost.category && (
-                              <span className="border border-slate-200 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-slate-600">
-                                {relatedPost.category}
-                              </span>
-                            )}
-                            {relatedPost.focusKeyword && (
-                              <span className="border border-blue-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-blue-700">
-                                {relatedPost.focusKeyword}
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="text-lg font-black leading-relaxed text-[#16242c] transition group-hover:text-blue-700">
-                            {getPostTitle(relatedPost)}
-                          </h3>
-                          {relatedPost.description && (
-                            <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                              {getPostDescription(relatedPost)}
-                            </p>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </aside>
-              )}
+              </section>
             </article>
           )}
         </main>

@@ -219,8 +219,8 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-3">
                   <li>
-                    <a href="/about" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
-                      About Us
+                    <a href="/work" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                      Our Work
                     </a>
                   </li>
                   <li>

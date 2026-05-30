@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getContentByIdentifier } from "../../api/content";
 
 const SITE_URL = "https://www.blucomtechnologies.com";
@@ -106,6 +106,9 @@ const DynamicPortfolio = () => {
   const socialTitle = item.socialTitle || title;
   const socialDescription = item.socialDescription || description;
   const socialImage = item.socialImage || item.image || `${SITE_URL}/preview.jpg`;
+  const tags = (item.tags?.length ? item.tags : [item.category || "Portfolio"]).filter(Boolean).slice(0, 5);
+  const publishedDate = item.updatedAt || item.createdAt;
+  const year = publishedDate ? new Date(publishedDate).getFullYear() : "";
 
   return (
     <>
@@ -140,26 +143,82 @@ const DynamicPortfolio = () => {
       </Helmet>
 
       {StaticPortfolioComponent ? <StaticPortfolioComponent /> : (
-      <main className="bg-white text-slate-950">
-        <section className="relative min-h-[70vh] overflow-hidden bg-slate-950 text-white">
-          {item.image ? (
-            <img src={item.image} alt={item.title} className="absolute inset-0 h-full w-full object-cover opacity-55" />
-          ) : null}
-          <div className="absolute inset-0 bg-slate-950/55" />
-          <div className="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-end px-6 pb-16 pt-32">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#00AE80]">{item.category || "Portfolio"}</p>
-            <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{item.title}</h1>
-            {item.excerpt ? <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-200">{item.excerpt}</p> : null}
-          </div>
-        </section>
+        <main className="bg-white text-slate-950">
+          <section className="relative overflow-hidden bg-slate-950 text-white">
+            {item.image ? (
+              <img src={item.image} alt={item.title} className="absolute inset-0 h-full w-full object-cover opacity-45" />
+            ) : null}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/80 to-[#00AE80]/75" />
+            <div className="relative mx-auto grid min-h-[76vh] max-w-7xl gap-10 px-5 pb-14 pt-32 sm:px-8 lg:grid-cols-[1fr_420px] lg:items-end lg:px-10">
+              <div>
+                <Link to="/portfolio" className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75 transition hover:text-white">
+                  Portfolio
+                </Link>
+                <p className="mt-8 text-sm font-semibold uppercase tracking-[0.22em] text-[#00AE80]">
+                  {item.category || "Case Study"}
+                </p>
+                <h1 className="mt-5 max-w-5xl text-4xl font-semibold leading-tight md:text-6xl">
+                  {item.title}
+                </h1>
+                {item.excerpt ? (
+                  <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-100 md:text-xl">
+                    {item.excerpt}
+                  </p>
+                ) : null}
+              </div>
 
-        <article className="mx-auto max-w-4xl px-6 py-16">
-          <div
-            className="prose prose-slate max-w-none prose-headings:text-slate-950 prose-a:text-[#00AE80]"
-            dangerouslySetInnerHTML={{ __html: item.content }}
-          />
-        </article>
-      </main>
+              <aside className="border border-white/15 bg-white/10 p-6 backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Project Notes</p>
+                <dl className="mt-6 grid gap-5 text-sm">
+                  <div>
+                    <dt className="text-white/55">Type</dt>
+                    <dd className="mt-1 font-semibold text-white">{item.category || "Portfolio"}</dd>
+                  </div>
+                  {year ? (
+                    <div>
+                      <dt className="text-white/55">Published</dt>
+                      <dd className="mt-1 font-semibold text-white">{year}</dd>
+                    </div>
+                  ) : null}
+                  {tags.length ? (
+                    <div>
+                      <dt className="text-white/55">Focus</dt>
+                      <dd className="mt-3 flex flex-wrap gap-2">
+                        {tags.map((tag) => (
+                          <span key={tag} className="border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/85">
+                            {tag}
+                          </span>
+                        ))}
+                      </dd>
+                    </div>
+                  ) : null}
+                </dl>
+              </aside>
+            </div>
+          </section>
+
+          <article className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[300px_1fr] lg:px-10">
+            <aside className="hidden lg:block">
+              <div className="sticky top-24 border-l-4 border-[#00AE80] pl-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Case Study</p>
+                <p className="mt-4 text-2xl font-semibold leading-snug text-slate-950">
+                  {description}
+                </p>
+              </div>
+            </aside>
+            <div className="min-w-0">
+              <div
+                className="prose prose-lg prose-slate max-w-none prose-headings:font-semibold prose-headings:text-slate-950 prose-a:text-[#00AE80] prose-img:w-full prose-img:border prose-img:border-slate-200"
+                dangerouslySetInnerHTML={{ __html: item.content || "" }}
+              />
+              <div className="mt-14 border-t border-slate-200 pt-8">
+                <Link to="/portfolio" className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-950 transition hover:text-[#00AE80]">
+                  View more portfolio work
+                </Link>
+              </div>
+            </div>
+          </article>
+        </main>
       )}
     </>
   );
