@@ -29,6 +29,12 @@ const pageSeoDefaults = [
       "Review Blucom Technologies work across brand identity, digital experiences, campaigns, and growth-focused creative projects.",
   },
   {
+    path: "/portfolio/single",
+    title: "Portfolio Detail | Blucom Technologies",
+    description:
+      "Review a Blucom Technologies portfolio detail with brand, digital experience, campaign, and growth-focused project context.",
+  },
+  {
     path: "/portfolio/hyundai",
     title: "Hyundai Pakistan Case Study | Blucom Technologies",
     description:
@@ -121,6 +127,102 @@ const pageSeoDefaults = [
     title: "Investors | Blucom Technologies",
     description:
       "Review Blucom Technologies investor information, business direction, and growth overview.",
+  },
+  {
+    path: "/for-startups",
+    title: "For Startups | Blucom Technologies",
+    description:
+      "Explore Blucom Technologies services for startups that need focused brand strategy, launch planning, digital execution, and growth foundations.",
+  },
+  {
+    path: "/for-small-business",
+    title: "For Small Business | Blucom Technologies",
+    description:
+      "Explore practical branding, marketing, web, and digital growth services from Blucom Technologies for small business teams.",
+  },
+  {
+    path: "/for-agencies",
+    title: "For Agencies | Blucom Technologies",
+    description:
+      "Partner with Blucom Technologies for agency support across strategy, design, development, content, campaigns, and digital delivery.",
+  },
+  {
+    path: "/for-ecommerce",
+    title: "For Ecommerce | Blucom Technologies",
+    description:
+      "Build stronger ecommerce growth systems with Blucom Technologies through positioning, content, performance marketing, and digital experience design.",
+  },
+  {
+    path: "/enterprise",
+    title: "Enterprise Solutions | Blucom Technologies",
+    description:
+      "Explore enterprise-ready brand, digital marketing, content, analytics, and web solutions from Blucom Technologies.",
+  },
+  {
+    path: "/documentation",
+    title: "Documentation | Blucom Technologies",
+    description:
+      "Read Blucom Technologies documentation for platform information, workflows, service references, and implementation guidance.",
+  },
+  {
+    path: "/guides",
+    title: "Guides | Blucom Technologies",
+    description:
+      "Explore Blucom Technologies guides covering brand strategy, marketing execution, digital systems, content planning, and growth workflows.",
+  },
+  {
+    path: "/api-reference",
+    title: "API Reference | Blucom Technologies",
+    description:
+      "Review Blucom Technologies API reference information for integrations, technical workflows, and implementation details.",
+  },
+  {
+    path: "/community",
+    title: "Community | Blucom Technologies",
+    description:
+      "Learn about Blucom Technologies community initiatives, collaboration opportunities, mentorship, and digital ecosystem support.",
+  },
+  {
+    path: "/press",
+    title: "Press | Blucom Technologies",
+    description:
+      "Find Blucom Technologies press information, company background, announcements, and media resources.",
+  },
+  {
+    path: "/partners",
+    title: "Partners | Blucom Technologies",
+    description:
+      "Explore partnership opportunities with Blucom Technologies across brand strategy, digital marketing, technology, and creative delivery.",
+  },
+  {
+    path: "/privacy-policy",
+    title: "Privacy Policy | Blucom Technologies",
+    description:
+      "Read the Blucom Technologies privacy policy covering data handling, website usage, communications, and user privacy rights.",
+  },
+  {
+    path: "/terms-of-service",
+    title: "Terms of Service | Blucom Technologies",
+    description:
+      "Review Blucom Technologies terms of service for website usage, service conditions, responsibilities, and legal information.",
+  },
+  {
+    path: "/cookie-policy",
+    title: "Cookie Policy | Blucom Technologies",
+    description:
+      "Read the Blucom Technologies cookie policy covering website cookies, tracking technologies, preferences, and analytics usage.",
+  },
+  {
+    path: "/gdpr-compliance",
+    title: "GDPR Compliance | Blucom Technologies",
+    description:
+      "Review Blucom Technologies GDPR compliance information, privacy rights, data processing practices, and user request options.",
+  },
+  {
+    path: "/security",
+    title: "Security | Blucom Technologies",
+    description:
+      "Learn about Blucom Technologies security practices for website operations, data protection, access control, and platform reliability.",
   },
   {
     path: "/admindashboard",
@@ -389,6 +491,7 @@ const ensurePageSeoTable = async () => {
       path VARCHAR(255) NOT NULL UNIQUE,
       seo_title VARCHAR(255) DEFAULT NULL,
       seo_description TEXT DEFAULT NULL,
+      seo_keywords TEXT DEFAULT NULL,
       focus_keyword VARCHAR(255) DEFAULT NULL,
       canonical_url VARCHAR(500) DEFAULT NULL,
       meta_robots VARCHAR(100) DEFAULT NULL,
@@ -403,6 +506,27 @@ const ensurePageSeoTable = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )
   `);
+
+  const expectedColumns = [
+    ["seo_keywords", "ALTER TABLE page_seo ADD COLUMN seo_keywords TEXT DEFAULT NULL AFTER seo_description"],
+    ["focus_keyword", "ALTER TABLE page_seo ADD COLUMN focus_keyword VARCHAR(255) DEFAULT NULL AFTER seo_keywords"],
+    ["canonical_url", "ALTER TABLE page_seo ADD COLUMN canonical_url VARCHAR(500) DEFAULT NULL AFTER focus_keyword"],
+    ["meta_robots", "ALTER TABLE page_seo ADD COLUMN meta_robots VARCHAR(100) DEFAULT NULL AFTER canonical_url"],
+    ["readability_notes", "ALTER TABLE page_seo ADD COLUMN readability_notes TEXT DEFAULT NULL AFTER meta_robots"],
+    ["social_title", "ALTER TABLE page_seo ADD COLUMN social_title VARCHAR(255) DEFAULT NULL AFTER readability_notes"],
+    ["social_description", "ALTER TABLE page_seo ADD COLUMN social_description TEXT DEFAULT NULL AFTER social_title"],
+    ["social_image", "ALTER TABLE page_seo ADD COLUMN social_image VARCHAR(500) DEFAULT NULL AFTER social_description"],
+    ["schema_type", "ALTER TABLE page_seo ADD COLUMN schema_type VARCHAR(100) DEFAULT NULL AFTER social_image"],
+    ["schema_json", "ALTER TABLE page_seo ADD COLUMN schema_json LONGTEXT DEFAULT NULL AFTER schema_type"],
+    ["twitter_card", "ALTER TABLE page_seo ADD COLUMN twitter_card VARCHAR(100) DEFAULT NULL AFTER schema_json"],
+  ];
+
+  for (const [columnName, alterSql] of expectedColumns) {
+    const existingColumns = await query(`SHOW COLUMNS FROM page_seo LIKE '${columnName}'`);
+    if (!existingColumns.length) {
+      await query(alterSql);
+    }
+  }
 
   await seedPageSeoRows();
 

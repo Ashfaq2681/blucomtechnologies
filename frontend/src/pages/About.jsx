@@ -159,27 +159,6 @@ const About = () => {
         <p className="text-[24px]  max-w-[1200px] mt-2">Lets Discuss As the most awarded B2B branding agency in texas we know how to combine customer insights with impactful content to get your brand from the top of the list to the dotted line.</p>
         <button className="py-1 px-5 text-[#5F5F5F] text-[30px] font-bold bg-white mt-5">Get Started</button>
       </div>
-      <div className="flex flex-col items-center py-20 px-10 md:px-0 text-[#727277]">
-        <div className="flex flex-col justify-start items-center m-10 w-auto">
-          <p className="text-[24px]">Have and idea? lets talk!</p>
-          <h1 className="text-[60px] text-[#00AF80] underline decoration-[#1E2832] decoration-4">
-            What you're Thinking?
-          </h1>
-        </div>
-        <form action="" className="flex flex-col gap-10 w-full max-w-[1300px] px-10 mt-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-20 xl:gap-x-40 gap-y-10">
-            <input type="text" className="landingInput" placeholder="First Name*" />
-            <input type="text" className="landingInput" placeholder="Last Name*" />
-            <input type="email" className="landingInput" placeholder="Email*" />
-            <input type="text" className="landingInput" placeholder="Company Name*" />
-          </div>
-          <input type="text" className="landingInput" placeholder="YourTitle" />
-          <textarea name="" id="" cols="5" className="landingInput" placeholder="What you want to say?" />
-          <button type="submit" className="bg-[#5F5F5F] text-white underline underline-offset-4 decoration-white/50 px-5 py-1 text-[30px] font-bold mt-10 max-w-[200px]">
-            Submit
-          </button>
-        </form>
-      </div>
     </section>
   )
 }

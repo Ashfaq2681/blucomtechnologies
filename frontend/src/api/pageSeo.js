@@ -16,6 +16,8 @@ const normalizePageSeo = (entry = {}) => ({
   path: normalizeSeoPath(entry.path),
   seoTitle: pickValue(entry.seoTitle, entry.seo_title),
   seoDescription: pickValue(entry.seoDescription, entry.seo_description),
+  seoKeywords: pickValue(entry.seoKeywords, entry.seo_keywords, entry.metaKeywords),
+  metaKeywords: pickValue(entry.metaKeywords, entry.seoKeywords, entry.seo_keywords),
   focusKeyword: pickValue(entry.focusKeyword, entry.focus_keyword),
   canonicalUrl: pickValue(entry.canonicalUrl, entry.canonical_url),
   metaRobots: pickValue(entry.metaRobots, entry.meta_robots),

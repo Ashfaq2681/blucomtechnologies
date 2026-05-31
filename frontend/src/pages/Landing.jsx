@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import landingImg from "/landing/heroimage.svg";
 import Button from "../Components/Button";
 import { getPublishedPosts } from "../api/blogs";
@@ -175,53 +174,6 @@ const Interaction = [
 
   return (
     <section className="bg-[#F8FAFC] min-h-screen">
-      <Helmet>
-        <title>Brand Strategy & Digital Marketing Agency | Blucom Technologies</title>
-        <meta
-          name="description"
-          content="blucomtechnologies specializes in brand positioning, digital marketing, UX/UI design, and SEO-driven strategies for businesses."
-        />
-        <meta
-          name="keywords"
-          content="Brand Strategy, Digital Marketing, SEO, UX/UI Design, Content Marketing, Web Development, Social Media Marketing"
-        />
-        <meta name="author" content="blucomtechnologies" />
-        <meta property="og:title" content="blucomtechnologies - Creative Agency in Islamabad for Brand Strategy & Digital Marketing" />
-        <meta
-          property="og:description"
-          content="We offer top-notch digital solutions including SEO, brand strategy, UX/UI design, and content marketing to scale your business."
-        />
-        <meta property="og:image" content="https://www.blucomtechnologies.com/preview.jpg" />
-        <meta property="og:url" content="https://www.blucomtechnologies.com" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="blucomtechnologies - Brand Strategy & Digital Solutions" />
-        <meta name="twitter:description" content="Expert brand positioning, SEO, and UX/UI design strategies." />
-        <meta name="twitter:image" content="https://www.blucomtechnologies.com/preview.jpg" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Corporation",
-              "name": "blucomtechnologies",
-              "url": "https://www.blucomtechnologies.com",
-              "logo": "https://www.blucomtechnologies.com/logo.png",
-              "sameAs": [
-                "https://www.facebook.com/blucomtechnologies",
-                "https://www.linkedin.com/company/blucomtechnologies",
-                "https://twitter.com/blucomtech"
-              ],
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+1234567890",
-                "contactType": "customer service",
-                "areaServed": "Worldwide",
-                "availableLanguage": "English"
-              }
-            }
-          `}
-        </script>
-      </Helmet>
       <div>
         <div className="flex flex-col md:flex-row-reverse justify-between md:items-center md:gap-12 lg:gap-28 max-w-[1400px] mx-auto px-8 md:px-32 py-5 h-lvh">
 

@@ -2,6 +2,7 @@ import { useId, useMemo, useRef } from "react";
 import {
   Bold,
   Heading,
+  Highlighter,
   ImagePlus,
   Italic,
   List,
@@ -28,8 +29,49 @@ const escapeHtml = (value = "") =>
 
 const toolbarButtonClassName =
   "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50";
+const toolbarTextButtonClassName =
+  "inline-flex h-10 min-w-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50";
 
 const ToolbarIcon = ({ icon: Icon }) => <Icon className="h-4 w-4" strokeWidth={2.2} />;
+
+const blockStyleOptions = [
+  {
+    value: "h1",
+    label: "H1",
+    description: "Main heading",
+    className: "text-lg font-black leading-none text-slate-950",
+  },
+  {
+    value: "h2",
+    label: "H2",
+    description: "Section heading",
+    className: "text-base font-extrabold leading-none text-slate-900",
+  },
+  {
+    value: "h3",
+    label: "H3",
+    description: "Sub heading",
+    className: "text-sm font-bold leading-none text-slate-800",
+  },
+  {
+    value: "h4",
+    label: "H4",
+    description: "Detail heading",
+    className: "text-xs font-bold uppercase leading-none text-slate-700",
+  },
+  {
+    value: "paragraph",
+    label: "Paragraph",
+    description: "Large body text",
+    className: "text-sm font-semibold leading-none text-slate-600",
+  },
+  {
+    value: "normal",
+    label: "Normal",
+    description: "Standard body text",
+    className: "text-xs font-medium leading-none text-slate-500",
+  },
+];
 
 const RichTextEditor = ({ value, onChange }) => {
   const editorId = useId().replace(/:/g, "");
@@ -49,6 +91,21 @@ const RichTextEditor = ({ value, onChange }) => {
     editor.setSelection(index + 1, 0, "silent");
   };
 
+  const insertBlockFormat = (format) => {
+    const blockTemplates = {
+      normal: '<p class="article-normal-text">Add normal text here.</p>',
+      paragraph: '<p class="article-paragraph-text">Add paragraph text here.</p>',
+      h1: '<h1 class="article-heading-one">Add H1 main heading</h1><p class="article-paragraph-text">Add introduction text here.</p>',
+      h2: '<h2 class="article-heading-two">Add H2 section heading</h2><p class="article-paragraph-text">Add section content here.</p>',
+      h3: '<h3 class="article-heading-three">Add H3 subsection heading</h3><p class="article-paragraph-text">Add subsection content here.</p>',
+      h4: '<h4 class="article-heading-four">Add H4 detail heading</h4><p class="article-paragraph-text">Add supporting detail here.</p>',
+    };
+
+    if (blockTemplates[format]) {
+      insertHtmlAtCursor(blockTemplates[format]);
+    }
+  };
+
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -63,7 +120,7 @@ const RichTextEditor = ({ value, onChange }) => {
 
             const alt = window.prompt("Enter image alt text (optional)") || "Image";
             insertHtmlAtCursor(
-              `<img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" style="max-width:100%;height:auto;" />`,
+              `<figure class="article-image-section"><img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" /><figcaption>${escapeHtml(alt)}</figcaption></figure>`,
             );
           },
           insertVideo: () => {
@@ -123,6 +180,19 @@ const RichTextEditor = ({ value, onChange }) => {
               </div>
             `);
           },
+          insertQuoteSection: () => {
+            insertHtmlAtCursor(`
+              <blockquote class="article-quote-section">
+                <p>Add a customer quote, expert note, or source excerpt here.</p>
+                <cite>Source or author</cite>
+              </blockquote>
+            `);
+          },
+          insertHighlightText: () => {
+            insertHtmlAtCursor(
+              '<p><mark class="article-highlight-text">Add highlighted text here.</mark></p>',
+            );
+          },
           insertStats: () => {
             insertHtmlAtCursor(`
               <div class="article-stat-grid">
@@ -161,15 +231,27 @@ const RichTextEditor = ({ value, onChange }) => {
         id={editorId}
         className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3"
       >
-        <select className="ql-header">
-          <option value="">Normal</option>
-          <option value="1">Heading 1</option>
-          <option value="2">Heading 2</option>
-          <option value="3">Heading 3</option>
-          <option value="4">Heading 4</option>
-          <option value="5">Heading 5</option>
-          <option value="6">Heading 6</option>
-        </select>
+        <ul
+          className="flex min-h-10 flex-wrap items-stretch gap-1 rounded-xl border border-slate-200 bg-white p-1"
+          aria-label="Block style"
+        >
+          {blockStyleOptions.map((option) => (
+            <li key={option.value} className="flex">
+              <button
+                type="button"
+                className="flex min-w-[104px] flex-col justify-center rounded-lg px-3 py-2 text-left transition hover:bg-slate-100 focus:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                onClick={() => insertBlockFormat(option.value)}
+                aria-label={`Insert ${option.description}`}
+                title={option.description}
+              >
+                <span className={option.className}>{option.label}</span>
+                <span className="mt-1 text-[10px] font-medium leading-none text-slate-400">
+                  {option.description}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
         <button type="button" className={`ql-bold ${toolbarButtonClassName}`} aria-label="Bold" title="Bold">
           <ToolbarIcon icon={Bold} />
         </button>
@@ -223,11 +305,12 @@ const RichTextEditor = ({ value, onChange }) => {
         </button>
         <button
           type="button"
-          className={`ql-insertImage ${toolbarButtonClassName}`}
+          className={`ql-insertImage ${toolbarTextButtonClassName} gap-2`}
           aria-label="Add Image"
           title="Image"
         >
           <ToolbarIcon icon={ImagePlus} />
+          Image
         </button>
         <button
           type="button"
@@ -252,6 +335,24 @@ const RichTextEditor = ({ value, onChange }) => {
           title="Callout"
         >
           <ToolbarIcon icon={SquareDashedBottom} />
+        </button>
+        <button
+          type="button"
+          className={`ql-insertQuoteSection ${toolbarTextButtonClassName} gap-2`}
+          aria-label="Add Quote Section"
+          title="Quote Section"
+        >
+          <ToolbarIcon icon={MessageSquareQuote} />
+          Quote
+        </button>
+        <button
+          type="button"
+          className={`ql-insertHighlightText ${toolbarTextButtonClassName} gap-2`}
+          aria-label="Add Highlight Text"
+          title="Highlight Text"
+        >
+          <ToolbarIcon icon={Highlighter} />
+          Highlight
         </button>
         <button
           type="button"

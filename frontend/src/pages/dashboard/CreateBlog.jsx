@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { createPost, getCategories, getPostById, updatePost } from "../../api/blogs";
 import { computeSeoQuality } from "../../utils/seoQuality";
 import ComponentCard from "./common/ComponentCard";
 import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageIntro from "./common/PageIntro";
 import PageMeta from "./common/PageMeta";
+import RichTextEditor from "./common/RichTextEditor";
 import SeoEditorPanel from "./components/SeoEditorPanel";
 
 const generateSlug = (value = "") =>
@@ -273,8 +272,20 @@ const CreateBlog = ({
         )}
 
         <ComponentCard
-          title={isEditMode ? "Edit Blog" : "Create Blog"}
-          desc="This form writes directly to the MySQL-backed post API."
+          eyebrow="Content Editor"
+          title={isEditMode ? "Edit blog post" : "Create blog post"}
+          desc="Manage the article details, SEO fields, publishing status, and rich content from one editor."
+          headerMeta={
+            <div
+              className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-semibold ring-1 ${
+                isEditMode
+                  ? "bg-blue-50 text-blue-700 ring-blue-100"
+                  : "bg-emerald-50 text-emerald-700 ring-emerald-100"
+              }`}
+            >
+              {isEditMode ? "Editing existing post" : "New draft"}
+            </div>
+          }
         >
           {loadingPost ? (
             <div className="px-4 py-10 text-sm font-medium text-slate-500">
@@ -672,13 +683,11 @@ const CreateBlog = ({
                 Content
               </label>
               <div className="h-auto overflow-hidden rounded-[24px] border border-slate-300 bg-white">
-                <ReactQuill
-                  theme="snow"
+                <RichTextEditor
                   value={form.content}
                   onChange={(value) =>
                     setForm((current) => ({ ...current, content: value }))
                   }
-                  className="bg-white"
                 />
               </div>
             </div>

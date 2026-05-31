@@ -6,7 +6,8 @@ import PageMeta from "./common/PageMeta";
 import { getDashboardPosts, updatePost } from "../../api/blogs";
 import { getContents, updateContent } from "../../api/content";
 import { getPageSeoEntries, updatePageSeoEntry } from "../../api/pageSeo";
-import { getPageSeo } from "../../Components/PageSeo";
+import { footerLinkedSeoPaths, getKnownPageSeoPaths, getPageSeo } from "../../Components/PageSeo";
+import { buildLandingSeo } from "../../seo/landingSeo";
 
 type RouteCheck = {
   path: string;
@@ -28,7 +29,7 @@ type ContentCheck = {
   findings: string[];
 };
 
-type ContentFilter = "all" | "main" | "services" | "portfolio" | "page" | "blog" | "ideas" | "news";
+type ContentFilter = "all" | "main" | "footer" | "services" | "portfolio" | "page" | "blog" | "ideas" | "news";
 
 type EditableSeoItem = {
   id: string;
@@ -48,6 +49,8 @@ type EditableSeoItem = {
   section?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
+  metaKeywords?: string;
   focusKeyword?: string;
   canonicalUrl?: string;
   metaRobots?: string;
@@ -65,6 +68,7 @@ const manualPublicPaths = [
   "/about",
   "/contact",
   "/portfolio",
+  "/portfolio/single",
   "/portfolio/hyundai",
   "/portfolio/toyota-motors",
   "/portfolio/codility-hub",
@@ -136,13 +140,14 @@ const manualPublicPaths = [
   "/services/new-folder/omnichannel-campaign-management",
 ];
 
+const contentDetailPrefixes = ["/blog", "/ideas", "/news"];
 const metaRobotsOptions = ["index,follow", "noindex,follow", "index,nofollow", "noindex,nofollow"];
 const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "FAQPage"];
 const twitterCardOptions = ["summary", "summary_large_image"];
 
-const allSeoPaths = Array.from(new Set(manualPublicPaths))
+const allSeoPaths = Array.from(new Set([...manualPublicPaths, ...getKnownPageSeoPaths()]))
   .map((path) => (path === "/" ? "/" : path.toLowerCase().replace(/\/+$/, "")))
-  .filter(Boolean)
+  .filter((path) => path && !contentDetailPrefixes.some((prefix) => path.startsWith(`${prefix}/`)))
   .sort((first, second) => first.localeCompare(second));
 
 const getContentType = (item: any): "blog" | "ideas" | "news" => {
@@ -172,8 +177,10 @@ const formatRouteLabel = (path: string) => {
 
 const getPageCategory = (path: string) => {
   const normalizedPath = path.toLowerCase();
+  const footerPaths = new Set(footerLinkedSeoPaths.map((item) => item.toLowerCase()));
 
   if (normalizedPath === "/") return "Main Pages";
+  if (footerPaths.has(normalizedPath)) return "Footer Pages";
   if (normalizedPath.startsWith("/services/")) return "Services";
   if (normalizedPath.startsWith("/portfolio/")) return "Portfolio Pages";
   if (normalizedPath === "/portfolio") return "Main Pages";
@@ -195,9 +202,11 @@ const getPageCategory = (path: string) => {
 
 const getPageContentType = (path: string): ContentFilter => {
   const normalizedPath = path.toLowerCase();
+  const footerPaths = new Set(footerLinkedSeoPaths.map((item) => item.toLowerCase()));
 
   if (normalizedPath.startsWith("/services/")) return "services";
   if (normalizedPath.startsWith("/portfolio/")) return "portfolio";
+  if (footerPaths.has(normalizedPath)) return "footer";
 
   return "main";
 };
@@ -233,6 +242,8 @@ const buildPageSeoItems = (storedEntries: any[] = []): EditableSeoItem[] => {
       status: getPageCategory(path) === "System" ? "noindex" : "published",
       seoTitle: storedSeo.seoTitle || routeSeo.title,
       seoDescription: storedSeo.seoDescription || routeSeo.description,
+      seoKeywords: storedSeo.seoKeywords || storedSeo.metaKeywords || "",
+      metaKeywords: storedSeo.metaKeywords || storedSeo.seoKeywords || "",
       focusKeyword: storedSeo.focusKeyword || "",
       canonicalUrl:
         storedSeo.canonicalUrl || `https://www.blucomtechnologies.com${path === "/" ? "" : path}`,
@@ -383,6 +394,7 @@ const SeoAnalysis = () => {
   const [editorForm, setEditorForm] = useState({
     seoTitle: "",
     seoDescription: "",
+    seoKeywords: "",
     focusKeyword: "",
     canonicalUrl: "",
     metaRobots: "index,follow",
@@ -437,6 +449,7 @@ const SeoAnalysis = () => {
           setEditorForm({
             seoTitle: firstItem.seoTitle || "",
             seoDescription: firstItem.seoDescription || "",
+            seoKeywords: firstItem.seoKeywords || firstItem.metaKeywords || "",
             focusKeyword: firstItem.focusKeyword || "",
             canonicalUrl: firstItem.canonicalUrl || "",
             metaRobots: firstItem.metaRobots || "index,follow",
@@ -495,6 +508,7 @@ const SeoAnalysis = () => {
     setEditorForm({
       seoTitle: nextItem.seoTitle || "",
       seoDescription: nextItem.seoDescription || "",
+      seoKeywords: nextItem.seoKeywords || nextItem.metaKeywords || "",
       focusKeyword: nextItem.focusKeyword || "",
       canonicalUrl: nextItem.canonicalUrl || "",
       metaRobots: nextItem.metaRobots || "index,follow",
@@ -530,6 +544,7 @@ const SeoAnalysis = () => {
           path: selectedItem.path,
           seoTitle: editorForm.seoTitle,
           seoDescription: editorForm.seoDescription,
+          seoKeywords: editorForm.seoKeywords,
           focusKeyword: editorForm.focusKeyword,
           canonicalUrl: editorForm.canonicalUrl,
           metaRobots: editorForm.metaRobots,
@@ -567,6 +582,7 @@ const SeoAnalysis = () => {
         scheduledAt: selectedItem.scheduledAt || "",
         seoTitle: editorForm.seoTitle,
         seoDescription: editorForm.seoDescription,
+        seoKeywords: editorForm.seoKeywords,
         focusKeyword: editorForm.focusKeyword,
         canonicalUrl: editorForm.canonicalUrl,
         metaRobots: editorForm.metaRobots,
@@ -663,7 +679,7 @@ const SeoAnalysis = () => {
     const sortedItems = [...contentChecks].sort((first, second) => first.score - second.score);
 
     return sortedItems.filter((item) => {
-      const isStaticPage = ["main", "services", "portfolio"].includes(item.type);
+      const isStaticPage = ["main", "footer", "services", "portfolio"].includes(item.type);
       const matchesType =
         contentFilter === "all" ||
         item.type === contentFilter ||
@@ -678,6 +694,13 @@ const SeoAnalysis = () => {
     () => Array.from(new Set(contentChecks.map((item) => item.category).filter(Boolean))).sort(),
     [contentChecks]
   );
+
+  const landingSchemaValidation = useMemo(() => buildLandingSeo().validation, []);
+  const landingSchemaFindings = [
+    ...landingSchemaValidation.errors,
+    ...landingSchemaValidation.warnings,
+    ...landingSchemaValidation.recommendations,
+  ];
 
   const handleEditContentSeo = (itemId: string) => {
     handleSelectChange(itemId);
@@ -729,6 +752,43 @@ const SeoAnalysis = () => {
         </div>
 
         <ComponentCard
+          title="Landing Page Structured Data"
+          desc="Validation for the active homepage WebSite, Organization, WebPage, BreadcrumbList, ImageObject, Open Graph, and Twitter metadata rollout."
+        >
+          <div className="grid gap-4 lg:grid-cols-[220px_1fr]">
+            <div className="rounded-[6px] border border-slate-200 bg-white p-5">
+              <p className="text-sm font-medium text-slate-500">SEO score</p>
+              <p className="mt-2 text-3xl font-semibold text-slate-950">{landingSchemaValidation.score}/100</p>
+              <span
+                className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                  landingSchemaValidation.score >= 90
+                    ? "bg-emerald-50 text-emerald-700"
+                    : landingSchemaValidation.score >= 70
+                    ? "bg-blue-50 text-blue-700"
+                    : "bg-amber-50 text-amber-700"
+                }`}
+              >
+                {landingSchemaValidation.status}
+              </span>
+            </div>
+            <div className="rounded-[6px] border border-slate-200 bg-white p-5">
+              <p className="text-sm font-medium text-slate-500">Weighted breakdown</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <p className="text-sm text-slate-700">Technical SEO: {landingSchemaValidation.categories.technicalSeo}/40</p>
+                <p className="text-sm text-slate-700">Schema completeness: {landingSchemaValidation.categories.schemaCompleteness}/25</p>
+                <p className="text-sm text-slate-700">Metadata quality: {landingSchemaValidation.categories.metadataQuality}/20</p>
+                <p className="text-sm text-slate-700">Content signals: {landingSchemaValidation.categories.contentSignals}/15</p>
+              </div>
+              <div className="mt-4 rounded-[6px] bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                {landingSchemaFindings.length
+                  ? landingSchemaFindings.join(" ")
+                  : "No active landing page structured-data warnings."}
+              </div>
+            </div>
+          </div>
+        </ComponentCard>
+
+        <ComponentCard
           title="SEO Quick Editor"
           desc="Edit search metadata, readability notes, schema markup, and social preview fields without leaving the SEO page."
         >
@@ -778,6 +838,16 @@ const SeoAnalysis = () => {
                   value={editorForm.seoDescription}
                   onChange={handleEditorChange}
                   className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                />
+              </div>
+              <div className="lg:col-span-2">
+                <label className="mb-2 block text-sm font-medium text-slate-700">SEO Keywords</label>
+                <input
+                  name="seoKeywords"
+                  type="text"
+                  value={editorForm.seoKeywords}
+                  onChange={handleEditorChange}
+                  className="h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </div>
               <div>
@@ -979,7 +1049,7 @@ const SeoAnalysis = () => {
           ) : (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
-                {(["all", "main", "services", "portfolio", "page", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
+                {(["all", "main", "footer", "services", "portfolio", "page", "blog", "ideas", "news"] as ContentFilter[]).map((filterValue) => (
                   <button
                     key={filterValue}
                     type="button"
@@ -994,6 +1064,8 @@ const SeoAnalysis = () => {
                       ? "All content"
                       : filterValue === "main"
                       ? "Main pages"
+                      : filterValue === "footer"
+                      ? "Footer pages"
                       : filterValue === "services"
                       ? "Services pages"
                       : filterValue === "portfolio"

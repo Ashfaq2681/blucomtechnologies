@@ -194,39 +194,52 @@ const ContentHub = ({
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         {showManagement && (
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
-            <div className="flex flex-wrap gap-2">
-              {[
-                ["published", "Published"],
-                ["manage", `${contentType} List`],
-                ["write", editingPostId ? `Edit ${contentType}` : `Write ${contentType}`],
-              ].map(([value, label]) => (
+          <div className="mb-8 border-b border-slate-200 pb-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-blue-700">
+                  Content workspace
+                </p>
+                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950">
+                  {contentType} editor
+                </h2>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="inline-flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1">
+                  {[
+                    ["published", "Published"],
+                    ["manage", `${contentType} List`],
+                    ["write", editingPostId ? `Edit ${contentType}` : `Write ${contentType}`],
+                  ].map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => {
+                        if (value === "write") {
+                          setEditingPostId(null);
+                        }
+                        setActiveTab(value);
+                      }}
+                      className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition ${
+                        activeTab === value
+                          ? "bg-white text-slate-950 shadow-sm ring-1 ring-slate-200"
+                          : "text-slate-600 hover:bg-white/70 hover:text-slate-950"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
                 <button
-                  key={value}
                   type="button"
-                  onClick={() => {
-                    if (value === "write") {
-                      setEditingPostId(null);
-                    }
-                    setActiveTab(value);
-                  }}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    activeTab === value
-                      ? "bg-slate-950 text-white"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                  }`}
+                  onClick={() => openEditor()}
+                  className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
                 >
-                  {label}
+                  New {contentType}
                 </button>
-              ))}
+              </div>
             </div>
-            <button
-              type="button"
-              onClick={() => openEditor()}
-              className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-            >
-              New {contentType}
-            </button>
           </div>
         )}
 
@@ -343,7 +356,7 @@ const ContentHub = ({
         )}
 
         {activeTab === "write" && (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
             <CreateBlog
               key={editingPostId || `new-${contentType}`}
               postId={editingPostId}

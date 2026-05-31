@@ -42,7 +42,7 @@ const ContactFormPage = () => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-10 w-full max-w-[1300px] px-10"
       >
-        <div className="bg-white shadow-lg p-8 md:p-12">
+        <div className="bg-white  p-8 md:p-12 border-2 border-slate-200">
           {/* Heading */}
           <div className="flex flex-col justify-center items-center mb-10">
             <span className="text-2xl text-gray-500 mb-2">
@@ -81,7 +81,7 @@ const ContactFormPage = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your full name"
-                  className="w-full px-4 py-3 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full px-4 py-3 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black"
                   required
                 />
               </div>
@@ -93,7 +93,7 @@ const ContactFormPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Your email address"
-                  className="w-full px-4 py-3 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full px-4 py-3 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black"
                   required
                 />
               </div>
@@ -108,7 +108,7 @@ const ContactFormPage = () => {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Write something..."
-                className="w-full px-4 py-3 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-4 py-3 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black"
                 required
               />
             </div>

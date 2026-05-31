@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { ArrowUpRight, CalendarDays, Clock3, Sparkles, Tag } from "lucide-react";
+import {
+  ArrowUpRight,
+  Building2,
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  Copy,
+  Linkedin,
+  Mail,
+  Send,
+  Sparkles,
+  Tag,
+  Twitter,
+  User,
+} from "lucide-react";
 import { FALLBACK_BLOG_POSTS, getPostBySlug } from "../../api/blogs";
+import { createContactLead } from "../../api/leads";
 import { getPostDescription, getPostTitle } from "../../utils/postDescriptions";
 import { estimateReadTime, formatDate } from "./utils";
+import BlogNav from "./components/BlogNav";
 
 const stripHtml = (value = "") =>
   value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -16,12 +32,23 @@ const slugifyText = (value = "") =>
     .replace(/^-|-$/g, "")
     .slice(0, 64);
 
+const normalizeComparableText = (value = "") =>
+  stripHtml(value)
+    .replace(/&amp;/gi, "&")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&quot;/gi, "\"")
+    .replace(/&#39;|&apos;|&rsquo;/gi, "'")
+    .replace(/&ldquo;|&rdquo;/gi, "\"")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
 const getArticleSections = (html = "") => {
   if (!hasValue(html)) {
     return [];
   }
 
-  const headingPattern = /<h([2-3])[^>]*>([\s\S]*?)<\/h\1>/gi;
+  const headingPattern = /<h([1-4])[^>]*>([\s\S]*?)<\/h\1>/gi;
   const matches = [...html.matchAll(headingPattern)];
 
   if (matches.length === 0) {
@@ -29,6 +56,7 @@ const getArticleSections = (html = "") => {
       {
         id: "article",
         heading: "Article",
+        level: 2,
         body: html,
       },
     ];
@@ -41,6 +69,7 @@ const getArticleSections = (html = "") => {
     sections.push({
       id: "overview",
       heading: "Overview",
+      level: 2,
       body: intro,
     });
   }
@@ -54,6 +83,7 @@ const getArticleSections = (html = "") => {
     sections.push({
       id: `${slugifyText(heading) || "section"}-${index + 1}`,
       heading,
+      level: Number(match[1]),
       body,
     });
   });
@@ -117,6 +147,16 @@ const SingleBlog = () => {
   const [post, setPost] = useState(prerenderedPost);
   const [loading, setLoading] = useState(!prerenderedPost);
   const [usingFallbackPost, setUsingFallbackPost] = useState(false);
+  const [leadForm, setLeadForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    message: "",
+  });
+  const [leadStatus, setLeadStatus] = useState("idle");
+  const [leadError, setLeadError] = useState("");
+  const [copyStatus, setCopyStatus] = useState("idle");
+  const [readingProgress, setReadingProgress] = useState(0);
   const seoTitle = useValue(post?.seoTitle, useValue(post?.title, "Blog Post"));
   const seoDescription = useValue(
     post?.seoDescription,
@@ -150,6 +190,34 @@ const SingleBlog = () => {
   const readTime = post?.content ? estimateReadTime(post.content) : "";
   const publishedDate = post ? formatDate(post.createdAt) : "";
   const articleSections = post?.content ? getArticleSections(post.content) : [];
+  const articleTitleText = normalizeComparableText(post?.title);
+  const tableOfContentsSections = articleSections.filter(
+    (section) =>
+      section.level <= 3 && normalizeComparableText(section.heading) !== articleTitleText,
+  );
+  const currentUrl =
+    typeof window !== "undefined"
+      ? window.location.href
+      : canonicalUrl || `https://www.blucomtechnologies.com${location.pathname}`;
+  const encodedShareUrl = encodeURIComponent(currentUrl);
+  const encodedShareTitle = encodeURIComponent(post?.title || seoTitle);
+  const shareLinks = [
+    {
+      label: "LinkedIn",
+      icon: Linkedin,
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`,
+    },
+    {
+      label: "X",
+      icon: Twitter,
+      href: `https://twitter.com/intent/tweet?url=${encodedShareUrl}&text=${encodedShareTitle}`,
+    },
+    {
+      label: "Email",
+      icon: Mail,
+      href: `mailto:?subject=${encodedShareTitle}&body=${encodedShareUrl}`,
+    },
+  ];
 
   useEffect(() => {
     let isMounted = true;
@@ -195,6 +263,85 @@ const SingleBlog = () => {
     };
   }, [slug]);
 
+  useEffect(() => {
+    if (!post?.content || typeof window === "undefined") {
+      setReadingProgress(0);
+      return undefined;
+    }
+
+    const updateReadingProgress = () => {
+      const articleContent = document.getElementById("article-content");
+
+      if (!articleContent) {
+        setReadingProgress(0);
+        return;
+      }
+
+      const rect = articleContent.getBoundingClientRect();
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const articleTop = rect.top + scrollTop;
+      const start = articleTop - 120;
+      const end = articleTop + articleContent.offsetHeight - window.innerHeight;
+      const total = Math.max(end - start, 1);
+      const progress = ((scrollTop - start) / total) * 100;
+
+      setReadingProgress(Math.min(100, Math.max(0, progress)));
+    };
+
+    updateReadingProgress();
+    window.addEventListener("scroll", updateReadingProgress, { passive: true });
+    window.addEventListener("resize", updateReadingProgress);
+
+    return () => {
+      window.removeEventListener("scroll", updateReadingProgress);
+      window.removeEventListener("resize", updateReadingProgress);
+    };
+  }, [post?.content, slug]);
+
+  const handleLeadChange = (event) => {
+    const { name, value } = event.target;
+    setLeadForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleLeadSubmit = async (event) => {
+    event.preventDefault();
+    setLeadStatus("submitting");
+    setLeadError("");
+
+    try {
+      await createContactLead({
+        ...leadForm,
+        title: `Lead magnet: ${post?.title || "Blog article"}`,
+        message:
+          leadForm.message ||
+          `I want the article checklist for ${post?.title || currentUrl}.`,
+        source: "blog_single_lead_magnet",
+      });
+
+      setLeadForm({
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+      });
+      setLeadStatus("success");
+    } catch (submitError) {
+      console.error("[blog-lead][submit]", submitError);
+      setLeadError("Unable to submit right now. Please try again.");
+      setLeadStatus("error");
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      setCopyStatus("copied");
+      window.setTimeout(() => setCopyStatus("idle"), 1800);
+    } catch (_error) {
+      setCopyStatus("error");
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -225,6 +372,7 @@ const SingleBlog = () => {
       </Helmet>
 
       <div className="min-h-screen bg-gray-100 text-slate-950">
+        <BlogNav readingProgress={readingProgress} />
         <main>
           {loading && (
             <div className="mx-auto max-w-7xl px-6 py-24 text-center text-sm font-semibold text-slate-700 lg:px-8">
@@ -244,7 +392,7 @@ const SingleBlog = () => {
                 <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-700 via-emerald-500 to-emerald-300" />
                 <div className="mx-auto max-w-5xl px-6 py-20 sm:py-24 lg:px-8 lg:py-28">
                   {post.image && (
-                    <div className="overflow-hidden rounded-lg border border-emerald-100 bg-white shadow-xl shadow-slate-950/10">
+                    <div className="overflow-hidden border border-emerald-100 bg-white">
                       <img
                         src={post.image}
                         alt={post.title}
@@ -313,40 +461,104 @@ const SingleBlog = () => {
                 </div>
               </section>
 
-              <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
-                <div className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)]">
-                  <aside className="lg:sticky lg:top-24 lg:self-start">
-                    <div className="border-l-4 border-emerald-500 pl-5">
+              <section className="mx-auto max-w-[1500px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+                <div className="grid gap-8 xl:grid-cols-[minmax(0,900px)_320px] xl:items-start xl:justify-center 2xl:grid-cols-[300px_minmax(780px,900px)_320px]">
+                  <aside className="xl:col-span-2 2xl:sticky 2xl:top-24 2xl:col-span-1 2xl:self-start">
+                    <div className="grid gap-6">
+                    <div className="border-l-4 border-emerald-500 bg-white p-5 pl-5 shadow-sm ring-1 ring-slate-200 2xl:bg-transparent 2xl:p-0 2xl:pl-5 2xl:shadow-none 2xl:ring-0">
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">In this page</p>
-                      <nav className="mt-5 grid gap-3 text-sm font-semibold text-emerald-700">
-                        {articleSections.map((section) => (
-                          <a key={section.id} href={`#${section.id}`} className="transition hover:underline">
+                      <nav className="mt-5 flex flex-wrap gap-3 text-sm font-semibold text-emerald-700 2xl:grid">
+                        {tableOfContentsSections.map((section) => (
+                          <a key={section.id} href={`#${section.id}`} className="rounded-lg bg-emerald-50 px-3 py-2 transition hover:underline 2xl:bg-transparent 2xl:px-0 2xl:py-0">
                             {section.heading}
                           </a>
                         ))}
                         {relatedPosts.length > 0 && (
-                          <a href="#related-posts" className="transition hover:underline">Related posts</a>
-                        )}
-                      </nav>
+                          <a href="#related-posts" className="rounded-lg bg-emerald-50 px-3 py-2 transition hover:underline 2xl:bg-transparent 2xl:px-0 2xl:py-0">Related posts</a>
+                      )}
+                    </nav>
+                  </div>
+                    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                      <h2 className="text-2xl font-semibold leading-tight text-slate-950">
+                        Send this insight to your team
+                      </h2>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">
+                        Share the article link or copy it for your campaign planning notes.
+                      </p>
+                      <div className="mt-5 grid gap-3">
+                        {shareLinks.map(({ label, icon: Icon, href }) => (
+                          <a
+                            key={label}
+                            href={href}
+                            target={label === "Email" ? undefined : "_blank"}
+                            rel={label === "Email" ? undefined : "noreferrer"}
+                            className="inline-flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-emerald-200 hover:text-emerald-700"
+                          >
+                            <span className="inline-flex items-center gap-3">
+                              <Icon className="h-4 w-4" />
+                              {label}
+                            </span>
+                            <ArrowUpRight className="h-4 w-4" />
+                          </a>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={handleCopyLink}
+                          className="inline-flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-emerald-200 hover:text-emerald-700"
+                        >
+                          <span className="inline-flex items-center gap-3">
+                            <Copy className="h-4 w-4" />
+                            {copyStatus === "copied" ? "Copied" : "Copy link"}
+                          </span>
+                          {copyStatus === "copied" ? (
+                            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                          ) : (
+                            <ArrowUpRight className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
                     </div>
-                  </aside>
+                  </div>
+                </aside>
 
                   <div className="grid gap-12">
-                    <div id="article-content" className="grid gap-12">
+                    <div
+                      id="article-content"
+                      className="grid gap-12 rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10"
+                    >
                       {articleSections.map((section, index) => (
                         <section
                           id={section.id}
                           key={section.id}
-                          className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10"
+                          className="scroll-mt-24"
                         >
-                          <span className="inline-flex rounded-lg bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-200">
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
-                          <h2 className="mt-5 text-3xl font-semibold leading-tight text-slate-950">
-                            {section.heading}
-                          </h2>
+                          {section.level === 2 && (
+                            <>
+                              <span className="inline-flex rounded-lg bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-200">
+                                {String(index + 1).padStart(2, "0")}
+                              </span>
+                              <h2 className="mt-5 text-3xl font-semibold leading-tight text-slate-950">
+                                {section.heading}
+                              </h2>
+                            </>
+                          )}
+                          {section.level === 1 && (
+                            <h2 className="text-4xl font-semibold leading-tight text-slate-950">
+                              {section.heading}
+                            </h2>
+                          )}
+                          {section.level === 3 && (
+                            <h3 className="text-2xl font-semibold leading-snug text-slate-900">
+                              {section.heading}
+                            </h3>
+                          )}
+                          {section.level === 4 && (
+                            <h4 className="text-xl font-semibold leading-snug text-slate-900">
+                              {section.heading}
+                            </h4>
+                          )}
                           <div
-                            className="prose prose-lg mt-6 max-w-none prose-headings:font-semibold prose-headings:leading-tight prose-headings:text-slate-950 prose-a:font-semibold prose-a:text-emerald-700 prose-p:leading-8 prose-p:text-slate-700 prose-li:leading-8 prose-li:text-slate-700 prose-img:rounded-lg"
+                            className="blog-article-rich-text prose prose-lg mt-6 max-w-none prose-headings:font-semibold prose-headings:leading-tight prose-headings:text-slate-950 prose-a:font-semibold prose-a:no-underline prose-p:leading-8 prose-p:text-slate-700 prose-li:leading-8 prose-li:text-slate-700 prose-img:rounded-lg"
                             dangerouslySetInnerHTML={{ __html: section.body }}
                           />
                         </section>
@@ -418,6 +630,87 @@ const SingleBlog = () => {
                       </aside>
                     )}
                   </div>
+
+                  <aside className="grid gap-6 xl:sticky xl:top-24 xl:self-start">
+                    <div className="rounded-lg border border-emerald-200 bg-[#f0fbf7] p-6 shadow-sm">
+                      <h2 className="text-2xl font-semibold leading-tight text-slate-950">
+                        Get the campaign checklist
+                      </h2>
+                      <p className="mt-3 text-sm leading-6 text-slate-700">
+                        Leave your details and our team will share a practical checklist connected to this topic.
+                      </p>
+
+                      <form onSubmit={handleLeadSubmit} className="mt-5 grid gap-3">
+                        <label className="grid gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                          Name
+                          <span className="relative">
+                            <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                            <input
+                              name="name"
+                              value={leadForm.name}
+                              onChange={handleLeadChange}
+                              required
+                              className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-10 pr-3 text-sm font-medium normal-case tracking-normal text-slate-900 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                              placeholder="Your name"
+                            />
+                          </span>
+                        </label>
+                        <label className="grid gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                          Email
+                          <span className="relative">
+                            <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                            <input
+                              type="email"
+                              name="email"
+                              value={leadForm.email}
+                              onChange={handleLeadChange}
+                              required
+                              className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-10 pr-3 text-sm font-medium normal-case tracking-normal text-slate-900 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                              placeholder="name@company.com"
+                            />
+                          </span>
+                        </label>
+                        <label className="grid gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                          Company
+                          <span className="relative">
+                            <Building2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                            <input
+                              name="company"
+                              value={leadForm.company}
+                              onChange={handleLeadChange}
+                              className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-10 pr-3 text-sm font-medium normal-case tracking-normal text-slate-900 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                              placeholder="Company"
+                            />
+                          </span>
+                        </label>
+                        <textarea
+                          name="message"
+                          value={leadForm.message}
+                          onChange={handleLeadChange}
+                          rows={3}
+                          className="w-full resize-none rounded-lg border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                          placeholder="What are you planning?"
+                        />
+                        {leadError && (
+                          <p className="text-sm font-semibold text-red-600">{leadError}</p>
+                        )}
+                        {leadStatus === "success" && (
+                          <p className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700">
+                            <CheckCircle2 className="h-4 w-4" />
+                            Request received.
+                          </p>
+                        )}
+                        <button
+                          type="submit"
+                          disabled={leadStatus === "submitting"}
+                          className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {leadStatus === "submitting" ? "Sending..." : "Send checklist"}
+                          <Send className="h-4 w-4" />
+                        </button>
+                      </form>
+                    </div>
+                  </aside>
                 </div>
               </section>
             </article>

@@ -27,7 +27,7 @@ const ContactFormPage = () => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-10 w-full max-w-[1300px] px-10"
       >
-        <div className="bg-white shadow-lg p-8 md:p-12">
+        <div className="bg-white  p-8 md:p-12 border-b border-gray-200 z-50">
           {/* Heading */}
           <div className="flex flex-col justify-center items-center mb-10">
             <span className="text-2xl text-gray-900 mb-2">

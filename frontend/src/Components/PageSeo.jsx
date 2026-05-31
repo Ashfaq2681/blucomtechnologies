@@ -1,12 +1,89 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { getPageSeoEntry } from "../api/pageSeo";
+import { buildLandingSeo } from "../seo/landingSeo";
 
 const SITE_URL = "https://www.blucomtechnologies.com";
-const DEFAULT_IMAGE = `${SITE_URL}/preview.jpg`;
+const DEFAULT_IMAGE = `${SITE_URL}/landing/tucson.png`;
 const DEFAULT_TITLE = "Blucom Technologies | Brand Strategy and Digital Marketing";
 const DEFAULT_DESCRIPTION =
   "Blucom Technologies builds brand, marketing, and digital systems for companies that need sharper strategy and stronger execution.";
+
+const hasValue = (value) => value !== undefined && value !== null && String(value).trim() !== "";
+const pickValue = (...values) => {
+  const match = values.find((value) => hasValue(value));
+  return match === undefined ? "" : String(match);
+};
+
+const normalizeStoredSeo = (entry = {}) => ({
+  ...entry,
+  seoTitle: pickValue(entry.seoTitle, entry.seo_title),
+  seoDescription: pickValue(entry.seoDescription, entry.seo_description),
+  seoKeywords: pickValue(entry.seoKeywords, entry.seo_keywords, entry.metaKeywords),
+  metaKeywords: pickValue(entry.metaKeywords, entry.seoKeywords, entry.seo_keywords),
+  focusKeyword: pickValue(entry.focusKeyword, entry.focus_keyword),
+  canonicalUrl: pickValue(entry.canonicalUrl, entry.canonical_url),
+  metaRobots: pickValue(entry.metaRobots, entry.meta_robots),
+  readabilityNotes: pickValue(entry.readabilityNotes, entry.readability_notes),
+  socialTitle: pickValue(entry.socialTitle, entry.social_title),
+  socialDescription: pickValue(entry.socialDescription, entry.social_description),
+  socialImage: pickValue(entry.socialImage, entry.social_image),
+  schemaType: pickValue(entry.schemaType, entry.schema_type),
+  schemaJson: pickValue(entry.schemaJson, entry.schema_json),
+  twitterCard: pickValue(entry.twitterCard, entry.twitter_card),
+});
+
+const getPrerenderedPageSeo = (path) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const injected = window.__PRERENDERED_PAGE_SEO__;
+  if (!injected) {
+    return null;
+  }
+
+  if (Array.isArray(injected)) {
+    return injected.find((entry) => normalizePath(entry?.path) === path) || null;
+  }
+
+  if (injected[path]) {
+    return injected[path];
+  }
+
+  if (!injected.path || normalizePath(injected.path) === path) {
+    return injected;
+  }
+
+  return null;
+};
+
+export const footerLinkedSeoPaths = [
+  "/about",
+  "/work",
+  "/ideas",
+  "/news",
+  "/careers",
+  "/investors",
+  "/for-startups",
+  "/for-small-business",
+  "/for-agencies",
+  "/for-ecommerce",
+  "/enterprise",
+  "/documentation",
+  "/guides",
+  "/api-reference",
+  "/blog",
+  "/community",
+  "/press",
+  "/partners",
+  "/contact",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/cookie-policy",
+  "/gdpr-compliance",
+  "/security",
+];
 
 const pageDefaults = {
   "/": {
@@ -38,6 +115,11 @@ const pageDefaults = {
     title: "Portfolio | Blucom Technologies",
     description:
       "Review Blucom Technologies work across brand identity, digital experiences, campaigns, and growth-focused creative projects.",
+  },
+  "/portfolio/single": {
+    title: "Portfolio Detail | Blucom Technologies",
+    description:
+      "Review a Blucom Technologies portfolio detail with brand, digital experience, campaign, and growth-focused project context.",
   },
   "/portfolio/hyundai": {
     title: "Hyundai Pakistan Case Study | Blucom Technologies",
@@ -384,6 +466,11 @@ const normalizePath = (path = "/") => {
   return normalized || "/";
 };
 
+export const getKnownPageSeoPaths = () =>
+  Array.from(new Set([...footerLinkedSeoPaths, ...Object.keys(pageDefaults), ...Object.keys(serviceDefaults)]))
+    .map(normalizePath)
+    .sort((first, second) => first.localeCompare(second));
+
 const formatTitleCase = (value = "") =>
   String(value)
     .split("-")
@@ -443,7 +530,7 @@ const buildBreadcrumbSchema = (canonicalPath, canonicalUrl) => {
 
 const buildPageSchema = ({ metaTitle, metaDescription, canonicalUrl, image, type }) => ({
   "@context": "https://schema.org",
-  "@type": type === "article" ? "Article" : "WebPage",
+  "@type": type || "WebPage",
   name: metaTitle,
   headline: metaTitle,
   description: metaDescription,
@@ -453,7 +540,7 @@ const buildPageSchema = ({ metaTitle, metaDescription, canonicalUrl, image, type
     "@type": "Organization",
     name: "Blucom Technologies",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/logo_main.png`,
   },
 });
 
@@ -462,8 +549,13 @@ const organizationSchema = {
   "@type": "Organization",
   name: "Blucom Technologies",
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  sameAs: [],
+  logo: `${SITE_URL}/logo_main.png`,
+  sameAs: [
+    "https://www.facebook.com/blucomtechnologies",
+    "https://www.linkedin.com/company/blucomtechnologies",
+    "https://x.com/blucomtech",
+    "https://instagram.com/blucomtechnologies",
+  ],
 };
 
 const websiteSchema = {
@@ -484,18 +576,28 @@ const PageSeo = ({
   schema,
 }) => {
   const canonicalPath = normalizePath(path);
-  const [storedSeo, setStoredSeo] = useState(null);
+  const isLandingPage = canonicalPath === "/";
+  const landingSeo = isLandingPage ? buildLandingSeo() : null;
+  const isCompletedContentPath = /^\/(blog|ideas|news)\//.test(canonicalPath);
+  const [storedSeo, setStoredSeo] = useState(() => {
+    const prerenderedSeo = getPrerenderedPageSeo(canonicalPath);
+    return prerenderedSeo ? normalizeStoredSeo(prerenderedSeo) : undefined;
+  });
   const fallbackSeo = getPageSeo(canonicalPath);
   const canonicalUrl =
-    storedSeo?.canonicalUrl || `${SITE_URL}${canonicalPath === "/" ? "" : canonicalPath}`;
-  const metaTitle = storedSeo?.seoTitle || title || fallbackSeo.title;
+    landingSeo?.canonicalUrl ||
+    storedSeo?.canonicalUrl ||
+    `${SITE_URL}${canonicalPath === "/" ? "" : canonicalPath}`;
+  const metaTitle = landingSeo?.title || storedSeo?.seoTitle || title || fallbackSeo.title;
   const metaDescription =
-    storedSeo?.seoDescription || description || fallbackSeo.description;
-  const metaKeywords = keywords || storedSeo?.seoKeywords;
-  const socialTitle = storedSeo?.socialTitle || metaTitle;
-  const socialDescription = storedSeo?.socialDescription || metaDescription;
-  const socialImage = storedSeo?.socialImage || image;
-  const twitterCard = storedSeo?.twitterCard || "summary_large_image";
+    landingSeo?.description || storedSeo?.seoDescription || description || fallbackSeo.description;
+  const metaKeywords = landingSeo?.keywords || storedSeo?.metaKeywords || storedSeo?.seoKeywords || keywords;
+  const socialTitle = landingSeo?.socialTitle || storedSeo?.socialTitle || metaTitle;
+  const socialDescription = landingSeo?.socialDescription || storedSeo?.socialDescription || metaDescription;
+  const socialImage = landingSeo?.socialImage || storedSeo?.socialImage || image;
+  const twitterCard = landingSeo?.twitterCard || storedSeo?.twitterCard || "summary_large_image";
+  const schemaType = storedSeo?.schemaType || (type === "article" ? "Article" : "WebPage");
+  const openGraphType = schemaType === "Article" || type === "article" ? "article" : type;
   const storedSchema = storedSeo?.schemaJson
     ? (() => {
         try {
@@ -515,23 +617,46 @@ const PageSeo = ({
     canonicalPath === "/multistepform"
       ? "noindex, nofollow"
       : "index, follow");
-  const schemas = [
-    organizationSchema,
-    websiteSchema,
-    buildPageSchema({ metaTitle, metaDescription, canonicalUrl, image: socialImage, type }),
-    buildBreadcrumbSchema(canonicalPath, canonicalUrl),
-    ...(storedSchema ? [storedSchema] : []),
-    ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
-  ];
+  const schemas = landingSeo
+    ? landingSeo.schemaGraph
+    : [
+        organizationSchema,
+        websiteSchema,
+        buildPageSchema({ metaTitle, metaDescription, canonicalUrl, image: socialImage, type: schemaType }),
+        buildBreadcrumbSchema(canonicalPath, canonicalUrl),
+        ...(storedSchema ? [storedSchema] : []),
+        ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
+      ];
 
   useEffect(() => {
     let mounted = true;
+    const prerenderedSeo = getPrerenderedPageSeo(canonicalPath);
+
+    if (isLandingPage) {
+      setStoredSeo(null);
+      return () => {
+        mounted = false;
+      };
+    }
+
+    if (isCompletedContentPath) {
+      setStoredSeo(null);
+      return () => {
+        mounted = false;
+      };
+    }
+
+    if (prerenderedSeo) {
+      setStoredSeo(normalizeStoredSeo(prerenderedSeo));
+    } else {
+      setStoredSeo(undefined);
+    }
 
     const loadStoredSeo = async () => {
       try {
         const entry = await getPageSeoEntry(canonicalPath);
         if (mounted) {
-          setStoredSeo(entry);
+          setStoredSeo(entry ? normalizeStoredSeo(entry) : null);
         }
       } catch (_error) {
         if (mounted) {
@@ -545,7 +670,15 @@ const PageSeo = ({
     return () => {
       mounted = false;
     };
-  }, [canonicalPath]);
+  }, [canonicalPath, isCompletedContentPath, isLandingPage]);
+
+  if (isCompletedContentPath) {
+    return null;
+  }
+
+  if (!isLandingPage && storedSeo === undefined) {
+    return null;
+  }
 
   return (
     <Helmet>
@@ -556,7 +689,7 @@ const PageSeo = ({
       <link rel="canonical" href={canonicalUrl} />
       <meta property="og:title" content={socialTitle} />
       <meta property="og:description" content={socialDescription} />
-      <meta property="og:type" content={type} />
+      <meta property="og:type" content={openGraphType} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={socialImage} />
       <meta name="twitter:card" content={twitterCard} />

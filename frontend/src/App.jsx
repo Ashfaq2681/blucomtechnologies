@@ -4,7 +4,7 @@ import { HelmetProvider } from "react-helmet-async"; // Import HelmetProvider
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import SubscriptionBanner from "./Components/SubscriptionBanner";
-import PageSeo, { getPageSeo } from "./Components/PageSeo";
+import PageSeo from "./Components/PageSeo";
 import { ThemeProvider as DashboardThemeProvider } from "./pages/dashboard/context/ThemeContext";
 import "./pages/dashboard/dashboard-styling.css";
 
@@ -132,6 +132,67 @@ const ScrollToTop = () => {
   return null;
 };
 
+const LimitPageH1 = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const root = document.getElementById("root");
+
+    if (!root) {
+      return undefined;
+    }
+
+    let scheduled = false;
+
+    const replaceWithH2 = (heading) => {
+      const replacement = document.createElement("h2");
+
+      Array.from(heading.attributes).forEach((attribute) => {
+        replacement.setAttribute(attribute.name, attribute.value);
+      });
+
+      while (heading.firstChild) {
+        replacement.appendChild(heading.firstChild);
+      }
+
+      heading.replaceWith(replacement);
+    };
+
+    const normalizeHeadings = () => {
+      const headings = Array.from(root.querySelectorAll("h1"));
+      const primaryHeading =
+        headings.find((heading) => heading.textContent.trim()) || headings[0] || null;
+
+      headings.forEach((heading) => {
+        if (heading !== primaryHeading) {
+          replaceWithH2(heading);
+        }
+      });
+    };
+
+    const scheduleNormalize = () => {
+      if (scheduled) {
+        return;
+      }
+
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        normalizeHeadings();
+      });
+    };
+
+    scheduleNormalize();
+
+    const observer = new MutationObserver(scheduleNormalize);
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  return null;
+};
+
 const DashboardShell = () => (
   <DashboardThemeProvider>
     <DashboardLayout />
@@ -148,16 +209,13 @@ const AppContent = () => {
   const { pathname } = useLocation();
   const normalizedPathname = pathname.toLowerCase();
   const isDashboardPath = normalizedPathname.startsWith("/dashboard") || normalizedPathname.startsWith("/admindashboard");
+  const isBlogPath = normalizedPathname === "/blog" || normalizedPathname.startsWith("/blog/");
 
   return (
     <>
           <ScrollToTop />
-          <PageSeo
-            path={pathname}
-            title={getPageSeo(pathname).title}
-            description={getPageSeo(pathname).description}
-          />
-          {!isDashboardPath && <Header />}
+          <LimitPageH1 />
+          {!isDashboardPath && !isBlogPath && <Header />}
           <Suspense fallback={<div>Loading...</div>}> {/* ✅ Add a fallback */}
             <Routes>
               <Route path="/" element={<Landing />} />
@@ -320,6 +378,7 @@ const AppContent = () => {
               <Route path="/services/new-folder/buying" element={<Buying />} />
               <Route path="/services/new-folder/omnichannel-campaign-management" element={<OmniCampaign />} />
             </Routes>
+            <PageSeo path={pathname} />
             <PageEndContactForm />
           </Suspense>
           {!isDashboardPath && <SubscriptionBanner />}

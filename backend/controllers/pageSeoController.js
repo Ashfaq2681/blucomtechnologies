@@ -14,6 +14,8 @@ const mapPageSeo = (row) => ({
   path: row.path,
   seoTitle: asString(row.seo_title),
   seoDescription: asString(row.seo_description),
+  seoKeywords: asString(row.seo_keywords),
+  metaKeywords: asString(row.seo_keywords),
   focusKeyword: asString(row.focus_keyword),
   canonicalUrl: asString(row.canonical_url),
   metaRobots: asString(row.meta_robots),
@@ -56,6 +58,7 @@ const upsertPageSeoEntry = async (req, res) => {
     const values = {
       seoTitle: asString(req.body.seoTitle ?? req.body.seo_title),
       seoDescription: asString(req.body.seoDescription ?? req.body.seo_description),
+      seoKeywords: asString(req.body.seoKeywords ?? req.body.seo_keywords ?? req.body.metaKeywords),
       focusKeyword: asString(req.body.focusKeyword ?? req.body.focus_keyword),
       canonicalUrl: asString(req.body.canonicalUrl ?? req.body.canonical_url),
       metaRobots: asString(req.body.metaRobots ?? req.body.meta_robots, "index,follow"),
@@ -70,11 +73,12 @@ const upsertPageSeoEntry = async (req, res) => {
 
     await query(
       `INSERT INTO page_seo
-        (path, seo_title, seo_description, focus_keyword, canonical_url, meta_robots, readability_notes, social_title, social_description, social_image, schema_type, schema_json, twitter_card)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (path, seo_title, seo_description, seo_keywords, focus_keyword, canonical_url, meta_robots, readability_notes, social_title, social_description, social_image, schema_type, schema_json, twitter_card)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        ON DUPLICATE KEY UPDATE
         seo_title = VALUES(seo_title),
         seo_description = VALUES(seo_description),
+        seo_keywords = VALUES(seo_keywords),
         focus_keyword = VALUES(focus_keyword),
         canonical_url = VALUES(canonical_url),
         meta_robots = VALUES(meta_robots),
@@ -89,6 +93,7 @@ const upsertPageSeoEntry = async (req, res) => {
         path,
         values.seoTitle || null,
         values.seoDescription || null,
+        values.seoKeywords || null,
         values.focusKeyword || null,
         values.canonicalUrl || null,
         values.metaRobots || null,
