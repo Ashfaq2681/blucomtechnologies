@@ -36,37 +36,24 @@ const navItems: NavItem[] = [
     path: "/Dashboard/leads",
   },
   {
-    name: "Blog",
-    icon: <PageIcon />,
-    path: "/Dashboard/blog",
-  },
-  {
-    name: "Ideas",
-    icon: <PageIcon />,
-    path: "/Dashboard/ideas",
-  },
-  {
-    name: "News",
-    icon: <PageIcon />,
-    path: "/Dashboard/news",
-  },
-  {
-    name: "Portfolio",
+    name: "Content",
     icon: <PageIcon />,
     subItems: [
+      { name: "Overview", path: "/Dashboard/content", pro: false },
+      { name: "Blog", path: "/Dashboard/blog", pro: false },
+      { name: "Ideas", path: "/Dashboard/ideas", pro: false },
+      { name: "News", path: "/Dashboard/news", pro: false },
+      { name: "Video Library", path: "/Dashboard/videos", pro: false },
+      { name: "Upload Video", path: "/Dashboard/upload-video", pro: false },
       { name: "Portfolio Pages", path: "/Dashboard/portfolio", pro: false },
       { name: "Publish Portfolio", path: "/Dashboard/write-portfolio", pro: false },
+      { name: "Careers", path: "/Dashboard/career", pro: false },
     ],
   },
   {
     name: "SEO Analysis",
     icon: <PageIcon />,
     path: "/Dashboard/seo-analysis",
-  },
-  {
-    name: "Careers",
-    icon: <PageIcon />,
-    path: "/Dashboard/career",
   },
   {
     icon: <CalenderIcon />,

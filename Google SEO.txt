@@ -1,1 +1,42 @@
-text
+Verified- 1-Step 1 Google Business Profile Setup plus google ad setup
+                adding more details like
+                                    posts
+                                    social accounts
+                                    Edit profile
+                                    Read reviews
+                                    Photos
+                                    Posts
+                                    Performance
+                                    Advertise
+                                    Edit products
+                                    Edit services
+                                    Bookings
+                                    Ask for reviews
+                                    Profiles
+2-
+
+
+
+
+0:00 - I Built A Site That Gets 50,000 Google Clicks/Month
+0:41 - Local SEO vs General SEO (Why Local Wins)
+3:04 - Setting Up Your Google Business Profile
+5:46 - The 4 Fields That Drive 80% of GMB Rankings
+8:52 - Installing Anti-Gravity + Claude Code
+11:46 - Auto-Generate Your Optimized GMB Profile
+14:13 - Validating Service Keywords With Semrush
+19:23 - The 4 Levers That Boost GMB Visibility
+20:21 - Citations: The Trust Signal Most People Skip
+23:01 - GMB Suspensions: Red Flags To Avoid
+24:14 - Automate GMB Posts With Claude + Make.com
+28:30 - Voice Files: Make AI Sound Like You
+34:34 - The Google Reviews Engine
+38:05 - Build A Review Filter Gate In Next.js
+41:06 - Auto-Reply To Reviews With Make.com
+42:02 - Localized Service Pages (The Zipper Matrix)
+47:50 - Finding Money Keywords That Convert
+52:18 - Keyword Clusters (Rank For 5 Things Per Page)
+53:26 - Localized Blog Posts That Beat AI Slop
+58:34 - On-Page + Technical SEO With Lighthouse
+1:03:56 - Bottle It Into A Reusable Claude Code Skill
+1:05:59 - Deploy Live With GitHub + Vercel

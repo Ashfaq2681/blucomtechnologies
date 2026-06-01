@@ -2,6 +2,7 @@ import ComponentCard from "./common/ComponentCard";
 import PageBreadcrumb from "./common/PageBreadCrumb";
 import PageMeta from "./common/PageMeta";
 import PageIntro from "./common/PageIntro";
+import { Link } from "react-router-dom";
 import FourIsToThree from "./ui/videos/FourIsToThree";
 import OneIsToOne from "./ui/videos/OneIsToOne";
 import SixteenIsToNine from "./ui/videos/SixteenIsToNine";
@@ -20,6 +21,14 @@ export default function Videos() {
           eyebrow="Media"
           title="Video ratios and embed layouts"
           description="Common aspect ratios are presented in a cleaner two-column media layout for content, product demos, and campaign embeds."
+          actions={
+            <Link
+              to="/Dashboard/upload-video"
+              className="inline-flex items-center justify-center bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-700"
+            >
+              Upload video
+            </Link>
+          }
         />
         <div className="grid grid-cols-1 gap-5 sm:gap-6 xl:grid-cols-2">
         <div className="space-y-5 sm:space-y-6">

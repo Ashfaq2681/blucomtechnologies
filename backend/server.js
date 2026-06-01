@@ -12,10 +12,12 @@ const leadRoutes = require("./routes/leadRoutes");
 const pageSeoRoutes = require("./routes/pageSeoRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const authRoutes = require("./routes/authRoutes");
+const videoRoutes = require("./routes/videoRoutes");
 const createBlogsRouter = require("./routes/blogs");
 const createPublicBlogsRouter = require("./routes/publicBlogs");
 const ensureBlogTables = require("./utils/ensureBlogTables");
 const ensurePagesTable = require("./utils/ensurePagesTable");
+const ensureVideosTable = require("./utils/ensureVideosTable");
 const { ensureAdminUser } = require("./utils/ensureAdminUser");
 
 const app = express();
@@ -64,6 +66,7 @@ app.use("/api", leadRoutes);
 app.use("/api", pageSeoRoutes);
 app.use("/api", contentRoutes);
 app.use("/api", authRoutes);
+app.use("/api", videoRoutes);
 app.use("/api/blogs", createBlogsRouter({ queryAsync: query }));
 app.use("/blogs", createPublicBlogsRouter({ queryAsync: query }));
 
@@ -71,6 +74,7 @@ const startServer = async () => {
   await initializeDatabase();
   await pool.query("SELECT 1");
   await ensurePagesTable();
+  await ensureVideosTable();
   await ensureAdminUser();
   console.log("MySQL connected successfully.");
 

@@ -12,6 +12,7 @@ const Landing = lazy(() => import("./pages/Landing.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const News = lazy(() => import("./pages/News.jsx"));
 const Ideas = lazy(() => import("./pages/Ideas.jsx"));
+const Videos = lazy(() => import("./pages/Videos.jsx"));
 const Careers = lazy(() => import("./pages/Careers.jsx"));
 const Portfolio = lazy(() => import("./pages/Portfolio.jsx"));
 const PortfolioSingle = lazy(() => import("./pages/portfolio/PortfolioSingle.jsx"));
@@ -36,6 +37,7 @@ const TermsOfService = lazy(() => import("./pages/footer/TermsOfService.jsx"));
 const CookiePolicy = lazy(() => import("./pages/footer/CookiePolicy.jsx"));
 const GdprCompliance = lazy(() => import("./pages/footer/GdprCompliance.jsx"));
 const Security = lazy(() => import("./pages/footer/Security.jsx"));
+const StyleGuide = lazy(() => import("./pages/Style-guide.jsx"));
 const PortfolioHyundai = lazy(() => import("./pages/portfolio/portfolio-hyundai.jsx"));
 const PortfolioToyotaMotors = lazy(() => import("./pages/portfolio/portfolio-toyotamotors.jsx"));
 const PortfolioCodilityHub = lazy(() => import("./pages/portfolio/portfolio-codilityhub.jsx"));
@@ -59,6 +61,8 @@ const DashboardBadges = lazy(() => import("./pages/dashboard/Badges.tsx"));
 const DashboardButtons = lazy(() => import("./pages/dashboard/Buttons.tsx"));
 const DashboardImages = lazy(() => import("./pages/dashboard/Images.tsx"));
 const DashboardVideos = lazy(() => import("./pages/dashboard/Videos.tsx"));
+const DashboardUploadVideo = lazy(() => import("./pages/dashboard/UploadVideo.tsx"));
+const DashboardContent = lazy(() => import("./pages/dashboard/Content.tsx"));
 const DashboardLineChart = lazy(() => import("./pages/dashboard/charts/line/LineChart.tsx"));
 const DashboardBarChart = lazy(() => import("./pages/dashboard/charts/bar/BarChart.tsx"));
 const DashboardBlogs = lazy(() => import("./pages/dashboard/Blogs.tsx"));
@@ -240,6 +244,8 @@ const AppContent = () => {
               <Route path="/security" element={<Security />} />
               <Route path="/news" element={<News />} />
               <Route path="/ideas" element={<Ideas />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/style-guide" element={<StyleGuide />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/portfolio/single" element={<PortfolioSingle />} />
               <Route path="/work" element={<Work />} />
@@ -269,7 +275,9 @@ const AppContent = () => {
                 <Route path="badge" element={<DashboardBadges />} />
                 <Route path="buttons" element={<DashboardButtons />} />
                 <Route path="images" element={<DashboardImages />} />
+                <Route path="content" element={<DashboardContent />} />
                 <Route path="videos" element={<DashboardVideos />} />
+                <Route path="upload-video" element={<DashboardUploadVideo />} />
                 <Route path="line-chart" element={<DashboardLineChart />} />
                 <Route path="bar-chart" element={<DashboardBarChart />} />
                 <Route path="blog" element={<DashboardBlogs />} />
@@ -310,7 +318,9 @@ const AppContent = () => {
                 <Route path="badge" element={<DashboardBadges />} />
                 <Route path="buttons" element={<DashboardButtons />} />
                 <Route path="images" element={<DashboardImages />} />
+                <Route path="content" element={<DashboardContent />} />
                 <Route path="videos" element={<DashboardVideos />} />
+                <Route path="upload-video" element={<DashboardUploadVideo />} />
                 <Route path="line-chart" element={<DashboardLineChart />} />
                 <Route path="bar-chart" element={<DashboardBarChart />} />
                 <Route path="blog" element={<DashboardBlogs />} />

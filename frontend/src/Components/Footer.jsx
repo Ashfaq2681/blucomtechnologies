@@ -207,6 +207,16 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
+                    <a href="/videos" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                      Videos
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/style-guide" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
+                      Brand Identity / Style Guide
+                    </a>
+                  </li>
+                  <li>
                     <a href="/community" className="text-base text-gray-600 hover:text-emerald-500 transition-colors duration-200">
                       Community
                     </a>
