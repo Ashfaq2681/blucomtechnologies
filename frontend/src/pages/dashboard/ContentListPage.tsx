@@ -11,9 +11,10 @@ import { mergePortfolioItems } from "../../utils/dummyPortfolioItems";
 
 type Props = {
   type: "blog" | "idea" | "news" | "portfolio";
+  embedded?: boolean;
 };
 
-export default function ContentListPage({ type }: Props) {
+export default function ContentListPage({ type, embedded = false }: Props) {
   const config = getContentConfig(type);
   const navigate = useNavigate();
   const [items, setItems] = useState<any[]>([]);
@@ -66,20 +67,7 @@ export default function ContentListPage({ type }: Props) {
     }
   };
 
-  return (
-    <>
-      <PageMeta
-        title={`${config.plural} List Dashboard | Blucom Technologies`}
-        description={`List view for dashboard ${config.plural.toLowerCase()}.`}
-      />
-      <div className="dashboard-page-stack">
-        <PageBreadcrumb pageTitle={`${config.plural} List`} />
-        <PageIntro
-          eyebrow="Content Library"
-          title={`Review ${config.plural.toLowerCase()}, status, and publishing cadence`}
-          description={`This table reflects the live CMS and includes direct edit and delete actions for ${config.plural.toLowerCase()}.`}
-        />
-
+  const listContent = (
         <ComponentCard
           title={`All ${config.plural}`}
           desc={`A compact table for draft, scheduled, and published ${config.plural.toLowerCase()}.`}
@@ -108,6 +96,26 @@ export default function ContentListPage({ type }: Props) {
             />
           ) : null}
         </ComponentCard>
+  );
+
+  if (embedded) {
+    return listContent;
+  }
+
+  return (
+    <>
+      <PageMeta
+        title={`${config.plural} List Dashboard | Blucom Technologies`}
+        description={`List view for dashboard ${config.plural.toLowerCase()}.`}
+      />
+      <div className="dashboard-page-stack">
+        <PageBreadcrumb pageTitle={`${config.plural} List`} />
+        <PageIntro
+          eyebrow="Content Library"
+          title={`Review ${config.plural.toLowerCase()}, status, and publishing cadence`}
+          description={`This table reflects the live CMS and includes direct edit and delete actions for ${config.plural.toLowerCase()}.`}
+        />
+        {listContent}
       </div>
     </>
   );

@@ -35,7 +35,7 @@ const metaRobotsOptions = ["index,follow", "noindex,follow", "index,nofollow", "
 const schemaTypeOptions = ["Article", "BlogPosting", "NewsArticle", "WebPage", "CreativeWork", "FAQPage"];
 const twitterCardOptions = ["summary", "summary_large_image"];
 
-const ContentEditor = ({ type }) => {
+const ContentEditor = ({ type, embedded = false }) => {
   const config = getContentConfig(type);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -245,17 +245,23 @@ const ContentEditor = ({ type }) => {
 
   return (
     <>
-      <PageMeta
-        title={`${isEditMode ? "Edit" : "Add"} ${config.singular} Dashboard | Blucom Technologies`}
-        description={`${isEditMode ? "Edit" : "Create"} a ${config.singular.toLowerCase()} in the dashboard CMS.`}
-      />
-      <div className="dashboard-page-stack">
-        <PageBreadcrumb pageTitle={isEditMode ? `Edit ${config.singular}` : `Add ${config.singular}`} />
-        <PageIntro
-          eyebrow="Editor"
-          title={isEditMode ? `Update an existing ${config.singular.toLowerCase()}` : `Create a CMS-ready ${config.singular.toLowerCase()}`}
-          description="Capture the publishing fields once and send the item directly to the typed content API with image upload, rich text, and category mapping."
-        />            
+      {!embedded ? (
+        <PageMeta
+          title={`${isEditMode ? "Edit" : "Add"} ${config.singular} Dashboard | Blucom Technologies`}
+          description={`${isEditMode ? "Edit" : "Create"} a ${config.singular.toLowerCase()} in the dashboard CMS.`}
+        />
+      ) : null}
+      <div className={embedded ? "" : "dashboard-page-stack"}>
+        {!embedded ? (
+          <>
+            <PageBreadcrumb pageTitle={isEditMode ? `Edit ${config.singular}` : `Add ${config.singular}`} />
+            <PageIntro
+              eyebrow="Editor"
+              title={isEditMode ? `Update an existing ${config.singular.toLowerCase()}` : `Create a CMS-ready ${config.singular.toLowerCase()}`}
+              description="Capture the publishing fields once and send the item directly to the typed content API with image upload, rich text, and category mapping."
+            />
+          </>
+        ) : null}
 
         {isEditMode && form.slug ? (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">

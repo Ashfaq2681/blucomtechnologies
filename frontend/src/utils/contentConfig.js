@@ -28,7 +28,7 @@ const configs = {
     plural: "Portfolio Pages",
     publicBasePath: "/portfolio",
     dashboardListPath: "/Dashboard/portfolio",
-    dashboardCreatePath: "/Dashboard/write-portfolio",
+    dashboardCreatePath: "/Dashboard/portfolio",
     dashboardEditPath: (id) => `/Dashboard/edit-portfolio/${id}`,
   },
 };

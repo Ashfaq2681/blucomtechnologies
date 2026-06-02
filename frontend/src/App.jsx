@@ -61,7 +61,6 @@ const DashboardBadges = lazy(() => import("./pages/dashboard/Badges.tsx"));
 const DashboardButtons = lazy(() => import("./pages/dashboard/Buttons.tsx"));
 const DashboardImages = lazy(() => import("./pages/dashboard/Images.tsx"));
 const DashboardVideos = lazy(() => import("./pages/dashboard/Videos.tsx"));
-const DashboardUploadVideo = lazy(() => import("./pages/dashboard/UploadVideo.tsx"));
 const DashboardContent = lazy(() => import("./pages/dashboard/Content.tsx"));
 const DashboardLineChart = lazy(() => import("./pages/dashboard/charts/line/LineChart.tsx"));
 const DashboardBarChart = lazy(() => import("./pages/dashboard/charts/bar/BarChart.tsx"));
@@ -72,7 +71,6 @@ const DashboardPortfolioPages = lazy(() => import("./pages/dashboard/PortfolioPa
 const DashboardCreateBlog = lazy(() => import("./pages/dashboard/CreateBlog.jsx"));
 const DashboardWriteIdeas = lazy(() => import("./pages/dashboard/WriteIdeas.jsx"));
 const DashboardWriteNews = lazy(() => import("./pages/dashboard/WriteNews.jsx"));
-const DashboardWritePortfolio = lazy(() => import("./pages/dashboard/WritePortfolio.jsx"));
 const DashboardLeads = lazy(() => import("./pages/dashboard/LeadsDashboard.jsx"));
 const DashboardLeadsForm = lazy(() => import("./pages/dashboard/LeadsForm.jsx"));
 const DashboardSeoAnalysis = lazy(() => import("./pages/dashboard/SeoAnalysis.tsx"));
@@ -277,7 +275,7 @@ const AppContent = () => {
                 <Route path="images" element={<DashboardImages />} />
                 <Route path="content" element={<DashboardContent />} />
                 <Route path="videos" element={<DashboardVideos />} />
-                <Route path="upload-video" element={<DashboardUploadVideo />} />
+                <Route path="upload-video" element={<Navigate to="/Dashboard/videos" replace />} />
                 <Route path="line-chart" element={<DashboardLineChart />} />
                 <Route path="bar-chart" element={<DashboardBarChart />} />
                 <Route path="blog" element={<DashboardBlogs />} />
@@ -292,8 +290,8 @@ const AppContent = () => {
                 <Route path="edit-ideas/:id" element={<DashboardWriteIdeas />} />
                 <Route path="write-news" element={<DashboardWriteNews />} />
                 <Route path="edit-news/:id" element={<DashboardWriteNews />} />
-                <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
-                <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
+                <Route path="write-portfolio" element={<Navigate to="/Dashboard/portfolio" replace />} />
+                <Route path="edit-portfolio/:id" element={<DashboardPortfolioPages />} />
                 <Route path="leads" element={<DashboardLeads />} />
                 <Route path="leadsform" element={<DashboardLeadsForm />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />
@@ -320,7 +318,7 @@ const AppContent = () => {
                 <Route path="images" element={<DashboardImages />} />
                 <Route path="content" element={<DashboardContent />} />
                 <Route path="videos" element={<DashboardVideos />} />
-                <Route path="upload-video" element={<DashboardUploadVideo />} />
+                <Route path="upload-video" element={<Navigate to="/Dashboard/videos" replace />} />
                 <Route path="line-chart" element={<DashboardLineChart />} />
                 <Route path="bar-chart" element={<DashboardBarChart />} />
                 <Route path="blog" element={<DashboardBlogs />} />
@@ -335,8 +333,8 @@ const AppContent = () => {
                 <Route path="edit-ideas/:id" element={<DashboardWriteIdeas />} />
                 <Route path="write-news" element={<DashboardWriteNews />} />
                 <Route path="edit-news/:id" element={<DashboardWriteNews />} />
-                <Route path="write-portfolio" element={<DashboardWritePortfolio />} />
-                <Route path="edit-portfolio/:id" element={<DashboardWritePortfolio />} />
+                <Route path="write-portfolio" element={<Navigate to="/Dashboard/portfolio" replace />} />
+                <Route path="edit-portfolio/:id" element={<DashboardPortfolioPages />} />
                 <Route path="leads" element={<DashboardLeads />} />
                 <Route path="leadsform" element={<DashboardLeadsForm />} />
                 <Route path="seo-analysis" element={<DashboardSeoAnalysis />} />

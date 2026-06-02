@@ -1,27 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  BarChart3,
-  Blocks,
-  Compass,
-  Cpu,
-  FileText,
-  Gauge,
-  Globe2,
-  Layers,
-  Megaphone,
-  MousePointerClick,
-  PenTool,
-  Rocket,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  Users,
-  Workflow,
-  Zap,
-} from "lucide-react";
 import landingImg from "/landing/heroimage.svg";
 import Button from "../Components/Button";
 import { getPublishedPosts } from "../api/blogs";
@@ -41,17 +19,6 @@ const postMatchesType = (post, contentType) => {
 
 const PREVIEW_POST_LIMIT = 2;
 const PORTFOLIO_PREVIEW_LIMIT = 3;
-
-const heroStats = [
-  { value: "Brand", label: "strategy built before campaigns" },
-  { value: "Growth", label: "systems designed around measurable outcomes" },
-  { value: "Digital", label: "experiences shaped for trust and conversion" },
-];
-
-const digitalMarketingIcons = [Search, Target, FileText, Megaphone, Workflow, BarChart3];
-const digitalExperienceIcons = [Users, PenTool, Blocks, MousePointerClick, BarChart3, Globe2];
-const frameworkIcons = [Compass, Search, Target, Sparkles, Rocket, Gauge];
-const whyChooseIcons = [Compass, BarChart3, Sparkles, Cpu, ShieldCheck, Workflow];
 
 const fallbackPortfolioItems = [
   {
@@ -446,18 +413,21 @@ const whyChooseItems = [
   const conceptImpactPosts = blogPreviewPosts;
 
   return (
-    <section className="bg-[#F8FAFC] min-h-screen text-gray-600">
-      <div className="overflow-hidden bg-[#071813] text-white">
-        <div className="grid md:grid-cols-[1.05fr_0.95fr] md:items-center gap-10 lg:gap-16 max-w-[1400px] mx-auto px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-14 md:py-20">
-          <div className="w-full max-w-3xl text-left">
-            <p className="inline-flex items-center gap-2 border border-white/15 bg-white/10 px-4 py-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-emerald-200">
-              <Sparkles className="h-4 w-4" />
-              Brand Strategy & Digital Marketing Agency in Islamabad
-            </p>
-            <h1 className="mt-6 max-w-3xl text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight text-white underline decoration-8 decoration-emerald-300 underline-offset-8">
+    <section className="bg-[#F8FAFC] min-h-screen">
+      <div className="overflow-hidden">
+        <div className="flex flex-col md:flex-row-reverse justify-between md:items-center gap-10 lg:gap-20 max-w-[1400px] mx-auto px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-16 md:py-24">
+          <img
+            src={landingImg}
+            alt="Brand Strategy & Digital Marketing Agency in Islamabad"
+            className="w-full max-w-[260px] sm:max-w-[360px] lg:max-w-[520px] xl:max-w-[650px] h-auto mx-auto md:mx-0"
+          />
+
+          <div className="w-full max-w-2xl text-center md:text-left">
+            <p className="text-lg sm:text-xl text-gray-500">Brand Strategy & Digital Marketing Agency in Islamabad</p>
+            <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight text-emerald-500 underline decoration-8 decoration-green-300 underline-offset-8">
               Every Great Brand Starts With an Idea
             </h1>
-            <div className="mt-8 grid gap-4 text-base sm:text-lg leading-8 text-white/75">
+            <div className="mt-8 space-y-5 text-base sm:text-lg leading-8 text-gray-500">
               <p>
                 In today's highly competitive business environment, having a great product or service is no longer enough to guarantee success. Customers are exposed to thousands of marketing messages every day, making it increasingly difficult for businesses to capture attention, build trust, and maintain long-term customer relationships.
               </p>
@@ -474,40 +444,9 @@ const whyChooseItems = [
                 We combine strategic thinking, creative excellence, modern technology, and data-driven marketing to transform ideas into impactful brands and marketing systems that drive awareness, engagement, conversions, and long-term success.
               </p>
             </div>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="mt-10 flex justify-center md:justify-start">
               <Link to="/multistepform">
-                <Button variant="white">Start a Project</Button>
-              </Link>
-              <Link to="/services/brand-strategy" className="inline-flex items-center justify-center gap-2 border border-white/20 bg-white px-6 py-3 text-base font-medium text-[#071813] transition hover:border-emerald-300 hover:bg-emerald-50">
-                Explore Services <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {heroStats.map((stat) => (
-                <div key={stat.value} className="border border-white/15 bg-white/10 p-4">
-                  <p className="text-2xl font-semibold text-emerald-200">{stat.value}</p>
-                  <p className="mt-2 text-sm leading-6 text-white/70">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="border border-white/10 bg-white p-6 sm:p-8 shadow-2xl">
-              <img
-                src={landingImg}
-                alt="Brand Strategy & Digital Marketing Agency in Islamabad"
-                className="w-full max-w-[260px] sm:max-w-[380px] lg:max-w-[520px] h-auto mx-auto"
-              />
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-              <Link to="/services/search-marketing" className="border border-white/15 bg-white/10 p-4 text-white/85 transition hover:border-emerald-300 hover:bg-white/15">
-                <Search className="mb-3 h-5 w-5 text-emerald-200" />
-                Search visibility
-              </Link>
-              <Link to="/services/lead-gen" className="border border-white/15 bg-white/10 p-4 text-white/85 transition hover:border-emerald-300 hover:bg-white/15">
-                <Target className="mb-3 h-5 w-5 text-emerald-200" />
-                Lead generation
+                <Button variant="black">Start a Project</Button>
               </Link>
             </div>
           </div>
@@ -518,38 +457,31 @@ const whyChooseItems = [
       <div>
         <section className="bg-white py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className="lg:sticky lg:top-24">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Why modern businesses need strategic branding</p>
+            <div>
+              <p className="text-lg text-gray-500">Why modern businesses need strategic branding</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Creating brands that inspire trust and loyalty.
               </h2>
-              <div className="mt-8 space-y-4 text-base sm:text-lg leading-8 text-gray-500">
-              <p>
+              <p className="mt-8 text-base sm:text-lg leading-8 text-gray-500">
                 A brand is far more than a logo or visual identity. It is the complete perception customers have about your company based on every interaction they experience, from your website and campaigns to customer service and product delivery.
               </p>
-              <p>
+              <p className="mt-5 text-base sm:text-lg leading-8 text-gray-500">
                 Strong brands establish credibility, communicate value clearly, and create emotional connections that influence purchasing decisions. Businesses with a clearly defined brand strategy often experience stronger customer loyalty, higher conversion rates, and greater resilience in competitive markets.
               </p>
-              <p>
+              <p className="mt-5 text-base sm:text-lg leading-8 text-gray-500">
                 At Blucom Technologies, we help organizations build powerful brand foundations through a structured and research-driven approach that creates clarity, consistency, and long-term competitive advantages.
               </p>
-              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {brandFoundationItems.map((item, index) => {
-                const Icon = [Compass, Layers, Search, Users][index % 4];
-
-                return (
+              {brandFoundationItems.map((item) => (
                 <Link
                   key={item.title}
                   to={item.link}
-                  className="group border border-gray-200 bg-[#F8FAFC] p-5 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white hover:shadow-sm"
+                  className="border border-gray-200 bg-[#F8FAFC] p-5 transition hover:border-emerald-300 hover:shadow-sm"
                 >
-                  <Icon className="mb-4 h-6 w-6 text-emerald-500" />
-                  <p className="text-base sm:text-lg font-medium text-gray-700 group-hover:text-emerald-600">{item.title}</p>
+                  <p className="text-base sm:text-lg font-medium text-gray-600">{item.title}</p>
                 </Link>
-                );
-              })}
+              ))}
             </div>
           </div>
         </section>
@@ -557,7 +489,7 @@ const whyChooseItems = [
         <section className="py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Digital marketing solutions designed for growth</p>
+              <p className="text-lg text-gray-500">Digital marketing solutions designed for growth</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Digital marketing services designed for sustainable growth.
               </h2>
@@ -566,15 +498,9 @@ const whyChooseItems = [
               </p>
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {digitalMarketingServices.map((service, index) => {
-                const Icon = digitalMarketingIcons[index % digitalMarketingIcons.length];
-
-                return (
-                <Link key={service.title} to={service.link} className="group flex min-h-full flex-col bg-white border border-gray-200 p-6 transition hover:-translate-y-1 hover:border-emerald-300 hover:shadow-md">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center bg-[#071813] text-emerald-200 transition group-hover:bg-emerald-500 group-hover:text-white">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-xl sm:text-2xl text-[#071813] group-hover:text-emerald-600">{service.title}</h3>
+              {digitalMarketingServices.map((service) => (
+                <Link key={service.title} to={service.link} className="block bg-white border border-gray-200 p-6 transition hover:border-emerald-300 hover:shadow-sm">
+                  <h3 className="text-xl sm:text-2xl text-emerald-500">{service.title}</h3>
                   <p className="mt-4 text-base leading-7 text-gray-500">{service.description}</p>
                   {service.services ? (
                     <div className="mt-5 flex flex-wrap gap-2">
@@ -585,10 +511,8 @@ const whyChooseItems = [
                       ))}
                     </div>
                   ) : null}
-                  <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold uppercase tracking-[0.14em] text-emerald-600 opacity-0 transition group-hover:opacity-100">View service <ArrowRight className="h-4 w-4" /></span>
                 </Link>
-                );
-              })}
+              ))}
             </div>
           </div>
         </section>
@@ -596,7 +520,7 @@ const whyChooseItems = [
         <section className="bg-white py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Building digital experiences that customers love</p>
+              <p className="text-lg text-gray-500">Building digital experiences that customers love</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 UX/UI design, digital experiences, and custom web development.
               </h2>
@@ -608,34 +532,21 @@ const whyChooseItems = [
               </p>
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {digitalExperienceServices.map((service, index) => {
-                const Icon = digitalExperienceIcons[index % digitalExperienceIcons.length];
-
-                return (
-                <Link key={service.title} to={service.link} className="group block bg-[#F8FAFC] border border-gray-200 p-5 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white hover:shadow-sm">
-                  <div className="mb-5 flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center bg-emerald-50 text-emerald-600">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Experience</span>
-                  </div>
-                  <h3 className="text-xl text-[#071813] group-hover:text-emerald-600">{service.title}</h3>
+              {digitalExperienceServices.map((service) => (
+                <Link key={service.title} to={service.link} className="block bg-[#F8FAFC] border border-gray-200 p-5 transition hover:border-emerald-300 hover:shadow-sm">
+                  <h3 className="text-xl text-emerald-500">{service.title}</h3>
                   <p className="mt-4 text-base leading-7 text-gray-500">{service.description}</p>
                 </Link>
-                );
-              })}
+              ))}
             </div>
-            <div className="mt-10 grid gap-6 bg-[#071813] p-6 sm:p-8 text-white lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-              <div>
-              <Globe2 className="h-10 w-10 text-emerald-200" />
-              <h3 className="mt-5 text-2xl sm:text-3xl text-white">Custom Web Design and Development</h3>
-              <p className="mt-4 text-base sm:text-lg leading-8 text-white/75">
+            <div className="mt-10 bg-white border border-gray-200 p-6 sm:p-8">
+              <h3 className="text-2xl sm:text-3xl text-emerald-500">Custom Web Design and Development</h3>
+              <p className="mt-4 text-base sm:text-lg leading-8 text-gray-500">
                 Your website is often the center of your digital ecosystem. It serves as a marketing platform, lead generation engine, information hub, and customer engagement tool. Every project is designed with user experience, search engine visibility, and business objectives in mind.
               </p>
-              </div>
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 {webDevelopmentServices.map((service) => (
-                  <Link key={service.title} to={service.link} className="border border-white/15 bg-white/10 px-4 py-3 text-sm sm:text-base text-white/80 transition hover:border-emerald-300 hover:bg-white hover:text-[#071813]">
+                  <Link key={service.title} to={service.link} className="border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm sm:text-base text-gray-600 transition hover:border-emerald-300">
                     {service.title}
                   </Link>
                 ))}
@@ -647,7 +558,7 @@ const whyChooseItems = [
         <section className="py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Our strategic growth framework</p>
+              <p className="text-lg text-gray-500">Our strategic growth framework</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Every successful project follows a proven process.
               </h2>
@@ -656,20 +567,13 @@ const whyChooseItems = [
               </p>
             </div>
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {growthFrameworkSteps.map((step, index) => {
-                const Icon = frameworkIcons[index % frameworkIcons.length];
-
-                return (
-                <div key={step.title} className="bg-white border border-gray-200 p-6 transition hover:border-emerald-300 hover:shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="inline-flex h-11 w-11 items-center justify-center bg-emerald-50 text-sm font-semibold text-emerald-600">0{index + 1}</span>
-                    <Icon className="h-6 w-6 text-[#071813]" />
-                  </div>
-                  <h3 className="mt-5 text-2xl text-[#071813]">{step.title}</h3>
+              {growthFrameworkSteps.map((step, index) => (
+                <div key={step.title} className="bg-white border border-gray-200 p-6">
+                  <span className="text-sm font-semibold text-gray-400">0{index + 1}</span>
+                  <h3 className="mt-3 text-2xl text-emerald-500">{step.title}</h3>
                   <p className="mt-4 text-base leading-7 text-gray-500">{step.description}</p>
                 </div>
-                );
-              })}
+              ))}
             </div>
             <p className="mt-8 text-base sm:text-lg leading-8 text-gray-500">
               This structured methodology helps ensure every project delivers measurable value and sustainable business impact.
@@ -680,8 +584,7 @@ const whyChooseItems = [
         <section className="bg-white py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-2">
             <article className="bg-[#F8FAFC] border border-gray-200 p-6 sm:p-8">
-              <Rocket className="h-10 w-10 text-emerald-500" />
-              <h2 className="mt-5 text-3xl sm:text-4xl text-[#071813] underline decoration-emerald-300 underline-offset-8">
+              <h2 className="text-3xl sm:text-4xl text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Supporting Startups from Idea to Market
               </h2>
               <p className="mt-6 text-base sm:text-lg leading-8 text-gray-500">
@@ -692,26 +595,25 @@ const whyChooseItems = [
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {startupServices.map((item) => (
-                  <Link key={item.title} to={item.link} className="bg-white border border-gray-200 px-4 py-2 text-sm sm:text-base text-gray-600 transition hover:border-emerald-300 hover:text-emerald-600">
+                  <Link key={item.title} to={item.link} className="bg-white border border-gray-200 px-4 py-2 text-sm sm:text-base text-gray-600 transition hover:border-emerald-300">
                     {item.title}
                   </Link>
                 ))}
               </div>
             </article>
-            <article className="bg-[#071813] border border-[#071813] p-6 sm:p-8 text-white">
-              <Cpu className="h-10 w-10 text-emerald-200" />
-              <h2 className="mt-5 text-3xl sm:text-4xl text-white underline decoration-emerald-300 underline-offset-8">
+            <article className="bg-[#F8FAFC] border border-gray-200 p-6 sm:p-8">
+              <h2 className="text-3xl sm:text-4xl text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Enterprise Solutions for Digital Transformation
               </h2>
-              <p className="mt-6 text-base sm:text-lg leading-8 text-white/75">
+              <p className="mt-6 text-base sm:text-lg leading-8 text-gray-500">
                 Large organizations often face challenges related to legacy systems, fragmented customer experiences, and changing market expectations. Digital transformation requires more than technology implementation; it requires strategic alignment across people, processes, and platforms.
               </p>
-              <p className="mt-4 text-base sm:text-lg leading-8 text-white/75">
+              <p className="mt-4 text-base sm:text-lg leading-8 text-gray-500">
                 These solutions help organizations improve operational efficiency, increase customer satisfaction, and unlock new growth opportunities.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {enterpriseServices.map((item) => (
-                  <Link key={item.title} to={item.link} className="bg-white/10 border border-white/15 px-4 py-2 text-sm sm:text-base text-white/80 transition hover:border-emerald-300 hover:bg-white hover:text-[#071813]">
+                  <Link key={item.title} to={item.link} className="bg-white border border-gray-200 px-4 py-2 text-sm sm:text-base text-gray-600 transition hover:border-emerald-300">
                     {item.title}
                   </Link>
                 ))}
@@ -723,7 +625,7 @@ const whyChooseItems = [
         <section className="py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Industries we serve</p>
+              <p className="text-lg text-gray-500">Industries we serve</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 Cross-industry expertise adapted to each market.
               </h2>
@@ -732,11 +634,8 @@ const whyChooseItems = [
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {industriesServed.map((industry, index) => (
-                <div key={industry} className="group bg-white border border-gray-200 p-5 text-gray-700 transition hover:border-emerald-300 hover:shadow-sm">
-                  <span className="mb-4 inline-flex h-8 w-8 items-center justify-center bg-[#071813] text-xs font-semibold text-emerald-200">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+              {industriesServed.map((industry) => (
+                <div key={industry} className="bg-white border border-gray-200 p-5 text-gray-600">
                   {industry}
                 </div>
               ))}
@@ -747,32 +646,26 @@ const whyChooseItems = [
         <section className="bg-white py-16 sm:py-20 px-6 sm:px-10">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">Why choose Blucom Technologies?</p>
+              <p className="text-lg text-gray-500">Why choose Blucom Technologies?</p>
               <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight text-emerald-500 underline decoration-emerald-300 underline-offset-8">
                 We focus on outcomes, not vanity metrics.
               </h2>
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {whyChooseItems.map((item, index) => {
-                const Icon = whyChooseIcons[index % whyChooseIcons.length];
-
-                return (
-                <article key={item.title} className="border border-gray-200 bg-[#F8FAFC] p-6 transition hover:border-emerald-300 hover:bg-white hover:shadow-sm">
-                  <Icon className="mb-5 h-7 w-7 text-emerald-500" />
-                  <h3 className="text-xl sm:text-2xl text-[#071813]">{item.title}</h3>
+              {whyChooseItems.map((item) => (
+                <article key={item.title} className="border border-gray-200 bg-[#F8FAFC] p-6">
+                  <h3 className="text-xl sm:text-2xl text-emerald-500">{item.title}</h3>
                   <p className="mt-4 text-base leading-7 text-gray-500">{item.description}</p>
                 </article>
-                );
-              })}
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#071813] px-6 sm:px-10 py-16 sm:py-20 text-white">
+        <section className="bg-emerald-500 px-6 sm:px-10 py-16 sm:py-20 text-white">
           <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-200">Ready to move from idea to market?</p>
-              <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-tight underline decoration-emerald-300 underline-offset-8">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl leading-tight underline decoration-green-300 underline-offset-8">
                 Let's Build Something Great Together
               </h2>
               <p className="mt-8 max-w-4xl text-base sm:text-lg leading-8 text-white/90">
@@ -796,35 +689,26 @@ const whyChooseItems = [
 
 
         {/*form start share*/}
-       <section className="form bg-white px-6 sm:px-10 py-16 sm:py-20">
-  <div className="mx-auto grid w-full max-w-6xl overflow-hidden border border-gray-200 lg:grid-cols-[0.9fr_1.1fr]">
-    <div className="bg-emerald-500 p-6 sm:p-10 text-white">
+       <section className="form">
+  <div className="relative w-full min-h-screen flex justify-center items-center bg-emerald-500 text-white p-4 xl:p-10">
+    <div className="w-full sm:w-11/12 md:w-3/4 lg:w-1/2 p-4 md:p-6 flex flex-col items-start">
 
       {/* Heading */}
-      <Zap className="mb-6 h-10 w-10 text-white" />
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold underline decoration-green-300 underline-offset-8 mb-4">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold underline decoration-green-300 underline-offset-8 mb-4">
         Let's Bring Your Idea to Life
       </h1>
 
       {/* Description */}
-      <p className="text-base sm:text-lg md:text-xl leading-8 text-white/90">
+      <p className="text-base sm:text-lg md:text-xl text-white/90 mb-10">
         Tell us a little about your project so we can understand your goals and recommend
         the best creative and digital solutions for your business.
       </p>
-      <div className="mt-8 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-        <span className="border border-white/20 bg-white/10 px-4 py-3">Brand foundations</span>
-        <span className="border border-white/20 bg-white/10 px-4 py-3">Marketing systems</span>
-        <span className="border border-white/20 bg-white/10 px-4 py-3">UX/UI direction</span>
-        <span className="border border-white/20 bg-white/10 px-4 py-3">Web growth platforms</span>
-      </div>
-    </div>
 
-    <div className="bg-[#F8FAFC] p-6 sm:p-10">
       {/* Dropdown Section */}
       <div className="w-full">
         {/* Dropdown Button */}
         <div
-          className="bg-white text-gray-700 flex justify-between items-center p-4 shadow-sm border border-gray-200 cursor-pointer w-full transition hover:border-emerald-300"
+          className="bg-white text-gray-500 flex justify-between items-center p-4 shadow-md cursor-pointer w-full transition hover:bg-gray-100"
           onClick={toggleDropDown}
         >
           <p className="truncate">I want to Launch a new product or service</p>
@@ -835,7 +719,7 @@ const whyChooseItems = [
         <div
           className={`flex flex-col gap-3 mt-2 p-4 w-full transition-all duration-300 ease-in-out 
           ${dropDownOpen ? "flex" : "hidden"} 
-          bg-[#071813] text-white shadow-lg`}
+          bg-gradient-to-b from-emerald-500 to-emerald-300 bg-opacity-90 text-white shadow-lg`}
         >
           <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Product%20Mapping&intent=Identity%20Concept">Identity Concept</Link>
           <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=UI%20Designing&intent=UI%20UX%20Design">UI UX Design</Link>
@@ -849,7 +733,7 @@ const whyChooseItems = [
       {/* Call-to-Action */}
       <div className="w-full flex justify-start mt-10">
         <Link to="/multistepform">
-          <Button variant="black">Let's Get Started</Button>
+          <Button variant="white">Let's Get Started</Button>
         </Link>
       </div>
 

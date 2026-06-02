@@ -54,30 +54,17 @@ const sections: ContentSection[] = [
     metricKey: "news",
   },
   {
-    title: "Video Library",
-    description: "Check reusable video layouts and the dashboard video library workflow.",
+    title: "Videos",
+    description: "Upload videos, manage publishing details, and check reusable video layouts.",
     path: "/Dashboard/videos",
-    actionLabel: "Open Library",
-    secondaryPath: "/Dashboard/upload-video",
-    secondaryLabel: "Upload Video",
-    metricKey: "videos",
-  },
-  {
-    title: "Upload Video",
-    description: "Add video files, thumbnails, status, categories, and descriptions.",
-    path: "/Dashboard/upload-video",
-    actionLabel: "Upload Video",
-    secondaryPath: "/Dashboard/videos",
-    secondaryLabel: "View Library",
+    actionLabel: "Open Videos",
     metricKey: "videos",
   },
   {
     title: "Portfolio",
-    description: "Maintain portfolio pages and publish case-study style work entries.",
+    description: "Create, publish, edit, and review case-study style work entries.",
     path: "/Dashboard/portfolio",
     actionLabel: "Open Portfolio",
-    secondaryPath: "/Dashboard/write-portfolio",
-    secondaryLabel: "Publish Portfolio",
     metricKey: "portfolio",
   },
   {
@@ -205,7 +192,7 @@ export default function Content() {
                 Content
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-500">
-                A single dashboard entry for Blog, Ideas, News, Video Library, Upload Video,
+                A single dashboard entry for Blog, Ideas, News, Videos,
                 Portfolio, and Careers workflows.
               </p>
             </div>
