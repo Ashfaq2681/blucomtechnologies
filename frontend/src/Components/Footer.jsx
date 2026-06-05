@@ -2,12 +2,13 @@ import footerLogo from "../assets/logofooter.svg";
 import { useState } from "react";
 import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { subscribeToNewsletter } from "../api/leads";
+import { primarySocialLinks } from "../data/socialChannels";
 
 const socialLinks = [
-  { label: "Whatsapp", href: "https://wa.me/923035907230", Icon: FaWhatsapp },
-  { label: "Facebook", href: "https://www.facebook.com/", Icon: FaFacebook },
-  { label: "Twitter", href: "https://twitter.com/", Icon: FaTwitter },
-  { label: "LinkedIn", href: "https://www.linkedin.com/", Icon: FaLinkedin },
+  { label: "Whatsapp", href: primarySocialLinks.whatsapp, Icon: FaWhatsapp },
+  { label: "Facebook", href: primarySocialLinks.facebook, Icon: FaFacebook },
+  { label: "Twitter", href: primarySocialLinks.x, Icon: FaTwitter },
+  { label: "LinkedIn", href: primarySocialLinks.linkedin, Icon: FaLinkedin },
 ];
 
 const Footer = () => {

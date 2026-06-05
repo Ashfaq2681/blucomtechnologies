@@ -13,6 +13,7 @@ const About = lazy(() => import("./pages/About.jsx"));
 const News = lazy(() => import("./pages/News.jsx"));
 const Ideas = lazy(() => import("./pages/Ideas.jsx"));
 const Videos = lazy(() => import("./pages/Videos.jsx"));
+const Test = lazy(() => import("./pages/Test.jsx"));
 const Careers = lazy(() => import("./pages/Careers.jsx"));
 const Portfolio = lazy(() => import("./pages/Portfolio.jsx"));
 const PortfolioSingle = lazy(() => import("./pages/portfolio/PortfolioSingle.jsx"));
@@ -243,6 +244,7 @@ const AppContent = () => {
               <Route path="/news" element={<News />} />
               <Route path="/ideas" element={<Ideas />} />
               <Route path="/videos" element={<Videos />} />
+              <Route path="/test" element={<Test />} />
               <Route path="/style-guide" element={<StyleGuide />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/portfolio/single" element={<PortfolioSingle />} />

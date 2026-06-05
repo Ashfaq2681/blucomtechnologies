@@ -554,7 +554,10 @@ const organizationSchema = {
     "https://www.facebook.com/blucomtechnologies",
     "https://www.linkedin.com/company/blucomtechnologies",
     "https://x.com/blucomtech",
-    "https://instagram.com/blucomtechnologies",
+    "https://www.instagram.com/blucomtechnologies",
+    "https://www.youtube.com/@bctvm",
+    "https://www.tiktok.com/@blucommw",
+    "https://www.pinterest.com/curatedgallery",
   ],
 };
 

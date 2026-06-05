@@ -3,6 +3,7 @@ import { MoreVertical, Play } from "lucide-react";
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 import PageSeo from "../Components/PageSeo";
 import { getVideos } from "../api/videos";
+import { channelVideoCards } from "../data/socialChannels";
 
 const fallbackVideoGrid = [
   {
@@ -71,6 +72,7 @@ const fallbackVideoGrid = [
     folder: "Folder name 4",
     duration: "03:32",
   },
+  ...channelVideoCards,
 ];
 
 const defaultCategories = [
@@ -86,6 +88,10 @@ const defaultCategories = [
 ];
 
 const buildVideoUrl = (video) => {
+  if (video.externalUrl) {
+    return video.externalUrl;
+  }
+
   const base =
     typeof window !== "undefined"
       ? `${window.location.origin}${window.location.pathname}`
@@ -305,6 +311,26 @@ export default function VideoDashboard() {
                 controls
                 className="h-full w-full object-cover"
               />
+            ) : heroVideo.externalUrl ? (
+              <a
+                href={heroVideo.externalUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-neutral-900 to-black"
+                aria-label={`Open ${heroVideo.title}`}
+              >
+                {heroVideo.image && (
+                  <img
+                    src={heroVideo.image}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover opacity-40"
+                  />
+                )}
+                <div className="absolute h-20 w-20 rounded-full bg-white/10 blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500/20" />
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/20 shadow-xl backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-500">
+                  <Play className="h-6 w-6 translate-x-0.5 fill-white text-white" />
+                </div>
+              </a>
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-neutral-900 to-black">
                 {heroVideo.image && (
@@ -393,7 +419,13 @@ export default function VideoDashboard() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {gridVideos.map((video, index) => (
             <article key={video.id || index} className="group flex flex-col space-y-2">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-gray-100 bg-gray-100 shadow-sm">
+              <a
+                href={video.externalUrl || video.videoUrl || buildVideoUrl(video)}
+                target={video.externalUrl ? "_blank" : undefined}
+                rel={video.externalUrl ? "noreferrer" : undefined}
+                className="relative aspect-[16/10] overflow-hidden rounded-lg border border-gray-100 bg-gray-100 shadow-sm"
+                aria-label={`Open ${video.title}`}
+              >
                 <img
                   src={video.image || "/landing/news1.png"}
                   alt={video.title || "Video thumbnail"}
@@ -411,7 +443,7 @@ export default function VideoDashboard() {
                     {video.duration}
                   </span>
                 )}
-              </div>
+              </a>
 
               <div className="flex items-start justify-between gap-3 px-1 pt-1">
                 <div>
