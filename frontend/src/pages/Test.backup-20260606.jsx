@@ -12,7 +12,6 @@ import ideasImage from '../assets/insight1.jpg';
 import newsImage from '../assets/news1.png';
 import blogImage from '../assets/Attention-Economy-is-the-new-economy.png';
 import { getPublishedPosts } from '../api/blogs';
-import ContactFormPage from './Contactform.jsx';
 
 const postMatchesType = (post, contentType) => {
   const target = contentType.toLowerCase();
@@ -38,7 +37,8 @@ const sortLatestPosts = (posts) =>
   });
 
 export default function App() {
-  const [dropDownOpen, setDropDownOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState('Launch');
+  const [dropDownOpen, setDropDownOpen] = useState(false);
   const [contentPosts, setContentPosts] = useState([]);
   const [contentLoading, setContentLoading] = useState(true);
   const [contentError, setContentError] = useState("");
@@ -211,24 +211,24 @@ export default function App() {
         posts: fallbackCards.Blog.map((fallback, index) => buildCard("Blog", blogPosts[index], fallback)),
       },
       {
-        type: "Ideas",
-        title: "Latest Ideas",
-        desc: "Strategic thinking, creative direction, and research-backed concepts for modern growth teams.",
-        href: "/ideas",
-        posts: fallbackCards.Ideas.map((fallback, index) => buildCard("Ideas", ideasPosts[index], fallback)),
-      },
-      {
         type: "News",
         title: "Latest News",
         desc: "Company updates, announcements, launches, and timely marketing and technology coverage.",
         href: "/news",
         posts: fallbackCards.News.map((fallback, index) => buildCard("News", newsPosts[index], fallback)),
       },
+      {
+        type: "Ideas",
+        title: "Latest Ideas",
+        desc: "Strategic thinking, creative direction, and research-backed concepts for modern growth teams.",
+        href: "/ideas",
+        posts: fallbackCards.Ideas.map((fallback, index) => buildCard("Ideas", ideasPosts[index], fallback)),
+      },
     ];
   }, [contentPosts]);
 
   return (
-    <div className="test-landing min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-emerald-600 selection:text-white">
+    <div className="test-landing min-h-screen bg-gray-100 text-slate-900 font-sans antialiased selection:bg-emerald-600 selection:text-white">
       <style>{`
         .test-landing,
         .test-landing .font-serif,
@@ -395,7 +395,7 @@ export default function App() {
 
         <div className="mx-auto max-w-7xl border-b border-slate-200 bg-slate-50/50">
           <div className="grid items-center gap-8 p-6 sm:p-12 lg:grid-cols-2 lg:gap-12">
-            <div className="rounded-lg bg-white p-6 sm:p-8">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
               <img
                 src={brandingImage}
                 alt="Brand strategy planning illustration"
@@ -422,18 +422,71 @@ export default function App() {
         <div className="border-b border-slate-200">
           <div className="grid items-center gap-8 p-6 sm:p-12 lg:grid-cols-2 lg:gap-12">
             <div className="space-y-2">
-              <span className="font-mono text-[10px] text-emerald-600 font-bold">Digital Marketing Solutions</span>
+              <span className="font-mono text-[10px] text-emerald-600 font-bold">Module 02</span>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950">Digital marketing solutions designed for growth</h2>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed">
                 Digital marketing should not be treated as disconnected activities. As a full-service digital marketing agency in Islamabad, we align strategy, content, advertising, analytics, and customer experience so every effort contributes to a unified growth objective.
               </p>
             </div>
-            <div className="rounded-lg bg-slate-50 p-6 sm:p-8">
+            <div className="rounded-lg border-y border-slate-200 bg-slate-50 p-6 sm:p-8">
               <img
                 src={digitalMarketingImage}
                 alt="Digital marketing growth illustration"
                 className="mx-auto w-full max-w-sm object-contain"
               />
+            </div>
+          </div>
+          <div className="border-t border-slate-200 bg-white px-6 py-10 sm:px-12 sm:py-12">
+            <div className="mx-auto grid w-full overflow-hidden border border-gray-200 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="bg-emerald-500 p-6 text-white sm:p-10">
+                <Zap className="mb-6 h-10 w-10 text-white" />
+                <h2 className="font-serif text-3xl font-bold leading-tight underline decoration-green-300 underline-offset-8 sm:text-4xl md:text-5xl">
+                  Let's Bring Your Idea to Life
+                </h2>
+                <p className="mt-5 text-base leading-8 text-white/90 sm:text-lg md:text-xl">
+                  Tell us a little about your project so we can understand your goals and recommend the best creative and digital solutions for your business.
+                </p>
+                <div className="mt-8 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+                  <span className="border border-white/20 bg-white/10 px-4 py-3">Brand foundations</span>
+                  <span className="border border-white/20 bg-white/10 px-4 py-3">Marketing systems</span>
+                  <span className="border border-white/20 bg-white/10 px-4 py-3">UX/UI direction</span>
+                  <span className="border border-white/20 bg-white/10 px-4 py-3">Web growth platforms</span>
+                </div>
+              </div>
+
+              <div className="bg-[#F8FAFC] p-6 sm:p-10">
+                <div className="w-full">
+                  <button
+                    type="button"
+                    className="flex w-full cursor-pointer items-center justify-between border border-gray-200 bg-white p-4 text-left text-gray-700 shadow-sm transition hover:border-emerald-300"
+                    onClick={() => setDropDownOpen((open) => !open)}
+                  >
+                    <span className="truncate">I want to Launch a new product or service</span>
+                    <ChevronRight size={18} className={`ml-3 shrink-0 transition-transform ${dropDownOpen ? "rotate-90" : ""}`} />
+                  </button>
+
+                  <div className={`${dropDownOpen ? "grid" : "hidden"} mt-2 gap-5 bg-[#071813] p-4 text-white shadow-lg transition-all duration-300 ease-in-out sm:grid-cols-2`}>
+                    {serviceGroups.map((group) => (
+                      <div key={group.title}>
+                        <p className="mb-3 font-mono text-[10px] font-bold uppercase text-emerald-300">{group.title}</p>
+                        <div className="grid gap-2">
+                          {group.items.map(([label, path]) => (
+                            <Link key={label} className="cursor-pointer text-sm text-white/80 transition hover:text-white" to={path}>
+                              {label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <Link to="/multistepform">
+                  <button className="mt-6 flex w-full items-center justify-center gap-2 bg-[#071813] px-5 py-4 text-sm font-bold text-white transition hover:bg-emerald-600">
+                    Start a Project <ArrowRight size={16} />
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -503,6 +556,58 @@ export default function App() {
 
       {/* --- SECTION 3: UX/UI & CUSTOM WEB DEVELOPMENT --- */}
       <section id="experience" className="border-b border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-14 sm:px-12 lg:grid-cols-12 lg:gap-10 lg:py-20">
+          <div className="lg:col-span-5 lg:pr-8">
+            <span className="font-mono text-[10px] text-purple-600 font-bold">Module 03</span>
+            <h2 className="font-serif mt-5 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">
+              Building digital experiences that customers love
+            </h2>
+            <p className="mt-8 max-w-md text-slate-600 text-sm leading-relaxed">
+              Modern customers expect intuitive, fast, and engaging digital experiences. A poorly designed website or application can quickly undermine trust. Our design philosophy focuses smoothly on digital products combining usability, performance, and clear business targets.
+            </p>
+          </div>
+
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { icon: Users, title: "User Experience Research", desc: "We study user behavior, customer needs, and business objectives to identify opportunities for improving engagement and reducing friction." },
+                { icon: Layers, title: "User Interface Design", desc: "We create visually appealing interfaces that align with your brand identity while maintaining accessibility, clarity, and ease of use." },
+                { icon: TrendingUp, title: "Wireframing & Prototyping", desc: "Before development begins, we visualize experiences through detailed wireframes and interactive prototypes to validate concepts and reduce risk.", dark: true },
+                { icon: Cpu, title: "Interaction Design", desc: "Every interaction matters. We design workflows and navigation systems that make digital experiences intuitive, efficient, and enjoyable." },
+                { icon: BarChart3, title: "Data Visualization", desc: "We turn complex information into clear dashboards and visual reporting systems that support faster, better business decisions." },
+                { icon: Globe, title: "Custom Web Design & Development", desc: "Your website is the center of your ecosystem. We build performance platforms that serve as lead engines, information hubs, and tools." }
+              ].map((ux) => {
+                const Icon = ux.icon;
+
+                return (
+                  <div
+                    key={ux.title}
+                    className={`min-h-[210px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center shadow-sm ${
+                      ux.dark
+                        ? "bg-slate-950 text-white"
+                        : "bg-slate-100 text-slate-900 border border-slate-200"
+                    }`}
+                  >
+                    <h3 className={`font-serif text-sm font-bold leading-snug ${ux.dark ? "text-white" : "text-slate-900"}`}>
+                      {ux.title}
+                    </h3>
+                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl border ${
+                      ux.dark
+                        ? "border-emerald-400/30 bg-slate-900 text-emerald-400"
+                        : "border-white bg-white/70 text-slate-400"
+                    }`}>
+                      <Icon size={26} strokeWidth={1.5} />
+                    </div>
+                    <p className={`text-xs leading-relaxed ${ux.dark ? "text-slate-300" : "text-slate-500"}`}>
+                      {ux.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         {/* Custom Web Engineering Matrix Block */}
         <div className="border-t border-slate-200 bg-slate-950 px-6 py-14 text-white sm:px-12 lg:py-20">
           <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
@@ -569,68 +674,12 @@ export default function App() {
             </div>
           </div>
         </div>
-
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-14 sm:px-12 lg:grid-cols-12 lg:gap-10 lg:py-20">
-          <div className="lg:col-span-5 lg:pr-8">
-            <span className="font-mono text-[10px] text-purple-600 font-bold">Module 03</span>
-            <h2 className="font-serif mt-5 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">
-              Building digital experiences that customers love
-            </h2>
-            <p className="mt-8 max-w-md text-slate-600 text-sm leading-relaxed">
-              Modern customers expect intuitive, fast, and engaging digital experiences. A poorly designed website or application can quickly undermine trust. Our design philosophy focuses smoothly on digital products combining usability, performance, and clear business targets.
-            </p>
-            <p className="mt-5 max-w-md text-slate-600 text-sm leading-relaxed">
-              We connect research, interface design, content structure, and development decisions so each digital experience supports faster navigation, stronger engagement, and measurable conversion goals.
-            </p>
-          </div>
-
-          <div className="lg:col-span-7">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                { icon: Users, title: "User Experience Research", desc: "We study user behavior, customer needs, and business objectives to identify opportunities for improving engagement and reducing friction." },
-                { icon: Layers, title: "User Interface Design", desc: "We create visually appealing interfaces that align with your brand identity while maintaining accessibility, clarity, and ease of use." },
-                { icon: TrendingUp, title: "Wireframing & Prototyping", desc: "Before development begins, we visualize experiences through detailed wireframes and interactive prototypes to validate concepts and reduce risk.", dark: true },
-                { icon: Cpu, title: "Interaction Design", desc: "Every interaction matters. We design workflows and navigation systems that make digital experiences intuitive, efficient, and enjoyable." },
-                { icon: BarChart3, title: "Data Visualization", desc: "We turn complex information into clear dashboards and visual reporting systems that support faster, better business decisions." },
-                { icon: Globe, title: "Custom Web Design & Development", desc: "Your website is the center of your ecosystem. We build performance platforms that serve as lead engines, information hubs, and tools." }
-              ].map((ux) => {
-                const Icon = ux.icon;
-
-                return (
-                  <div
-                    key={ux.title}
-                    className={`min-h-[210px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center shadow-sm ${
-                      ux.dark
-                        ? "bg-slate-950 text-white"
-                        : "bg-slate-100 text-slate-900 border border-slate-200"
-                    }`}
-                  >
-                    <h3 className={`font-serif text-sm font-bold leading-snug ${ux.dark ? "text-white" : "text-slate-900"}`}>
-                      {ux.title}
-                    </h3>
-                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl border ${
-                      ux.dark
-                        ? "border-emerald-400/30 bg-slate-900 text-emerald-400"
-                        : "border-white bg-white/70 text-slate-400"
-                    }`}>
-                      <Icon size={26} strokeWidth={1.5} />
-                    </div>
-                    <p className={`text-xs leading-relaxed ${ux.dark ? "text-slate-300" : "text-slate-500"}`}>
-                      {ux.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
       </section>
 
       {/* --- SECTION 4: STRATEGIC GROWTH FRAMEWORK --- */}
       <section id="framework" className="max-w-7xl mx-auto border-b border-slate-200 bg-white">
         <div className="p-6 sm:p-12 text-center max-w-3xl mx-auto space-y-2">
-          <span className="font-mono text-[10px] text-blue-600 font-bold">How we work</span>
+          <span className="font-mono text-[10px] text-blue-600 font-bold">Operations step block</span>
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950">Our strategic growth framework</h2>
           <p className="text-slate-500 text-xs sm:text-[13px]">Successful digital initiatives require a structured process. Our framework helps businesses move from ideas to measurable outcomes with clarity and accountability.</p>
         </div>
@@ -680,56 +729,6 @@ export default function App() {
       </section>
 
       {/* --- SECTION 5: CUSTOM SOLUTIONS SEGMENTS --- */}
-      <section className="form bg-white px-6 py-16 sm:px-10 sm:py-20">
-        <div className="mx-auto grid w-full max-w-6xl overflow-hidden border border-gray-200 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="bg-emerald-500 p-6 text-white sm:p-10">
-            <Zap className="mb-6 h-10 w-10 text-white" />
-            <h2 className="font-serif text-3xl font-bold leading-tight underline decoration-green-300 underline-offset-8 sm:text-4xl md:text-5xl">
-              Let's Bring Your Idea to Life
-            </h2>
-            <p className="mt-5 text-base leading-8 text-white/90 sm:text-lg md:text-xl">
-              Tell us a little about your project so we can understand your goals and recommend the best creative and digital solutions for your business.
-            </p>
-            <div className="mt-8 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-              <span className="border border-white/20 bg-white/10 px-4 py-3">Brand foundations</span>
-              <span className="border border-white/20 bg-white/10 px-4 py-3">Marketing systems</span>
-              <span className="border border-white/20 bg-white/10 px-4 py-3">UX/UI direction</span>
-              <span className="border border-white/20 bg-white/10 px-4 py-3">Web growth platforms</span>
-            </div>
-          </div>
-
-          <div className="bg-[#F8FAFC] p-6 sm:p-10">
-            <div className="w-full">
-              <button
-                type="button"
-                className="flex w-full cursor-pointer items-center justify-between border border-gray-200 bg-white p-4 text-left text-gray-700 shadow-sm transition hover:border-emerald-300"
-                onClick={() => setDropDownOpen((open) => !open)}
-              >
-                <span className="truncate">I want to Launch a new product or service</span>
-                <ChevronRight size={18} className={`ml-3 shrink-0 transition-transform ${dropDownOpen ? "rotate-90" : ""}`} />
-              </button>
-
-              <div className={`${dropDownOpen ? "flex" : "hidden"} mt-2 w-full flex-col gap-3 bg-[#071813] p-4 text-white shadow-lg transition-all duration-300 ease-in-out`}>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Product%20Mapping&intent=Identity%20Concept">Identity Concept</Link>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=UI%20Designing&intent=UI%20UX%20Design">UI UX Design</Link>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Brand%20Strategy&intent=Brand%20Positioning">Brand Positioning</Link>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Strategic%20Communication&intent=Business%20Plan">Business Plan</Link>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Persona%20Creation&intent=Market%20Research">Market Research</Link>
-                <Link className="cursor-pointer hover:text-gray-100" to="/multistepform?service=Search%20Marketing&intent=Digital%20Marketing">Digital Marketing</Link>
-              </div>
-            </div>
-
-            <div className="mt-10 flex w-full justify-start">
-              <Link to="/multistepform">
-                <span className="inline-flex items-center justify-center gap-2 bg-[#071813] px-6 py-3 text-base font-medium text-white transition hover:bg-emerald-600">
-                  Let's Get Started <ArrowRight size={16} />
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="max-w-7xl mx-auto border-b border-slate-200 bg-slate-50 px-6 py-10 sm:px-12 sm:py-14">
         <div className="grid gap-5 lg:grid-cols-2">
           {[
@@ -808,10 +807,10 @@ export default function App() {
             Service systems shaped around the buying behavior, operational pressure, and proof standards of each sector.
           </p>
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {industries.map((ind, i) => (
-            <span key={i} className="group flex items-center gap-1.5 rounded-md border border-emerald-100 bg-emerald-50/70 px-2 py-1 text-[11px] font-semibold leading-5 text-slate-800 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-sm">
-              <span className="font-mono text-[9px] font-black text-emerald-700">{(i+1).toString().padStart(2, '0')}</span>
+            <span key={i} className="group flex min-h-12 items-center gap-3 rounded-lg border border-emerald-100 bg-emerald-50/70 px-3 py-2 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-sm">
+              <span className="font-mono text-[10px] font-black text-emerald-700">{(i+1).toString().padStart(2, '0')}</span>
               <span>{ind}</span>
             </span>
           ))}
@@ -819,11 +818,11 @@ export default function App() {
       </section>
 
       {/* --- SECTION 6: PROVEN CASE ARCHIVES --- */}
-      <section id="cases" className="w-full border-b border-slate-900 bg-slate-950 text-white">
+      <section id="cases" className="max-w-7xl mx-auto border-b border-slate-900 bg-slate-950 text-white">
         <div className="px-6 py-10 sm:px-12 sm:py-14">
           <div className="mb-10 grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div>
-              <span className="font-mono text-[10px] font-bold uppercase text-emerald-400 block">Our work</span>
+              <span className="font-mono text-[10px] font-bold uppercase text-emerald-400 block">Portfolio archive</span>
               <h2 className="font-serif text-3xl font-bold text-white mt-2 sm:text-4xl">Selected work, built around outcomes</h2>
             </div>
             <p className="max-w-2xl text-sm leading-7 text-slate-300 lg:justify-self-end">
@@ -934,7 +933,7 @@ export default function App() {
       {/* --- SECTION 7: WHY CHOOSE US --- */}
       <section className="max-w-7xl mx-auto border-b border-slate-200 bg-white p-6 sm:p-12">
         <div className="mb-8 text-center sm:text-left">
-          <span className="font-mono text-[10px] text-slate-400 block">Why work with us</span>
+          <span className="font-mono text-[10px] text-slate-400 block">Differentiators</span>
           <h2 className="font-serif text-2xl font-bold text-slate-950 mt-0.5">Why choose Blucom Technologies? We focus on outcomes, not vanity metrics.</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -956,71 +955,12 @@ export default function App() {
         </div>
       </section>
 
-      {contentLoading && (
-        <section className="max-w-7xl mx-auto border-b border-slate-200 bg-white px-6 py-6 sm:px-12">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-600">
-            Loading latest posts...
-          </div>
-        </section>
-      )}
-
-      {!contentLoading && contentError && (
-        <section className="max-w-7xl mx-auto border-b border-slate-200 bg-white px-6 py-6 sm:px-12">
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
-            {contentError} Preview cards are shown.
-          </div>
-        </section>
-      )}
-
-      {contentSections.map((section) => (
-        <section key={section.type} className="max-w-7xl mx-auto border-b border-slate-200 bg-white p-6 sm:p-12">
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-2xl">
-              <span className="font-mono text-[10px] font-bold uppercase text-emerald-600 block">{section.type}</span>
-              <h2 className="font-serif text-2xl font-bold text-slate-950 mt-1">{section.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-slate-500">{section.desc}</p>
-            </div>
-            <Link to={section.href} className="flex w-fit items-center gap-1 font-mono text-[11px] font-bold text-slate-900 transition hover:text-emerald-700">
-              View all {section.type} <ArrowUpRight size={12} />
-            </Link>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {section.posts.map((item, index) => (
-              <article key={`${section.type}-${item.title}-${index}`} className="group overflow-hidden rounded-lg border border-slate-200 bg-slate-50 transition hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-xl">
-                <Link to={item.href} className="block">
-                  <div className="aspect-[16/10] overflow-hidden bg-slate-100">
-                    <img
-                      src={item.image}
-                      alt={`${item.type} preview`}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="space-y-4 p-5">
-                    <span className="font-mono text-[10px] font-bold uppercase text-emerald-600">{item.type}</span>
-                    <div className="space-y-2">
-                      <h4 className="font-serif text-lg font-bold leading-snug text-slate-950 transition group-hover:text-emerald-700">
-                        {item.title}
-                      </h4>
-                      <p className="text-xs leading-6 text-slate-500">{item.desc}</p>
-                    </div>
-                    <span className="flex w-fit items-center gap-1 font-mono text-[11px] font-bold text-slate-900 transition group-hover:text-emerald-700">
-                      Open {item.type} <ChevronRight size={12} />
-                    </span>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
-
       {/* --- SECTION 8: FULL DYNAMIC ROUTING PLANNER / FORM --- */}
       <section id="contact" className="max-w-7xl mx-auto border-b border-slate-200 bg-slate-50/50 p-6 sm:p-12">
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           
           <div className="lg:col-span-5 space-y-4">
-            <span className="font-mono text-[10px] text-blue-600 font-bold block">Have an idea</span>
+            <span className="font-mono text-[10px] text-blue-600 font-bold block">Work routing console</span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-950">Let's build something great together</h2>
             <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed">
               The digital landscape continues to evolve at an unprecedented pace. Partner with Blucom Technologies and discover how strategic thinking, innovative design, and performance solutions can transform your business. Tell us a little about your project so we can understand your goals.
@@ -1071,16 +1011,89 @@ export default function App() {
         </div>
       </section>
 
+      {/* --- SECTION 9: IDEAS, NEWS & BLOG --- */}
+      <section className="max-w-7xl mx-auto border-b border-slate-200 bg-white p-6 sm:p-12">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <span className="font-mono text-[10px] font-bold uppercase text-emerald-600 block">Ideas, news and blog</span>
+            <h2 className="font-serif text-2xl font-bold text-slate-950 mt-1">Fresh thinking for modern brand growth</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-500">
+              Browse the latest strategic ideas, company news, and practical blog insights from Blucom Technologies.
+            </p>
+          </div>
+          <Link to="/blog" className="hidden items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-[11px] font-bold text-slate-900 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 sm:flex">
+            View all insights <ArrowUpRight size={14} />
+          </Link>
+        </div>
+
+        {contentLoading && (
+          <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-600">
+            Loading latest posts...
+          </div>
+        )}
+
+        {!contentLoading && contentError && (
+          <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+            {contentError} Preview cards are shown.
+          </div>
+        )}
+
+        <div className="space-y-12">
+          {contentSections.map((section) => (
+            <div key={section.type}>
+              <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <span className="font-mono text-[10px] font-bold uppercase text-emerald-600">{section.type}</span>
+                  <h3 className="font-serif text-xl font-bold text-slate-950 mt-1">{section.title}</h3>
+                  <p className="mt-2 max-w-2xl text-xs leading-6 text-slate-500">{section.desc}</p>
+                </div>
+                <Link to={section.href} className="flex w-fit items-center gap-1 font-mono text-[11px] font-bold text-slate-900 transition hover:text-emerald-700">
+                  View all {section.type} <ArrowUpRight size={12} />
+                </Link>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-3">
+                {section.posts.map((item, index) => (
+                  <article key={`${section.type}-${item.title}-${index}`} className="group overflow-hidden rounded-lg border border-slate-200 bg-slate-50 transition hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-xl">
+                    <Link to={item.href} className="block">
+                      <div className="aspect-[16/10] overflow-hidden bg-slate-100">
+                        <img
+                          src={item.image}
+                          alt={`${item.type} preview`}
+                          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="space-y-4 p-5">
+                        <span className="font-mono text-[10px] font-bold uppercase text-emerald-600">{item.type}</span>
+                        <div className="space-y-2">
+                          <h4 className="font-serif text-lg font-bold leading-snug text-slate-950 transition group-hover:text-emerald-700">
+                            {item.title}
+                          </h4>
+                          <p className="text-xs leading-6 text-slate-500">{item.desc}</p>
+                        </div>
+                        <span className="flex w-fit items-center gap-1 font-mono text-[11px] font-bold text-slate-900 transition group-hover:text-emerald-700">
+                          Open {item.type} <ChevronRight size={12} />
+                        </span>
+                      </div>
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* --- REFINED GRID FOOTER --- */}
       <footer className="bg-slate-950 text-slate-500 text-xs py-12 border-t border-slate-900 font-mono">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="text-center sm:text-left space-y-1">
             <span className="text-white font-serif font-bold text-base tracking-tight block">Blucom Technologies</span>
-            <p className="text-[10px] text-slate-600">Subscribe for digital insights, practical ideas, and growth updates.</p>
+            <p className="text-[10px] text-slate-600">Discovery, strategy, interaction, delivery hub — Islamabad</p>
           </div>
           <div className="text-center sm:text-right text-[10px] space-y-1 text-slate-600">
             <p>&copy; {new Date().getFullYear()} Blucom Technologies. All rights reserved.</p>
-            <Link to="/blog" className="inline-flex text-emerald-400 transition hover:text-white">Subscribe for digital</Link>
+            <p>Integrated growth system v4.0, secure production</p>
           </div>
         </div>
       </footer>

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import aboutimg from "/src/assets/about.svg"
 import brandingIcon from "/src/assets/icons/Branding.svg"
 import animationIcon from "/src/assets/icons/Animation.svg"
-import developmentIcon from "/src/assets/icons/Development.svg"
+import developmentIcon from "/src/assets/icons/Development.png"
 import DigitalmarketingIcon from "/src/assets/icons/Digital Marketing.png"
 import growthIcon from "/src/assets/icons/Growth planning.png"
 import foundationIcon from "/src/assets/icons/On going Support.svg"
